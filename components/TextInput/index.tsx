@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Text from '../Text';
-import { FORM_INPUT_HEIGHT, W_WIDTH, W_MARGIN, MARGIN_X } from '../../styles';
+import { FORM_INPUT_HEIGHT, W_MARGIN, MARGIN_X } from '../../styles';
 import { MAIN_FONT_FAMILY } from '../../styles/typography';
 import { INACTIVE_TEXT_COLOR, BORDER_COLOR, BLUE_COLOR } from '../../styles/colors';
 

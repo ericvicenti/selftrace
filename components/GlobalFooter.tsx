@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Text from '../components/Text';
-import ExternalLink from '../components/ExternalLink';
+import Text from './Text';
+import ExternalLink from './ExternalLink';
 import { INACTIVE_TEXT_COLOR } from '../styles/colors';
 
 const styles = StyleSheet.create({
