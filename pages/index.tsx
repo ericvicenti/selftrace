@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { A } from '@expo/html-elements';
