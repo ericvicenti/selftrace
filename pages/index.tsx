@@ -1,14 +1,35 @@
 import * as React from 'react';
-import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, Text } from 'react-native';
-import { A, Header } from '@expo/html-elements';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { A } from '@expo/html-elements';
+import EmailInput from '../components/TextInput/Email';
+import PasswordInput from '../components/TextInput/Password';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 10,
+  },
+  logo: {
+    height: 160,
+    width: 160,
+  },
+});
 
 export default function App(props) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
   return (
     <View style={styles.container}>
-      <Text>Hello, World!</Text>
-      <A href="/login">Log in here</A>
+      <Image style={styles.logo} source={require('../assets/logo.png')} />
+      <EmailInput value={email} onChangeText={text => setEmail(text)} />
+      <PasswordInput value={password} onChangeText={text => setPassword(text)} />
+      <TouchableOpacity onPress={() => {}}>
+        <Text>Log in</Text>
+      </TouchableOpacity>
+      <A href="/signup">Sign Up</A>
     </View>
   );
 }
@@ -26,9 +47,3 @@ App.getInitialProps = async (ctx: NextPageContext) => {
     // query: ctx.query,
   };
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

@@ -15,9 +15,7 @@ export default function GlobalHeader({ count }) {
           />
         </A> */}
 
-        <Text style={{ flexWrap: 'wrap', flex: 1, lineHeight: 22, fontSize: 16 }}>
-          Track COVID-19
-        </Text>
+        {/* <Text style={{ flexWrap: 'wrap', flex: 1, lineHeight: 22, fontSize: 16 }}>CoronaMap</Text> */}
       </View>
     </Header>
   );

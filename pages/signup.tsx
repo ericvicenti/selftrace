@@ -3,10 +3,16 @@ import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
 import { StyleSheet, View, Text } from 'react-native';
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
 export default function App(props) {
   return (
     <View style={styles.container}>
-      <Text>Log in coming soon</Text>
+      <Text>Signup coming soon</Text>
     </View>
   );
 }
@@ -24,9 +30,3 @@ App.getInitialProps = async (ctx: NextPageContext) => {
     // query: ctx.query,
   };
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
