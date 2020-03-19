@@ -7,7 +7,8 @@ import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
-import { MIN_MARGIN_Y } from '../styles';
+import { MIN_MARGIN_Y, MARGIN_Y, MAX_MARGIN_Y } from '../styles';
+import { BLUE_COLOR, INACTIVE_TEXT_COLOR } from '../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +23,15 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: MIN_MARGIN_Y,
+  },
+  forgotPasswordButton: {
+    marginTop: MAX_MARGIN_Y,
+    color: INACTIVE_TEXT_COLOR.toString(),
+  },
+  signupButton: {
+    // alignSelf: 'flex-end',
+    marginTop: 3 * MARGIN_Y,
+    color: BLUE_COLOR.toString(),
   },
 });
 
@@ -40,7 +50,12 @@ export default function App(props) {
         <PasswordInput value={password} onChangeText={text => setPassword(text)} />
       </FormContainer>
       <SubmitButton label="Sign in" disabled={false} onPress={() => {}} />
-      <A href="/signup">Sign Up</A>
+      <A href="/reset-password" style={styles.forgotPasswordButton}>
+        Forgot my password
+      </A>
+      <A href="/signup" style={styles.signupButton}>
+        Sign Up
+      </A>
     </View>
   );
 }

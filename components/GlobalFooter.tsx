@@ -1,20 +1,12 @@
 import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Text from '../components/Text';
 import ExternalLink from '../components/ExternalLink';
+import { INACTIVE_TEXT_COLOR } from '../styles/colors';
 
-export default () => {
-  return (
-    <View style={styles.container}>
-      <Text style={{ lineHeight: 22 }}>
-        See more from the{' '}
-        <ExternalLink href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC</ExternalLink>.
-      </Text>
-    </View>
-  );
-};
-
-let styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     width: '100%',
     padding: 24,
     paddingLeft: 20,
@@ -24,3 +16,14 @@ let styles = StyleSheet.create({
     borderTopColor: '#ececec',
   },
 });
+
+export default () => {
+  return (
+    <View style={styles.container}>
+      <Text style={{ lineHeight: 22, color: INACTIVE_TEXT_COLOR.toString() }}>
+        See more from the{' '}
+        <ExternalLink href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC</ExternalLink>.
+      </Text>
+    </View>
+  );
+};
