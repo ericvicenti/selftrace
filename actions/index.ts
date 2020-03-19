@@ -6,8 +6,8 @@ import { Progress } from '../data-types';
 // export { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 // FIXME
-export type ActionCreator = any;
-export type Dispatch = any;
+export type ActionCreator<T> = any;
+export type Dispatch<T = any> = any;
 export type ThunkAction = any;
 export type ThunkDispatch = any;
 

@@ -2,11 +2,18 @@ import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
 import { StyleSheet, View, Image } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { A } from '@expo/html-elements';
 import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
+import { ProgressStatus } from '../data-types';
+import { ReduxRoot, isAuthDisabled } from '../reducers';
+import { Dispatch, Action } from '../actions';
+import * as SigninActions from '../actions/auth/signin';
+import AuthUtils from '../util/AuthUtils';
 import { MIN_MARGIN_Y, MARGIN_Y, MAX_MARGIN_Y } from '../styles';
 import { BLUE_COLOR, INACTIVE_TEXT_COLOR } from '../styles/colors';
 
@@ -35,23 +42,63 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props {}
+const mapStateToProps = (state: ReduxRoot) => ({
+  authDisabled: isAuthDisabled(state.auth),
+  signinProgress: state.auth.signin.progress,
+});
 
-export default function App(props: Props) {
+const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
+  bindActionCreators(
+    {
+      signinUser: SigninActions.signinUser,
+      clearSigninProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
+    },
+    dispatch
+  );
+
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
+
+function LoginPage({ authDisabled, signinUser, signinProgress, clearSigninProgress }: Props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  React.useEffect(
+    () => () => {
+      clearSigninProgress();
+    },
+    [clearSigninProgress]
+  );
+
+  const submitDisabled =
+    authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo.png')} />
-      <FormContainer
-        showErrorsOnly
-        progress={{ message: '', status: null }}
-        style={styles.formContainer}>
-        <EmailInput value={email} onChangeText={text => setEmail(text)} />
-        <PasswordInput value={password} onChangeText={text => setPassword(text)} />
+      <FormContainer showErrorsOnly progress={signinProgress} style={styles.formContainer}>
+        <EmailInput
+          value={email}
+          onChangeText={text => {
+            if (signinProgress.status) clearSigninProgress();
+            setEmail(text);
+          }}
+        />
+        <PasswordInput
+          value={password}
+          onChangeText={text => {
+            if (signinProgress.status) clearSigninProgress();
+            setPassword(text);
+          }}
+        />
       </FormContainer>
-      <SubmitButton label="Sign in" disabled={false} onPress={() => {}} />
+      <SubmitButton
+        label="Sign in"
+        disabled={submitDisabled}
+        onPress={() => {
+          signinUser(email, password);
+        }}
+        loading={signinProgress.status === ProgressStatus.REQUEST}
+      />
       <A href="/reset-password" style={styles.forgotPasswordButton}>
         Forgot my password
       </A>
@@ -62,7 +109,7 @@ export default function App(props: Props) {
   );
 }
 
-App.getInitialProps = async (ctx: NextPageContext) => {
+LoginPage.getInitialProps = async (ctx: NextPageContext) => {
   // do async stuff here to load data
   // ctx.query is the ?params
   // eg:
@@ -75,3 +122,5 @@ App.getInitialProps = async (ctx: NextPageContext) => {
     // query: ctx.query,
   };
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
