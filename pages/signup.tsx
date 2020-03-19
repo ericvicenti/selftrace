@@ -6,6 +6,7 @@ import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import Text from '../components/Text';
+import SubmitButton from '../components/SubmitButton';
 import { PRIMARY_COLOR } from '../styles/colors';
 import { MARGIN_Y } from '../styles';
 
@@ -55,6 +56,7 @@ export default function App(props) {
           placeholder="Confirm your new password"
         />
       </FormContainer>
+      <SubmitButton label="Sign up" disabled={false} onPress={() => {}} />
     </View>
   );
 }

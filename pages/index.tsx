@@ -1,11 +1,12 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { A } from '@expo/html-elements';
 import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
+import SubmitButton from '../components/SubmitButton';
 import { MIN_MARGIN_Y } from '../styles';
 
 const styles = StyleSheet.create({
@@ -38,9 +39,7 @@ export default function App(props) {
         <EmailInput value={email} onChangeText={text => setEmail(text)} />
         <PasswordInput value={password} onChangeText={text => setPassword(text)} />
       </FormContainer>
-      <TouchableOpacity onPress={() => {}}>
-        <Text>Log in</Text>
-      </TouchableOpacity>
+      <SubmitButton label="Sign in" disabled={false} onPress={() => {}} />
       <A href="/signup">Sign Up</A>
     </View>
   );
