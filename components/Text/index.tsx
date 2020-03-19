@@ -6,7 +6,7 @@ import { BLACK_TEXT_COLOR } from '../../styles/colors';
 export interface TextProps extends RNTextProps {
   children: ReactNode;
   animated?: boolean;
-  style?: any;
+  style?: any; // FIXME
 }
 
 function Text({ children, animated, style, ...rest }: TextProps) {

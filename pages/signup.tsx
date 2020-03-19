@@ -2,10 +2,12 @@ import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
 import { StyleSheet, View } from 'react-native';
+import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import Text from '../components/Text';
 import { PRIMARY_COLOR } from '../styles/colors';
+import { MARGIN_Y } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +20,11 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR.toString(),
     fontSize: 28,
   },
+  formContainer: {
+    width: '100%',
+    backgroundColor: 'lightgreen',
+    marginTop: MARGIN_Y,
+  },
 });
 
 export default function App(props) {
@@ -28,21 +35,26 @@ export default function App(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Registration</Text>
-      <EmailInput
-        value={email}
-        onChangeText={text => setEmail(text)}
-        placeholder="Enter your email"
-      />
-      <PasswordInput
-        value={password1}
-        onChangeText={text => setPassword1(text)}
-        placeholder="Enter a new password"
-      />
-      <PasswordInput
-        value={password2}
-        onChangeText={text => setPassword2(text)}
-        placeholder="Confirm your new password"
-      />
+      <FormContainer
+        showErrorsOnly
+        progress={{ message: '', status: null }}
+        style={styles.formContainer}>
+        <EmailInput
+          value={email}
+          onChangeText={text => setEmail(text)}
+          placeholder="Enter your email"
+        />
+        <PasswordInput
+          value={password1}
+          onChangeText={text => setPassword1(text)}
+          placeholder="Enter a new password"
+        />
+        <PasswordInput
+          value={password2}
+          onChangeText={text => setPassword2(text)}
+          placeholder="Confirm your new password"
+        />
+      </FormContainer>
     </View>
   );
 }

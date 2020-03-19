@@ -3,8 +3,10 @@ import * as React from 'react';
 import { NextPageContext } from 'next';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { A } from '@expo/html-elements';
+import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
+import { MIN_MARGIN_Y } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,6 +18,10 @@ const styles = StyleSheet.create({
     height: 160,
     width: 160,
   },
+  formContainer: {
+    width: '100%',
+    marginTop: MIN_MARGIN_Y,
+  },
 });
 
 export default function App(props) {
@@ -25,8 +31,13 @@ export default function App(props) {
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo.png')} />
-      <EmailInput value={email} onChangeText={text => setEmail(text)} />
-      <PasswordInput value={password} onChangeText={text => setPassword(text)} />
+      <FormContainer
+        showErrorsOnly
+        progress={{ message: '', status: null }}
+        style={styles.formContainer}>
+        <EmailInput value={email} onChangeText={text => setEmail(text)} />
+        <PasswordInput value={password} onChangeText={text => setPassword(text)} />
+      </FormContainer>
       <TouchableOpacity onPress={() => {}}>
         <Text>Log in</Text>
       </TouchableOpacity>
