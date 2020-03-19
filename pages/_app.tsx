@@ -4,11 +4,13 @@ import Head from 'next/head';
 import { View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import data from '../assets/data.json';
+import store from '../store';
 
 // Sentry.init({
 //   dsn: 'https://b084338633454a63a82c787541b96d8f@sentry.io/2503319',
@@ -23,15 +25,16 @@ const site = {
 const themeColor = '#fff';
 
 export default function App(props: any) {
-  let { pageProps, Component, router } = props;
+  const { pageProps, Component, router } = props;
 
   return (
     <>
-      <Head>
-        <title>Corona Map</title>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
+      <Provider store={store}>
+        <Head>
+          <title>Corona Map</title>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
             @font-face {
               font-family: 'office-code';
               src: url(${require('../assets/fonts/OfficeCodePro-Regular.eot')});
@@ -44,36 +47,37 @@ export default function App(props: any) {
               src: url(${require('../assets/fonts/OfficeCodePro-Medium.ttf')}) format('truetype');
             }
           `,
-          }}
-        />
+            }}
+          />
 
-        {/* <GoogleAnalytics id="UA-107832480-1" /> */}
+          {/* <GoogleAnalytics id="UA-107832480-1" /> */}
 
-        {injectMeta.map((value, index) => {
-          return <meta key={`meta-${index}`} {...value} />;
-        })}
-      </Head>
-      <SafeAreaProvider>
-        <AppearanceProvider>
-          <CustomAppearanceProvider>
-            <>
-              <Favicon />
-              <View
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  maxWidth: 1300,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}>
-                <GlobalHeader count={data.libraries.length} />
-                <Component {...pageProps} />
-                <GlobalFooter />
-              </View>
-            </>
-          </CustomAppearanceProvider>
-        </AppearanceProvider>
-      </SafeAreaProvider>
+          {injectMeta.map((value, index) => {
+            return <meta key={`meta-${index}`} {...value} />;
+          })}
+        </Head>
+        <SafeAreaProvider>
+          <AppearanceProvider>
+            <CustomAppearanceProvider>
+              <>
+                <Favicon />
+                <View
+                  style={{
+                    flex: 1,
+                    width: '100%',
+                    maxWidth: 1300,
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                  }}>
+                  <GlobalHeader count={data.libraries.length} />
+                  <Component {...pageProps} />
+                  <GlobalFooter />
+                </View>
+              </>
+            </CustomAppearanceProvider>
+          </AppearanceProvider>
+        </SafeAreaProvider>
+      </Provider>
     </>
   );
 }

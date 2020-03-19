@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App(props) {
+interface Props {}
+
+export default function App(props: Props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
