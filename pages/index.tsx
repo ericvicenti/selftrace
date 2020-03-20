@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { A } from '@expo/html-elements';
 import Router from 'next/router';
+import { t } from 'i18n-js';
 import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
@@ -122,16 +123,16 @@ function LoginPage({
         />
       </FormContainer>
       <SubmitButton
-        label="Sign in"
+        label={t('buttons.signin')}
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
         loading={signinProgress.status === ProgressStatus.REQUEST}
       />
       <A href="/reset-password" style={styles.forgotPasswordButton}>
-        Forgot my password
+        {t('buttons.forgotPassword')}
       </A>
       <A href="/signup" style={styles.signupButton}>
-        Sign Up
+        {t('buttons.signup')}
       </A>
     </View>
   );

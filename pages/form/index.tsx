@@ -5,8 +5,10 @@ import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
+import { t } from 'i18n-js';
 import FormContainer from '../../components/FormContainer';
 import Picker from '../../components/Picker';
+import BottomTab from '../../components/BottomTab';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import * as Actions from '../../actions/auth/userInfo';
@@ -14,8 +16,9 @@ import * as AuthStatusActions from '../../actions/auth/status';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
-import { MARGIN_Y, W_WIDTH, W_MARGIN } from '../../styles';
-import { AuthStatus } from '../../data-types';
+import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
+import { MARGIN_Y, W_MARGIN, MIN_MARGIN_Y } from '../../styles';
+import { AuthStatus, Wellbeing } from '../../data-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,11 +26,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
   },
-  topText: {},
+  topText: {
+    ...INACTIVE_TEXT_STYLES,
+  },
+  descriptionText: {
+    marginBottom: 5,
+  },
+  noteSection: {
+    marginTop: MIN_MARGIN_Y,
+  },
+  noteTitle: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  noteText: {
+    fontSize: 12,
+  },
   textContainer: {
     padding: W_MARGIN,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER_COLOR,
+    borderBottomColor: BORDER_COLOR.toString(),
   },
   title: {
     fontWeight: '900',
@@ -57,11 +75,59 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     dispatch
   );
 
+interface WellbeingObject {
+  value: Wellbeing;
+  label: string;
+  description: string;
+  important: string;
+  note: string;
+}
+
+interface WellbeingOptionMap {
+  [key: number]: Omit<WellbeingObject, 'value'>;
+}
+
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
 function FormPage({ currentWellbeing, progress, authStatus, subscribeToAuthStateChange }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
   const authListenerUnsubscriber = React.useRef(null);
+
+  // TODO: Clean up
+  const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
+    [Wellbeing.NotTested]: {
+      label: t('form.options.well.label'),
+      description: t('form.options.well.description'),
+      important: t('form.options.well.important'),
+      note: t('form.options.well.note'),
+    },
+    [Wellbeing.ShowingSymptoms]: {
+      label: t('form.options.symptoms.label'),
+      description: t('form.options.symptoms.description'),
+      important: t('form.options.symptoms.important'),
+      note: t('form.options.symptoms.note'),
+    },
+    [Wellbeing.TestedNegative]: {
+      label: t('form.options.negative.label'),
+      description: t('form.options.negative.description'),
+      important: t('form.options.negative.important'),
+      note: t('form.options.negative.note'),
+    },
+    [Wellbeing.TestedPositive]: {
+      label: t('form.options.positive.label'),
+      description: t('form.options.positive.description'),
+      important: t('form.options.positive.important'),
+      note: t('form.options.positive.note'),
+    },
+  };
+
+  const WELLBEING_OPTIONS = Object.keys(WELLBEING_OPTION_MAP).map(rawVal => {
+    const value: Wellbeing = Number(rawVal);
+    return { value, ...WELLBEING_OPTION_MAP[value] };
+  });
+
+  const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
+  const submitDisabled = !wellbeing || currentWellbeing === wellbeing;
 
   React.useEffect(() => {
     authListenerUnsubscriber.current = subscribeToAuthStateChange();
@@ -79,31 +145,52 @@ function FormPage({ currentWellbeing, progress, authStatus, subscribeToAuthState
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title as any}>Form</Text>
-      <View style={styles.textContainer as any}>
-        <Text style={styles.topText as any}>Top Note</Text>
-      </View>
-      <FormContainer progress={progress}>
-        <Picker
-          label="Wellbeing"
-          displayValue="DisplayVal"
-          selectedValue={wellbeing}
-          onValueChange={val => setWellbeing(val)}
-          items={[
-            { label: 'Label1', value: 'val1' },
-            { label: 'Label2', value: 'val2' },
-          ]}
+    <>
+      <View style={styles.container}>
+        <Text style={styles.title}>Form</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.topText}>{t('form.topNote')}</Text>
+        </View>
+        <FormContainer progress={progress}>
+          <Picker
+            label={t('form.wellbeing')}
+            displayValue={wellbeing ? WELLBEING_OPTION_MAP[wellbeing].label : ''}
+            selectedValue={wellbeing}
+            onValueChange={val => setWellbeing(val)}
+            items={WELLBEING_OPTIONS}
+          />
+          {wellbeingObj && (
+            <View style={styles.textContainer}>
+              <Text style={styles.descriptionText}>{wellbeingObj.description}</Text>
+              {!!wellbeingObj.important && (
+                <View style={styles.noteSection}>
+                  <Text>
+                    <Text style={styles.noteTitle}>{t('form.important')}: </Text>
+                    <Text style={styles.noteText}>{wellbeingObj.important}</Text>
+                  </Text>
+                </View>
+              )}
+              {!!wellbeingObj.note && (
+                <View style={styles.noteSection}>
+                  <Text>
+                    <Text style={styles.noteTitle}>{t('form.note')}: </Text>
+                    <Text style={styles.noteText}>{wellbeingObj.note}</Text>
+                  </Text>
+                </View>
+              )}
+            </View>
+          )}
+        </FormContainer>
+        <SubmitButton
+          label="Update"
+          disabled={submitDisabled}
+          onPress={() => {
+            //
+          }}
         />
-      </FormContainer>
-      <SubmitButton
-        label="Update"
-        disabled={false}
-        onPress={() => {
-          //
-        }}
-      />
-    </View>
+      </View>
+      <BottomTab />
+    </>
   );
 }
 

@@ -60,7 +60,7 @@ function Picker({
         onPress={() => setIsVisible(prev => !prev)}
         style={styles.container}
         {...touchableProps}>
-        <View>
+        <View style={styles.touchableRect}>
           <Text style={[styles.label, labelTextStyle]}>{label}</Text>
           <Text style={[styles.displayValue, displayValueTextStyle]}>{displayValue}</Text>
         </View>

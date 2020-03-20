@@ -9,6 +9,7 @@
   "dependencies": {
     "@expo/html-elements": "0.0.0-alpha.2",
     "@expo/match-media": "^0.0.0-alpha.5",
+    "@expo/vector-icons": "^10.0.0",
     "@sentry/browser": "^5.12.1",
     "@sentry/node": "^5.12.3",
     "@types/i18n-js": "^3.0.1",

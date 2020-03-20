@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-import * as Localization from 'expo-localization';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalHeader from '../components/GlobalHeader';
@@ -18,11 +17,6 @@ import '../config/localization';
 //   dsn: 'https://b084338633454a63a82c787541b96d8f@sentry.io/2503319',
 //   enabled: process.env.NODE_ENV === 'production',
 // });
-
-// console.log('LOCALE = ', Localization.locale);
-// console.log('LOCALES = ', Localization.locales);
-
-// setUpLocalization();
 
 const site = {
   title: 'Corona Map',
