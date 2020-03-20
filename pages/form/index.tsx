@@ -5,14 +5,16 @@ import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
+import FormContainer from '../../components/FormContainer';
+import Picker from '../../components/Picker';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import * as Actions from '../../actions/auth/userInfo';
 import * as AuthStatusActions from '../../actions/auth/status';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { PRIMARY_COLOR } from '../../styles/colors';
-import { MARGIN_Y } from '../../styles';
+import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
+import { MARGIN_Y, W_WIDTH, W_MARGIN } from '../../styles';
 import { AuthStatus } from '../../data-types';
 
 const styles = StyleSheet.create({
@@ -20,6 +22,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 10,
+  },
+  topText: {},
+  textContainer: {
+    padding: W_MARGIN,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: BORDER_COLOR,
   },
   title: {
     fontWeight: '900',
@@ -51,7 +59,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function FormPage({ authStatus, subscribeToAuthStateChange }: Props) {
+function FormPage({ currentWellbeing, progress, authStatus, subscribeToAuthStateChange }: Props) {
+  const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
   const authListenerUnsubscriber = React.useRef(null);
 
   React.useEffect(() => {
@@ -71,7 +80,22 @@ function FormPage({ authStatus, subscribeToAuthStateChange }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Form</Text>
+      <Text style={styles.title as any}>Form</Text>
+      <View style={styles.textContainer as any}>
+        <Text style={styles.topText as any}>Top Note</Text>
+      </View>
+      <FormContainer progress={progress}>
+        <Picker
+          label="Wellbeing"
+          displayValue="DisplayVal"
+          selectedValue={wellbeing}
+          onValueChange={val => setWellbeing(val)}
+          items={[
+            { label: 'Label1', value: 'val1' },
+            { label: 'Label2', value: 'val2' },
+          ]}
+        />
+      </FormContainer>
       <SubmitButton
         label="Update"
         disabled={false}

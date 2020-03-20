@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
 
 interface Props {
   progress: Progress;
-  showErrorsOnly: boolean;
+  showErrorsOnly?: boolean;
   children: React.ReactNode;
-  style: ViewStyle;
+  style?: ViewStyle;
 }
 
 function FormContainer({ progress, showErrorsOnly = false, children, style }: Props) {
