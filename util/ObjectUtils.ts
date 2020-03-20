@@ -27,13 +27,13 @@ export default class ObjectUtils {
    *  }
    * };
    */
-  static modify<T>(obj: object, address: string[], value: T): void {
+  static modify<T>(obj: object, address: string[], value: T): object {
     const n = address.length;
-    if (n === 0) return obj;
+    if (n === 0) return;
     let cur = obj;
     if (n === 1) {
       cur[address[0]] = value;
-      return cur;
+      return;
     }
     for (let i = 0; i < n; i += 1) {
       const key = address[i];
@@ -45,7 +45,6 @@ export default class ObjectUtils {
         break;
       }
     }
-    return obj;
   }
 
   /**
@@ -55,9 +54,11 @@ export default class ObjectUtils {
    */
   static copyExcept<T>(obj: T, keys: Set<string>): Partial<T> {
     if (!obj) throw new Error('You must pass an object as the first input');
-    const copy = {};
+    const copy: Partial<T> = {};
     for (const key in obj) {
-      if (!keys || !keys.has(key)) copy[key] = obj[key];
+      if (!keys || !keys.has(key)) {
+        copy[key] = obj[key];
+      }
     }
     return copy;
   }
