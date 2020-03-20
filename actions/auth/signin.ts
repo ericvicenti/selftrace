@@ -34,9 +34,7 @@ export const clearSigninProgress: ActionCreator<NetworkAction> = () => ({
   },
 });
 
-export const signinUser = (email: string, password: string) => async (
-  dispatch: Dispatch
-) => {
+export const signinUser = (email: string, password: string) => async (dispatch: Dispatch) => {
   dispatch(startSigninRequest({ email, password }));
 
   try {

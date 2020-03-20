@@ -46,9 +46,9 @@ export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => (
 
 const GRACEFUL_EXIT_DURATION = 750;
 
-export const uploadUserInfo = (
-  updatedInfo: Partial<API.FirestoreUserDoc>
-) => async (dispatch: Dispatch) => {
+export const uploadUserInfo = (updatedInfo: Partial<API.FirestoreUserDoc>) => async (
+  dispatch: Dispatch
+) => {
   dispatch(startUpdateUserInfoRequest());
   const { uid } = store.getState().auth.userInfo;
 

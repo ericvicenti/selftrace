@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App(props) {
+export default function ResetPasswordPage(props) {
   const [email, setEmail] = React.useState('');
 
   return (
@@ -48,7 +48,7 @@ export default function App(props) {
   );
 }
 
-App.getInitialProps = async (ctx: NextPageContext) => {
+ResetPasswordPage.getInitialProps = async (ctx: NextPageContext) => {
   // do async stuff here to load data
   // ctx.query is the ?params
   // eg:

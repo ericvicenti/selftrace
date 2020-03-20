@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Sentry from '@sentry/node';
+// import * as Sentry from '@sentry/node';
 import Head from 'next/head';
 import { View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
@@ -17,6 +17,10 @@ import store from '../store';
 //   enabled: process.env.NODE_ENV === 'production',
 // });
 
+// if (!window) {
+//   require('localstorage-polyfill');
+// }
+
 const site = {
   title: 'Corona Map',
   description: 'Track COVID-19',
@@ -28,13 +32,12 @@ export default function App(props: any) {
   const { pageProps, Component, router } = props;
 
   return (
-    <>
-      <Provider store={store}>
-        <Head>
-          <title>Corona Map</title>
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `
+    <Provider store={store}>
+      <Head>
+        <title>Corona Map</title>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
             @font-face {
               font-family: 'office-code';
               src: url(${require('../assets/fonts/OfficeCodePro-Regular.eot')});
@@ -47,38 +50,37 @@ export default function App(props: any) {
               src: url(${require('../assets/fonts/OfficeCodePro-Medium.ttf')}) format('truetype');
             }
           `,
-            }}
-          />
+          }}
+        />
 
-          {/* <GoogleAnalytics id="UA-107832480-1" /> */}
+        {/* <GoogleAnalytics id="UA-107832480-1" /> */}
 
-          {injectMeta.map((value, index) => {
-            return <meta key={`meta-${index}`} {...value} />;
-          })}
-        </Head>
-        <SafeAreaProvider>
-          <AppearanceProvider>
-            <CustomAppearanceProvider>
-              <>
-                <Favicon />
-                <View
-                  style={{
-                    flex: 1,
-                    width: '100%',
-                    maxWidth: 1300,
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                  }}>
-                  <GlobalHeader count={data.libraries.length} />
-                  <Component {...pageProps} />
-                  <GlobalFooter />
-                </View>
-              </>
-            </CustomAppearanceProvider>
-          </AppearanceProvider>
-        </SafeAreaProvider>
-      </Provider>
-    </>
+        {injectMeta.map((value, index) => {
+          return <meta key={`meta-${index}`} {...value} />;
+        })}
+      </Head>
+      <SafeAreaProvider>
+        <AppearanceProvider>
+          <CustomAppearanceProvider>
+            <>
+              <Favicon />
+              <View
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  maxWidth: 1300,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}>
+                <GlobalHeader count={data.libraries.length} />
+                <Component {...pageProps} />
+                <GlobalFooter />
+              </View>
+            </>
+          </CustomAppearanceProvider>
+        </AppearanceProvider>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 

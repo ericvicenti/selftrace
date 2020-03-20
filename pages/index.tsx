@@ -5,14 +5,16 @@ import { StyleSheet, View, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { A } from '@expo/html-elements';
+import Router from 'next/router';
 import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
-import { ProgressStatus } from '../data-types';
+import { ProgressStatus, AuthStatus } from '../data-types';
 import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
+import * as AuthStatusActions from '../actions/auth/status';
 import AuthUtils from '../util/AuthUtils';
 import { MIN_MARGIN_Y, MARGIN_Y, MAX_MARGIN_Y } from '../styles';
 import { BLUE_COLOR, INACTIVE_TEXT_COLOR } from '../styles/colors';
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: ReduxRoot) => ({
   authDisabled: isAuthDisabled(state.auth),
   signinProgress: state.auth.signin.progress,
+  authStatus: state.auth.status,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
@@ -52,22 +55,49 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       signinUser: SigninActions.signinUser,
       clearSigninProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
+      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function LoginPage({ authDisabled, signinUser, signinProgress, clearSigninProgress }: Props) {
+function LoginPage({
+  authDisabled,
+  signinUser,
+  signinProgress,
+  clearSigninProgress,
+  authStatus,
+  subscribeToAuthStateChange,
+}: Props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const authListenerUnsubscriber = React.useRef(null);
+
+  React.useEffect(() => {
+    authListenerUnsubscriber.current = subscribeToAuthStateChange();
+  }, []);
+
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedIn) {
+      Router.push('/form');
+    }
+  }, [authStatus]);
 
   React.useEffect(
     () => () => {
       clearSigninProgress();
+      if (authListenerUnsubscriber.current) {
+        authListenerUnsubscriber.current();
+      }
     },
     [clearSigninProgress]
   );
+
+  if (authStatus === AuthStatus.SignedIn) {
+    Router.push('/form');
+    return null;
+  }
 
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
@@ -94,9 +124,7 @@ function LoginPage({ authDisabled, signinUser, signinProgress, clearSigninProgre
       <SubmitButton
         label="Sign in"
         disabled={submitDisabled}
-        onPress={() => {
-          signinUser(email, password);
-        }}
+        onPress={() => signinUser(email, password)}
         loading={signinProgress.status === ProgressStatus.REQUEST}
       />
       <A href="/reset-password" style={styles.forgotPasswordButton}>

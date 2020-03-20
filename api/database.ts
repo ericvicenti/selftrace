@@ -28,9 +28,6 @@ export async function requestUserInfo(uid: string) {
 }
 
 /** Update user details. */
-export function requestUpdateUserInfo(
-  uid: string,
-  details: Partial<FirestoreUserDoc>
-) {
+export function requestUpdateUserInfo(uid: string, details: Partial<FirestoreUserDoc>) {
   return userDoc(uid).update(details);
 }

@@ -57,7 +57,7 @@ export default class SubmitButton extends React.PureComponent<Props> {
     }
   }
   render() {
-    const { label, labelTextStyle, backgroundColor, disabled, loading } = this.props;
+    const { label, labelTextStyle, backgroundColor, disabled, loading, onPress } = this.props;
 
     return (
       <View style={styles.container}>
@@ -76,7 +76,8 @@ export default class SubmitButton extends React.PureComponent<Props> {
           }}
           activeOpacity={1}
           underlayColor={backgroundColor.shade(-20)}
-          enabled={!disabled}>
+          enabled={!disabled}
+          onPress={onPress}>
           {loading ? (
             <ActivityIndicator size="small" color={INACTIVE_ICON_COLOR.toString()} />
           ) : (
