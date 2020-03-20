@@ -39,3 +39,6 @@ web-report/
 # @end @expo/next-adapter
 
 .now
+
+# Due to env vars
+next.config.js

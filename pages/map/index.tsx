@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
     width: '100%',
-    height: 400,
+    height: 600,
     backgroundColor: 'pink',
   },
   warningContainer: {
@@ -76,9 +76,11 @@ interface State {
   isLoading: boolean;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps> {}
+interface Props extends ReturnType<typeof mapStateToProps> {
+  pathname: string;
+}
 
-function MapPage({ wellbeing, authStatus }: Props) {
+function MapPage({ wellbeing, authStatus, pathname }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
 
   //   async function handleRegionChange(regionObj: RegionObject) {
@@ -102,10 +104,13 @@ function MapPage({ wellbeing, authStatus }: Props) {
   //     return null;
   //   }
 
-  //   const wellbeingIsDefined = !!wellbeing;
   const wellbeingIsDefined = true;
-  const GOOGLE_MAP_URL = '';
 
+  //   const GOOGLE_MAP_URL =
+  // 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD854BfQVLW3sNm4per4TjyG8dmBgc0Hus';
+  const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
+
+  console.log('GOOGLE_MAP_URL= ', GOOGLE_MAP_URL);
   return (
     <>
       <View style={styles.container}>
@@ -142,7 +147,7 @@ function MapPage({ wellbeing, authStatus }: Props) {
           </>
         )}
       </View>
-      <BottomTab />
+      <BottomTab pathname={pathname} />
     </>
   );
 }
@@ -158,6 +163,7 @@ MapPage.getInitialProps = async (ctx: NextPageContext) => {
   return {
     // data: result,
     // query: ctx.query,
+    pathname: ctx.pathname,
   };
 };
 

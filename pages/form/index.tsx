@@ -87,9 +87,17 @@ interface WellbeingOptionMap {
   [key: number]: Omit<WellbeingObject, 'value'>;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
+  pathname: string;
+}
 
-function FormPage({ currentWellbeing, progress, authStatus, subscribeToAuthStateChange }: Props) {
+function FormPage({
+  currentWellbeing,
+  progress,
+  authStatus,
+  subscribeToAuthStateChange,
+  pathname,
+}: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
   const authListenerUnsubscriber = React.useRef(null);
 
@@ -189,7 +197,7 @@ function FormPage({ currentWellbeing, progress, authStatus, subscribeToAuthState
           }}
         />
       </View>
-      <BottomTab />
+      <BottomTab pathname={pathname} />
     </>
   );
 }
@@ -205,6 +213,7 @@ FormPage.getInitialProps = async (ctx: NextPageContext) => {
   return {
     // data: result,
     // query: ctx.query,
+    pathname: ctx.pathname,
   };
 };
 
