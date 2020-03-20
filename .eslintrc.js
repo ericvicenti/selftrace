@@ -18,6 +18,7 @@ module.exports = {
     __CLIENT__: true,
     __DEV__: true,
     __SERVER__: true,
+    window: true,
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
