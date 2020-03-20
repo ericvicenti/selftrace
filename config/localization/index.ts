@@ -9,7 +9,9 @@ i18n.translations = {
   tr,
   ru,
 };
+
 // FIXME: ReferenceError: navigator is not defined
 // i18n.locale = Localization.locale;
-i18n.locale = 'tr';
+i18n.locale = 'en';
+
 i18n.fallbacks = true;

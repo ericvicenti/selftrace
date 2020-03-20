@@ -18,7 +18,7 @@ import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
 import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
 import { MARGIN_Y, W_MARGIN, MIN_MARGIN_Y } from '../../styles';
-import { AuthStatus, Wellbeing } from '../../data-types';
+import { AuthStatus, Wellbeing, ProgressStatus } from '../../data-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -97,6 +97,7 @@ function FormPage({
   authStatus,
   subscribeToAuthStateChange,
   pathname,
+  uploadUserInfo,
 }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
   const authListenerUnsubscriber = React.useRef(null);
@@ -190,11 +191,12 @@ function FormPage({
           )}
         </FormContainer>
         <SubmitButton
-          label="Update"
-          disabled={submitDisabled}
+          label={t('buttons.update')}
           onPress={() => {
-            //
+            uploadUserInfo({ wellbeing: wellbeing!.valueOf() });
           }}
+          disabled={submitDisabled}
+          loading={progress.status === ProgressStatus.REQUEST}
         />
       </View>
       <BottomTab pathname={pathname} />

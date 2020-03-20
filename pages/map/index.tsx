@@ -3,6 +3,7 @@ import * as React from 'react';
 import { NextPageContext } from 'next';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import Router from 'next/router';
 import { t } from 'i18n-js';
@@ -13,6 +14,8 @@ import BottomTab from '../../components/BottomTab';
 import CoronaMap from '../../components/CoronaMap';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
+import * as AuthStatusActions from '../../actions/auth/status';
+import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
 import { ClusterObject, RegionObject, AnonymListItem, AuthStatus } from '../../data-types';
@@ -71,46 +74,55 @@ const mapStateToProps = (state: ReduxRoot) => ({
   authStatus: state.auth.status,
 });
 
+const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
+  bindActionCreators(
+    {
+      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
+    },
+    dispatch
+  );
+
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps> {
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
   pathname: string;
 }
 
-function MapPage({ wellbeing, authStatus, pathname }: Props) {
+function MapPage({ wellbeing, authStatus, pathname, subscribeToAuthStateChange }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
+  const authListenerUnsubscriber = React.useRef(null);
 
-  //   async function handleRegionChange(regionObj: RegionObject) {
-  //     setState(prevState => ({ ...prevState, isLoading: true }));
-  //     try {
-  //       const receivedClusters = await API.requestClusters(regionObj, true);
-  //       setState({
-  //         clusters: receivedClusters.map(cluster => ({
-  //           key: ReactUtils.generateListKey(),
-  //           data: cluster,
-  //         })),
-  //         isLoading: false,
-  //       });
-  //     } catch (err) {
-  //       setState(prevState => ({ ...prevState, isLoading: false }));
-  //     }
-  //   }
+  async function handleRegionChange(regionObj: RegionObject) {
+    setState(prevState => ({ ...prevState, isLoading: true }));
+    try {
+      const receivedClusters = await API.requestClusters(regionObj, true);
+      setState({
+        clusters: receivedClusters.map(cluster => ({
+          key: ReactUtils.generateListKey(),
+          data: cluster,
+        })),
+        isLoading: false,
+      });
+    } catch (err) {
+      setState(prevState => ({ ...prevState, isLoading: false }));
+    }
+  }
 
-  //   if (authStatus !== AuthStatus.SignedIn) {
-  //     Router.push('/');
-  //     return null;
-  //   }
+  React.useEffect(() => {
+    authListenerUnsubscriber.current = subscribeToAuthStateChange();
+  }, []);
 
-  const wellbeingIsDefined = true;
+  React.useEffect(() => () => {
+    if (authListenerUnsubscriber.current) {
+      authListenerUnsubscriber.current();
+    }
+  });
 
-  //   const GOOGLE_MAP_URL =
-  // 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD854BfQVLW3sNm4per4TjyG8dmBgc0Hus';
+  const wellbeingIsDefined = !!wellbeing;
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
-
-  console.log('GOOGLE_MAP_URL= ', GOOGLE_MAP_URL);
   return (
     <>
       <View style={styles.container}>
@@ -119,7 +131,7 @@ function MapPage({ wellbeing, authStatus, pathname }: Props) {
             googleMapURL={GOOGLE_MAP_URL}
             loadingElement={<div />}
             clusters={state.clusters}
-            // onRegionChangeComplete={handleRegionChange}ƒ
+            onRegionChangeComplete={handleRegionChange}
             style={styles.mapContainer}
           />
         ) : (
@@ -167,4 +179,4 @@ MapPage.getInitialProps = async (ctx: NextPageContext) => {
   };
 };
 
-export default connect(mapStateToProps, {})(MapPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MapPage);
