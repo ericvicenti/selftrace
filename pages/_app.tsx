@@ -5,12 +5,14 @@ import { View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
+import { initStore } from '../store';
+import Layout from './Layout';
 import data from '../assets/data.json';
-import store from '../store';
 import '../config/localization';
 
 // Sentry.init({
@@ -25,13 +27,13 @@ const site = {
 
 const themeColor = '#fff';
 
-export default function App(props: any) {
-  const { pageProps, Component, router } = props;
+function App(props: any) {
+  const { pageProps, Component, store } = props;
 
   return (
     <Provider store={store}>
       <Head>
-        <title>Corona Map</title>
+        <title>CoronaMap</title>
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -70,7 +72,9 @@ export default function App(props: any) {
                   marginRight: 'auto',
                 }}>
                 <GlobalHeader count={data.libraries.length} />
-                <Component {...pageProps} />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
                 <GlobalFooter />
               </View>
             </>
@@ -132,3 +136,5 @@ const injectMeta = [
   // { property: 'og:image:height', content: image.height },
   // { property: 'og:image:alt', content: image.description },
 ];
+
+export default withRedux(initStore)(App);

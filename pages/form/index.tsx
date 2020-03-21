@@ -4,7 +4,6 @@ import { NextPageContext } from 'next';
 import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Router from 'next/router';
 import { t } from 'i18n-js';
 import FormContainer from '../../components/FormContainer';
 import Picker from '../../components/Picker';
@@ -12,13 +11,12 @@ import BottomTab from '../../components/BottomTab';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import * as Actions from '../../actions/auth/userInfo';
-import * as AuthStatusActions from '../../actions/auth/status';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
 import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
 import { MARGIN_Y, W_MARGIN, MIN_MARGIN_Y } from '../../styles';
-import { AuthStatus, Wellbeing, ProgressStatus } from '../../data-types';
+import { Wellbeing, ProgressStatus } from '../../data-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -69,7 +67,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       uploadUserInfo: Actions.uploadUserInfo,
       clearProgress: () => (d: Dispatch) => d(Actions.clearUpdateUserInfoProgress()),
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
@@ -90,16 +87,8 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function FormPage({
-  currentWellbeing,
-  progress,
-  authStatus,
-  subscribeToAuthStateChange,
-  pathname,
-  uploadUserInfo,
-}: Props) {
+function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
-  const authListenerUnsubscriber = React.useRef(null);
 
   // TODO: Clean up
   const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
@@ -136,22 +125,6 @@ function FormPage({
 
   const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
   const submitDisabled = !wellbeing || currentWellbeing === wellbeing;
-
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedOut) {
-      Router.push('/');
-    }
-  }, [authStatus]);
-
-  React.useEffect(() => () => {
-    if (authListenerUnsubscriber.current) {
-      authListenerUnsubscriber.current();
-    }
-  });
 
   return (
     <>

@@ -5,16 +5,13 @@ import { StyleSheet, View } from 'react-native';
 import { A } from '@expo/html-elements';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
-import Router from 'next/router';
 import { connect } from 'react-redux';
 import Text from '../../components/Text';
 import BottomTab from '../../components/BottomTab';
 import SubmitButton from '../../components/SubmitButton';
 import { PRIMARY_COLOR, RED_COLOR } from '../../styles/colors';
 import { MARGIN_Y } from '../../styles';
-import { AuthStatus } from '../../data-types';
 import * as SignoutActions from '../../actions/auth/signout';
-import * as AuthStatusActions from '../../actions/auth/status';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 
@@ -48,7 +45,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       signoutUser: SignoutActions.signoutUser,
       clearProgress: () => (d: Dispatch) => d(SignoutActions.clearSignoutProgress()),
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
@@ -57,40 +53,23 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function AccountPage({ signoutUser, pathname, subscribeToAuthStateChange, authStatus }: Props) {
-  const authListenerUnsubscriber = React.useRef(null);
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedOut) {
-      Router.push('/');
-    }
-  }, [authStatus]);
-
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
-
-  React.useEffect(() => () => {
-    if (authListenerUnsubscriber.current) {
-      authListenerUnsubscriber.current();
-    }
-  });
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedOut) {
-      Router.push('/');
-    }
-  }, [authStatus]);
+function AccountPage({ signoutUser, pathname, clearProgress }: Props) {
+  React.useEffect(
+    () => () => {
+      clearProgress();
+    },
+    [clearProgress]
+  );
 
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Account</Text>
+        <Text style={styles.title}>{t('headers.account')}</Text>
         <A href="/account/profile">
-          <Text>Profile</Text>
+          <Text>{t('screens.account.profile')}</Text>
         </A>
         <A href="/account/profile">
-          <Text>Update password</Text>
+          <Text>{t('screens.account.updatePassword')}</Text>
         </A>
         <SubmitButton
           label={t('buttons.signout')}

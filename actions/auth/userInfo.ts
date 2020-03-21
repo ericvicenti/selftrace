@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import * as API from '../../api';
-import store from '../../store';
+import { initStore } from '../../store';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
@@ -50,6 +50,7 @@ export const uploadUserInfo = (updatedInfo: Partial<API.FirestoreUserDoc>) => as
   dispatch: Dispatch
 ) => {
   dispatch(startUpdateUserInfoRequest());
+  const store = initStore();
   const { uid } = store.getState().auth.userInfo;
 
   try {

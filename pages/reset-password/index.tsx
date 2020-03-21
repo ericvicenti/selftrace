@@ -13,7 +13,6 @@ import SubmitButton from '../../components/SubmitButton';
 import { ProgressStatus } from '../../data-types';
 import { Action, Dispatch } from '../../actions';
 import * as Actions from '../../actions/auth/resetPassword';
-import * as AuthStatusActions from '../../actions/auth/status';
 import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR } from '../../styles/colors';
 import { MARGIN_Y } from '../../styles';
@@ -44,25 +43,21 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       resetUserPassword: Actions.resetUserPassword,
       clearProgress: () => (d: Dispatch) => d(Actions.clearResetPasswordProgress()),
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function ResetPasswordPage({
-  progress,
-  resetUserPassword,
-  clearProgress,
-  subscribeToAuthStateChange,
-}: Props) {
+function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props) {
   const [email, setEmail] = React.useState('');
-  const authListenerUnsubscriber = React.useRef(null);
 
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
+  React.useEffect(
+    () => () => {
+      clearProgress();
+    },
+    [clearProgress]
+  );
 
   const submitDisabled =
     !AuthUtils.isValidEmail(email) ||

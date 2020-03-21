@@ -15,7 +15,6 @@ import { ProgressStatus, AuthStatus } from '../data-types';
 import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
-import * as AuthStatusActions from '../actions/auth/status';
 import AuthUtils from '../util/AuthUtils';
 import { MIN_MARGIN_Y, MARGIN_Y, MAX_MARGIN_Y } from '../styles';
 import { BLUE_COLOR, INACTIVE_TEXT_COLOR } from '../styles/colors';
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
     color: INACTIVE_TEXT_COLOR.toString(),
   },
   signupButton: {
-    // alignSelf: 'flex-end',
     marginTop: 3 * MARGIN_Y,
     color: BLUE_COLOR.toString(),
   },
@@ -56,49 +54,22 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       signinUser: SigninActions.signinUser,
       clearProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function LoginPage({
-  authDisabled,
-  signinUser,
-  progress,
-  clearProgress,
-  authStatus,
-  subscribeToAuthStateChange,
-}: Props) {
+function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStatus }: Props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const authListenerUnsubscriber = React.useRef(null);
-
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedIn) {
-      Router.push('/form');
-    }
-  }, [authStatus]);
 
   React.useEffect(
     () => () => {
       clearProgress();
-      if (authListenerUnsubscriber.current) {
-        authListenerUnsubscriber.current();
-      }
     },
     [clearProgress]
   );
-
-  if (authStatus === AuthStatus.SignedIn) {
-    Router.push('/form');
-    return null;
-  }
 
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);

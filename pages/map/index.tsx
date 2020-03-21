@@ -11,11 +11,10 @@ import BottomTab from '../../components/BottomTab';
 import CoronaMap from '../../components/CoronaMap';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
-import * as AuthStatusActions from '../../actions/auth/status';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
-import { ClusterObject, RegionObject, AnonymListItem, AuthStatus } from '../../data-types';
+import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { W_WIDTH, MIN_MARGIN_Y, W_MARGIN } from '../../styles';
 import { PRIMARY_COLOR } from '../../styles/colors';
 
@@ -71,13 +70,7 @@ const mapStateToProps = (state: ReduxRoot) => ({
   authStatus: state.auth.status,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
-  bindActionCreators(
-    {
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators({}, dispatch);
 
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
@@ -88,9 +81,8 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function MapPage({ wellbeing, authStatus, pathname, subscribeToAuthStateChange }: Props) {
+function MapPage({ wellbeing, pathname }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
-  const authListenerUnsubscriber = React.useRef(null);
 
   async function handleRegionChange(regionObj: RegionObject) {
     setState(prevState => ({ ...prevState, isLoading: true }));
@@ -107,16 +99,6 @@ function MapPage({ wellbeing, authStatus, pathname, subscribeToAuthStateChange }
       setState(prevState => ({ ...prevState, isLoading: false }));
     }
   }
-
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
-
-  React.useEffect(() => () => {
-    if (authListenerUnsubscriber.current) {
-      authListenerUnsubscriber.current();
-    }
-  });
 
   const wellbeingIsDefined = !!wellbeing;
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;

@@ -17,7 +17,6 @@ import { ProgressStatus, AuthStatus } from '../../data-types';
 import { ReduxRoot, isAuthDisabled } from '../../reducers';
 import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
-import * as AuthStatusActions from '../../actions/auth/status';
 import AuthUtils from '../../util/AuthUtils';
 
 const styles = StyleSheet.create({
@@ -48,35 +47,29 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     {
       signupUser: SignupActions.signupUser,
       clearProgress: () => (d: Dispatch) => d(SignupActions.clearSignupProgress()),
-      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
   );
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function SignupPage({
-  signupUser,
-  progress,
-  clearProgress,
-  authDisabled,
-  authStatus,
-  subscribeToAuthStateChange,
-}: Props) {
+function SignupPage({ signupUser, progress, clearProgress, authDisabled, authStatus }: Props) {
   const [email, setEmail] = React.useState('');
   const [password1, setPassword1] = React.useState('');
   const [password2, setPassword2] = React.useState('');
-  const authListenerUnsubscriber = React.useRef(null);
-
-  React.useEffect(() => {
-    authListenerUnsubscriber.current = subscribeToAuthStateChange();
-  }, []);
 
   React.useEffect(() => {
     if (authStatus === AuthStatus.SignedIn) {
       Router.push('/form');
     }
   }, [authStatus]);
+
+  React.useEffect(
+    () => () => {
+      clearProgress();
+    },
+    [clearProgress]
+  );
 
   const submitDisabled =
     authDisabled ||
