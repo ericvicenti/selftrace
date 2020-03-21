@@ -15,11 +15,14 @@ Volunteers from all backgrounds are welcome as we will be needing help with fron
 
 ## Instructions
 
-Prerequisites
+### Prerequisites
 
 - Node LTS
 
-Commands
+Make sure to create a `.env` file at the root level with the following environment variables:
+- GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
+
+### Commands
 
 ##### With npm
 
