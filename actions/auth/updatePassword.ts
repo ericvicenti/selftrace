@@ -34,9 +34,7 @@ export const clearUpdatePasswordProgress: ActionCreator<NetworkAction> = () => (
   },
 });
 
-export const updateUserPassword = (newPassword: string) => async (
-  dispatch: Dispatch
-) => {
+export const updateUserPassword = (newPassword: string) => async (dispatch: Dispatch) => {
   dispatch(startUpdatePasswordRequest());
 
   try {

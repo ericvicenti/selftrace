@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    backgroundColor: 'lightgreen',
     marginTop: MARGIN_Y,
   },
 });
@@ -142,16 +141,17 @@ function FormPage({
     authListenerUnsubscriber.current = subscribeToAuthStateChange();
   }, []);
 
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedOut) {
+      Router.push('/');
+    }
+  }, [authStatus]);
+
   React.useEffect(() => () => {
     if (authListenerUnsubscriber.current) {
       authListenerUnsubscriber.current();
     }
   });
-
-  if (authStatus !== AuthStatus.SignedIn) {
-    Router.push('/');
-    return null;
-  }
 
   return (
     <>

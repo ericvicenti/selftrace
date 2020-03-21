@@ -5,11 +5,8 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
-import Router from 'next/router';
 import { t } from 'i18n-js';
-import EmailInput from '../../components/TextInput/Email';
 import Text from '../../components/Text';
-import SubmitButton from '../../components/SubmitButton';
 import BottomTab from '../../components/BottomTab';
 import CoronaMap from '../../components/CoronaMap';
 import Icon from '../../components/Icon';
@@ -123,6 +120,7 @@ function MapPage({ wellbeing, authStatus, pathname, subscribeToAuthStateChange }
 
   const wellbeingIsDefined = !!wellbeing;
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
+
   return (
     <>
       <View style={styles.container}>

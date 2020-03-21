@@ -34,14 +34,11 @@ export const clearSignupProgress: ActionCreator<NetworkAction> = () => ({
   },
 });
 
-export const signupUser = (email: string, password: string) => async (
-  dispatch: Dispatch
-) => {
+export const signupUser = (email: string, password: string) => async (dispatch: Dispatch) => {
   dispatch(startSignupRequest({ email, password }));
 
   try {
     const { user } = await requestSignup(email, password);
-
     return dispatch(receiveSignupResponse(user));
   } catch (err) {
     return dispatch(receiveSignupError(err));

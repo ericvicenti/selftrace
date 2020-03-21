@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    backgroundColor: 'lightgreen',
     marginTop: MARGIN_Y,
   },
 });

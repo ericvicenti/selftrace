@@ -28,7 +28,6 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
     }
 
     // Case 2: Signed in
-
     const userInfo: Partial<ReduxAuthUserInfo> = {
       email: user.email,
       uid: user.uid,
