@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   authDisabled: isAuthDisabled(state.auth),
-  signupProgress: state.auth.signup.progress,
+  progress: state.auth.signup.progress,
   authStatus: state.auth.status,
 });
 
@@ -47,7 +47,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
   bindActionCreators(
     {
       signupUser: SignupActions.signupUser,
-      clearSignupProgress: () => (d: Dispatch) => d(SignupActions.clearSignupProgress()),
+      clearProgress: () => (d: Dispatch) => d(SignupActions.clearSignupProgress()),
       subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
@@ -57,8 +57,8 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 
 function SignupPage({
   signupUser,
-  signupProgress,
-  clearSignupProgress,
+  progress,
+  clearProgress,
   authDisabled,
   authStatus,
   subscribeToAuthStateChange,
@@ -87,37 +87,37 @@ function SignupPage({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t('headers.signup')}</Text>
-      <FormContainer showErrorsOnly progress={signupProgress} style={styles.formContainer}>
+      <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (signupProgress.status) clearSignupProgress();
+            if (progress.status) clearProgress();
             setEmail(text);
           }}
-          placeholder="Enter your email"
+          placeholder="Enter your email" // TODO: Localize
         />
         <PasswordInput
           value={password1}
           onChangeText={text => {
-            if (signupProgress.status) clearSignupProgress();
+            if (progress.status) clearProgress();
             setPassword1(text);
           }}
-          placeholder="Enter a new password"
+          placeholder="Enter a new password" // TODO: Localize
         />
         <PasswordInput
           value={password2}
           onChangeText={text => {
-            if (signupProgress.status) clearSignupProgress();
+            if (progress.status) clearProgress();
             setPassword2(text);
           }}
-          placeholder="Confirm your new password"
+          placeholder="Confirm your new password" // TODO: Localize
         />
       </FormContainer>
       <SubmitButton
         label={t('buttons.signup')}
         disabled={submitDisabled}
         onPress={() => signupUser(email, password1)}
-        loading={signupProgress.status === ProgressStatus.REQUEST}
+        loading={progress.status === ProgressStatus.REQUEST}
       />
     </View>
   );

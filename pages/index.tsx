@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   authDisabled: isAuthDisabled(state.auth),
-  signinProgress: state.auth.signin.progress,
+  progress: state.auth.signin.progress,
   authStatus: state.auth.status,
 });
 
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
   bindActionCreators(
     {
       signinUser: SigninActions.signinUser,
-      clearSigninProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
+      clearProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
       subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
     },
     dispatch
@@ -66,8 +66,8 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 function LoginPage({
   authDisabled,
   signinUser,
-  signinProgress,
-  clearSigninProgress,
+  progress,
+  clearProgress,
   authStatus,
   subscribeToAuthStateChange,
 }: Props) {
@@ -87,12 +87,12 @@ function LoginPage({
 
   React.useEffect(
     () => () => {
-      clearSigninProgress();
+      clearProgress();
       if (authListenerUnsubscriber.current) {
         authListenerUnsubscriber.current();
       }
     },
-    [clearSigninProgress]
+    [clearProgress]
   );
 
   if (authStatus === AuthStatus.SignedIn) {
@@ -106,18 +106,18 @@ function LoginPage({
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo.png')} />
-      <FormContainer showErrorsOnly progress={signinProgress} style={styles.formContainer}>
+      <FormContainer showErrorsOnly progress={progress} style={styles.formContainer}>
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (signinProgress.status) clearSigninProgress();
+            if (progress.status) clearProgress();
             setEmail(text);
           }}
         />
         <PasswordInput
           value={password}
           onChangeText={text => {
-            if (signinProgress.status) clearSigninProgress();
+            if (progress.status) clearProgress();
             setPassword(text);
           }}
         />
@@ -126,7 +126,7 @@ function LoginPage({
         label={t('buttons.signin')}
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
-        loading={signinProgress.status === ProgressStatus.REQUEST}
+        loading={progress.status === ProgressStatus.REQUEST}
       />
       <A href="/reset-password" style={styles.forgotPasswordButton}>
         {t('buttons.forgotPassword')}

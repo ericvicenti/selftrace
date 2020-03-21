@@ -2,10 +2,19 @@ import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
 import { StyleSheet, View } from 'react-native';
+import { t } from 'i18n-js';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
 import EmailInput from '../../components/TextInput/Email';
 import Text from '../../components/Text';
+import AuthUtils from '../../util/AuthUtils';
 import SubmitButton from '../../components/SubmitButton';
+import { ProgressStatus } from '../../data-types';
+import { Action, Dispatch } from '../../actions';
+import * as Actions from '../../actions/auth/resetPassword';
+import * as AuthStatusActions from '../../actions/auth/status';
+import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR } from '../../styles/colors';
 import { MARGIN_Y } from '../../styles';
 
@@ -26,23 +35,60 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ResetPasswordPage(props) {
+const mapStateToProps = (state: ReduxRoot) => ({
+  progress: state.auth.resetPassword.progress,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
+  bindActionCreators(
+    {
+      resetUserPassword: Actions.resetUserPassword,
+      clearProgress: () => (d: Dispatch) => d(Actions.clearResetPasswordProgress()),
+      subscribeToAuthStateChange: AuthStatusActions.subscribeToAuthStateChange,
+    },
+    dispatch
+  );
+
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
+
+function ResetPasswordPage({
+  progress,
+  resetUserPassword,
+  clearProgress,
+  subscribeToAuthStateChange,
+}: Props) {
   const [email, setEmail] = React.useState('');
+  const authListenerUnsubscriber = React.useRef(null);
+
+  React.useEffect(() => {
+    authListenerUnsubscriber.current = subscribeToAuthStateChange();
+  }, []);
+
+  const submitDisabled =
+    !AuthUtils.isValidEmail(email) ||
+    progress.status === ProgressStatus.REQUEST ||
+    progress.status === ProgressStatus.SUCCESS;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Reset Password</Text>
-      <FormContainer
-        showErrorsOnly
-        progress={{ message: '', status: null }}
-        style={styles.formContainer}>
+      <Text style={styles.title}>{t('headers.resetPassword')}</Text>
+      <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput
           value={email}
-          onChangeText={text => setEmail(text)}
-          placeholder="Enter your email"
+          onChangeText={text => {
+            if (progress.status !== ProgressStatus.NIL) clearProgress();
+            setEmail(text.toLowerCase());
+          }}
         />
       </FormContainer>
-      <SubmitButton label="Reset" disabled={false} onPress={() => {}} />
+      <SubmitButton
+        label={t('buttons.reset')}
+        onPress={() => {
+          resetUserPassword(email);
+        }}
+        disabled={submitDisabled}
+        loading={progress.status === ProgressStatus.REQUEST}
+      />
     </View>
   );
 }
@@ -60,3 +106,5 @@ ResetPasswordPage.getInitialProps = async (ctx: NextPageContext) => {
     // query: ctx.query,
   };
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordPage);
