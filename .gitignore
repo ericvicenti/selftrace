@@ -40,5 +40,4 @@ web-report/
 
 .now
 
-# Due to env vars
-next.config.js
+.env
