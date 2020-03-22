@@ -1,6 +1,5 @@
 import { AsyncStorage } from 'react-native';
 import * as API from '../../api';
-import { initStore } from '../../store';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
@@ -46,13 +45,10 @@ export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => (
 
 const GRACEFUL_EXIT_DURATION = 750;
 
-export const uploadUserInfo = (updatedInfo: Partial<API.FirestoreUserDoc>) => async (
+export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUserDoc>) => async (
   dispatch: Dispatch
 ) => {
   dispatch(startUpdateUserInfoRequest());
-  const store = initStore();
-  const { uid } = store.getState().auth.userInfo;
-
   try {
     await API.requestUpdateUserInfo(uid, updatedInfo);
     dispatch(receiveUpdateUserInfoResponse(updatedInfo));
