@@ -10,8 +10,8 @@ import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
+import Layout from '../components/Layout';
 import { initStore } from '../store';
-import Layout from './Layout';
 import data from '../assets/data.json';
 import '../config/localization';
 
