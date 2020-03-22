@@ -93,6 +93,12 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
 
   // TODO: Clean up
   const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
+    [Wellbeing.Pick]: {
+      label: t('form.options.pick.label'),
+      description: t('form.options.pick.description'),
+      important: t('form.options.pick.important'),
+      note: t('form.options.pick.note'),
+    },
     [Wellbeing.NotTested]: {
       label: t('form.options.well.label'),
       description: t('form.options.well.description'),
@@ -127,6 +133,14 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
   const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
   const submitDisabled = !wellbeing || currentWellbeing === wellbeing;
 
+  const handleSetWellBeing = (val: Wellbeing) => {
+    if (Number(val) === Wellbeing.Pick) {
+      return;
+    }
+
+    setWellbeing(val);
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -139,7 +153,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
             label={t('form.wellbeing')}
             displayValue={wellbeing ? WELLBEING_OPTION_MAP[wellbeing].label : ''}
             selectedValue={wellbeing}
-            onValueChange={val => setWellbeing(val)}
+            onValueChange={handleSetWellBeing}
             items={WELLBEING_OPTIONS}
           />
           {wellbeingObj && (

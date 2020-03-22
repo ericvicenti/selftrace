@@ -50,6 +50,12 @@
     "important": "Important",
     "note": "Note",
     "options": {
+      "pick": {
+        "label": "Please Pick One",
+        "description": "",
+        "important": "",
+        "note": ""
+      },
       "well": {
         "label": "Feeling Well",
         "description": "I have not been tested but don't show any of the coronavirus (COVID-19) symptoms. All is well!",
