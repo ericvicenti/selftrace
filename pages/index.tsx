@@ -71,6 +71,12 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
     [clearProgress]
   );
 
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedIn) {
+      Router.push('/form');
+    }
+  }, [authStatus]);
+
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
 

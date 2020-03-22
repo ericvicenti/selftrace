@@ -58,18 +58,18 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
   const [password1, setPassword1] = React.useState('');
   const [password2, setPassword2] = React.useState('');
 
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedIn) {
-      Router.push('/form');
-    }
-  }, [authStatus]);
-
   React.useEffect(
     () => () => {
       clearProgress();
     },
     [clearProgress]
   );
+
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedIn) {
+      Router.push('/form');
+    }
+  }, [authStatus]);
 
   const submitDisabled =
     authDisabled ||

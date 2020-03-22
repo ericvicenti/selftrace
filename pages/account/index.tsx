@@ -6,14 +6,16 @@ import { A } from '@expo/html-elements';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Router from 'next/router';
+import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
 import BottomTab from '../../components/BottomTab';
 import SubmitButton from '../../components/SubmitButton';
-import { PRIMARY_COLOR, RED_COLOR } from '../../styles/colors';
-import { MARGIN_Y } from '../../styles';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
+import { PRIMARY_COLOR, RED_COLOR } from '../../styles/colors';
+import { MARGIN_Y } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,13 +55,19 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function AccountPage({ signoutUser, pathname, clearProgress }: Props) {
+function AccountPage({ signoutUser, pathname, authStatus, clearProgress }: Props) {
   React.useEffect(
     () => () => {
       clearProgress();
     },
     [clearProgress]
   );
+
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedOut) {
+      Router.push('/');
+    }
+  }, [authStatus]);
 
   return (
     <>
