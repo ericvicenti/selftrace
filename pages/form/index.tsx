@@ -125,7 +125,10 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
   });
 
   const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
-  const submitDisabled = !wellbeing;
+  const submitDisabled =
+    !wellbeing ||
+    progress.status === ProgressStatus.REQUEST ||
+    progress.status === ProgressStatus.SUCCESS;
 
   return (
     <>
