@@ -3,6 +3,7 @@ import * as API from '../../api';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
+import PromiseUtils from '../../util/PromiseUtils';
 
 /*
  * Action creators
@@ -45,12 +46,18 @@ export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => (
 
 const GRACEFUL_EXIT_DURATION = 750;
 
-export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUserDoc>) => async (
-  dispatch: Dispatch
-) => {
+export const uploadUserInfo = (
+  uid: string,
+  updatedInfo: Partial<API.FirestoreUserDoc>,
+  isSimulated?: boolean
+) => async (dispatch: Dispatch) => {
   dispatch(startUpdateUserInfoRequest());
   try {
-    await API.requestUpdateUserInfo(uid, updatedInfo);
+    if (isSimulated) {
+      await PromiseUtils.sleep(750);
+    } else {
+      await API.requestUpdateUserInfo(uid, updatedInfo);
+    }
     dispatch(receiveUpdateUserInfoResponse(updatedInfo));
     setTimeout(() => {
       dispatch(clearUpdateUserInfoProgress());
