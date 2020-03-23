@@ -93,7 +93,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
 
   // TODO: Clean up
   const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
-    [Wellbeing.NotTested]: {
+    [Wellbeing.FeelingWell]: {
       label: t('form.options.well.label'),
       description: t('form.options.well.description'),
       important: t('form.options.well.important'),

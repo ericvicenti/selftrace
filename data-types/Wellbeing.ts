@@ -3,7 +3,7 @@
  * WARNING 2: DO NOT USE ZERO AS A VALUE
  */
 export enum Wellbeing {
-  NotTested = 1, // default
+  FeelingWell = 1,
   ShowingSymptoms = 2,
   TestedNegative = 3,
   TestedPositive = 4,
