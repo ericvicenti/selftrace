@@ -125,10 +125,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
   });
 
   const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
-  const submitDisabled =
-    !wellbeing ||
-    progress.status === ProgressStatus.REQUEST ||
-    progress.status === ProgressStatus.SUCCESS;
+  const submitDisabled = !wellbeing;
 
   return (
     <>
@@ -169,6 +166,8 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
         </FormContainer>
         <SubmitButton
           label={t('buttons.update')}
+          progress={progress}
+          disabled={submitDisabled}
           onPress={() => {
             uploadUserInfo(
               uid,
@@ -176,8 +175,6 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
               currentWellbeing === wellbeing
             );
           }}
-          disabled={submitDisabled}
-          loading={progress.status === ProgressStatus.REQUEST}
         />
       </View>
       <BottomTab pathname={pathname} />

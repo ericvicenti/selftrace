@@ -101,9 +101,9 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
       </FormContainer>
       <SubmitButton
         label={t('buttons.signin')}
+        progress={progress}
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
-        loading={progress.status === ProgressStatus.REQUEST}
       />
       <A href="/reset-password" style={styles.forgotPasswordButton}>
         {t('buttons.forgotPassword')}

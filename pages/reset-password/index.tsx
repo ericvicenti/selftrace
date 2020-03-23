@@ -59,10 +59,7 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
     [clearProgress]
   );
 
-  const submitDisabled =
-    !AuthUtils.isValidEmail(email) ||
-    progress.status === ProgressStatus.REQUEST ||
-    progress.status === ProgressStatus.SUCCESS;
+  const submitDisabled = !AuthUtils.isValidEmail(email);
 
   return (
     <View style={styles.container}>
@@ -78,11 +75,11 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
       </FormContainer>
       <SubmitButton
         label={t('buttons.reset')}
+        progress={progress}
+        disabled={submitDisabled}
         onPress={() => {
           resetUserPassword(email);
         }}
-        disabled={submitDisabled}
-        loading={progress.status === ProgressStatus.REQUEST}
       />
     </View>
   );

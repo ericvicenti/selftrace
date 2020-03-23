@@ -53,11 +53,7 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
   const [password1, setPassword1] = React.useState('');
   const [password2, setPassword2] = React.useState('');
 
-  const submitDisabled =
-    password1 !== password2 ||
-    !AuthUtils.isValidPassword(password1) ||
-    progress.status === ProgressStatus.REQUEST ||
-    progress.status === ProgressStatus.SUCCESS;
+  const submitDisabled = password1 !== password2 || !AuthUtils.isValidPassword(password1);
 
   React.useEffect(
     () => () => {
@@ -89,11 +85,11 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
       </FormContainer>
       <SubmitButton
         label={t('buttons.update')}
+        progress={progress}
+        disabled={submitDisabled}
         onPress={() => {
           updateUserPassword(password1);
         }}
-        disabled={submitDisabled}
-        loading={progress.status === ProgressStatus.REQUEST}
       />
     </View>
   );

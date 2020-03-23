@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, ActivityIndicator, StyleSheet, View, TextStyle } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Text from '../Text';
+import { Progress, ProgressStatus } from '../../data-types';
 import Color from '../../styles/Color';
 import { INACTIVE_ICON_COLOR, BLUE_COLOR } from '../../styles/colors';
 import { MIN_PADDING_X, MIN_PADDING_Y, MAX_MARGIN_Y } from '../../styles';
@@ -27,66 +28,70 @@ interface Props {
   label: string;
   labelTextStyle?: TextStyle;
   backgroundColor?: Color;
+  progress: Progress;
   disabled?: boolean;
-  loading?: boolean;
   onPress: () => void;
 }
 
-export default class SubmitButton extends React.PureComponent<Props> {
-  private activityScale: Animated.Value;
+export default function SubmitButton({
+  label,
+  labelTextStyle,
+  backgroundColor,
+  progress,
+  disabled,
+  onPress,
+}: Props) {
+  const isSubmitDisabled =
+    progress.status === ProgressStatus.REQUEST ||
+    progress.status === ProgressStatus.SUCCESS ||
+    progress.status === ProgressStatus.ERROR ||
+    disabled;
 
-  static defaultProps = {
-    backgroundColor: BLUE_COLOR,
-    labelTextStyle: {
-      color: 'white',
-    },
-  };
+  const activityScaleRef = React.useRef(new Animated.Value(isSubmitDisabled ? 0 : 1));
+  const isLoading = progress.status === ProgressStatus.REQUEST;
 
-  constructor(props: Props) {
-    super(props);
-    this.activityScale = new Animated.Value(props.disabled ? 0 : 1);
-  }
+  React.useEffect(() => {
+    Animated.timing(activityScaleRef.current, {
+      toValue: isSubmitDisabled ? 0 : 1,
+      duration: 250,
+      useNativeDriver: false,
+    }).start();
+  }, [isSubmitDisabled]);
 
-  componentDidUpdate(prevProps: Props): void {
-    if (this.props.disabled !== prevProps.disabled) {
-      Animated.timing(this.activityScale, {
-        toValue: this.props.disabled ? 0 : 1,
-        duration: 250,
-        useNativeDriver: false,
-      }).start();
-    }
-  }
-  render() {
-    const { label, labelTextStyle, backgroundColor, disabled, loading, onPress } = this.props;
-
-    return (
-      <View style={styles.container}>
-        <RectButtonAnimated
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingHorizontal: MIN_PADDING_X,
-            paddingVertical: MIN_PADDING_Y,
-            minWidth: 100,
-            borderRadius: 5,
-            backgroundColor: this.activityScale.interpolate({
-              inputRange: [0, 1],
-              outputRange: [backgroundColor.saturate(20, true), backgroundColor.toString()],
-            }),
-          }}
-          activeOpacity={1}
-          underlayColor={backgroundColor.shade(-20)}
-          enabled={!disabled}
-          onPress={onPress}>
-          {loading ? (
-            <ActivityIndicator size="small" color={INACTIVE_ICON_COLOR.toString()} />
-          ) : (
-            <View>
-              <Text style={labelTextStyle}>{label}</Text>
-            </View>
-          )}
-        </RectButtonAnimated>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <RectButtonAnimated
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: MIN_PADDING_X,
+          paddingVertical: MIN_PADDING_Y,
+          minWidth: 100,
+          borderRadius: 5,
+          backgroundColor: activityScaleRef.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [backgroundColor.saturate(20, true), backgroundColor.toString()],
+          }),
+        }}
+        activeOpacity={1}
+        underlayColor={backgroundColor.shade(-20)}
+        enabled={!isSubmitDisabled}
+        onPress={onPress}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color={INACTIVE_ICON_COLOR.toString()} />
+        ) : (
+          <View>
+            <Text style={labelTextStyle}>{label}</Text>
+          </View>
+        )}
+      </RectButtonAnimated>
+    </View>
+  );
 }
+
+SubmitButton.defaultProps = {
+  backgroundColor: BLUE_COLOR,
+  labelTextStyle: {
+    color: 'white',
+  },
+};

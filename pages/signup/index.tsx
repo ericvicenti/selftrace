@@ -108,9 +108,9 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
       </FormContainer>
       <SubmitButton
         label={t('buttons.signup')}
+        progress={progress}
         disabled={submitDisabled}
         onPress={() => signupUser(email, password1)}
-        loading={progress.status === ProgressStatus.REQUEST}
       />
     </View>
   );

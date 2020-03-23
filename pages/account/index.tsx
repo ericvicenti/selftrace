@@ -55,7 +55,7 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function AccountPage({ signoutUser, pathname, authStatus, clearProgress }: Props) {
+function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgress }: Props) {
   React.useEffect(
     () => () => {
       clearProgress();
@@ -81,11 +81,11 @@ function AccountPage({ signoutUser, pathname, authStatus, clearProgress }: Props
         </A>
         <SubmitButton
           label={t('buttons.signout')}
-          disabled={false}
+          progress={progress}
+          backgroundColor={RED_COLOR}
           onPress={() => {
             signoutUser();
           }}
-          backgroundColor={RED_COLOR}
         />
       </View>
       <BottomTab pathname={pathname} />

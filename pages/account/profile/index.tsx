@@ -53,11 +53,7 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 
 function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgress }: Props) {
   const [email, setEmail] = React.useState(currentEmail);
-  const submitDisabled =
-    progress.status === ProgressStatus.REQUEST ||
-    progress.status === ProgressStatus.SUCCESS ||
-    !AuthUtils.isValidEmail(email) ||
-    email === currentEmail;
+  const submitDisabled = !AuthUtils.isValidEmail(email) || email === currentEmail;
 
   React.useEffect(
     () => () => {
@@ -80,11 +76,11 @@ function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgres
       </FormContainer>
       <SubmitButton
         label={t('buttons.update')}
+        progress={progress}
+        disabled={submitDisabled}
         onPress={() => {
           uploadUserInfo(uid, { email });
         }}
-        disabled={submitDisabled}
-        loading={progress.status === ProgressStatus.REQUEST}
       />
     </View>
   );
