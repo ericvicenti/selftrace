@@ -2433,7 +2433,7 @@
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router@*", "@types/react-router@^5.1.4":
+"@types/react-router@*":
   version "5.1.4"
   resolved "https://rival.jfrog.io/rival/api/npm/npm/@types/react-router/-/react-router-5.1.4.tgz#7d70bd905543cb6bcbdcc6bd98902332054f31a6"
   integrity sha1-fXC9kFVDy2vL3Ma9mJAjMgVPMaY=
