@@ -39,7 +39,9 @@
       "userTestedPositive": "",
       "userShowingSymptoms": "",
       "testedPositive": "",
-      "showingSymptoms": ""
+      "showingSymptoms": "",
+      "chooseWellbeingTitle": "",
+      "chooseWellbeingMessage": ""
     }
   },
   "form": {
