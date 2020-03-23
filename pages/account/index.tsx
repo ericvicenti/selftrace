@@ -76,7 +76,7 @@ function AccountPage({ signoutUser, pathname, authStatus, clearProgress }: Props
         <A href="/account/profile">
           <Text>{t('screens.account.profile')}</Text>
         </A>
-        <A href="/account/profile">
+        <A href="/account/update-password">
           <Text>{t('screens.account.updatePassword')}</Text>
         </A>
         <SubmitButton

@@ -60,6 +60,7 @@ const mapStateToProps = (state: ReduxRoot) => ({
   currentWellbeing: state.auth.userInfo.wellbeing,
   progress: state.auth.userInfo.progress,
   authStatus: state.auth.status,
+  uid: state.auth.userInfo.uid,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
@@ -87,7 +88,7 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
   pathname: string;
 }
 
-function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo }: Props) {
+function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
 
   // TODO: Clean up
@@ -166,7 +167,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo }: Prop
         <SubmitButton
           label={t('buttons.update')}
           onPress={() => {
-            uploadUserInfo({ wellbeing: wellbeing!.valueOf() });
+            uploadUserInfo(uid, { wellbeing: wellbeing!.valueOf() });
           }}
           disabled={submitDisabled}
           loading={progress.status === ProgressStatus.REQUEST}
