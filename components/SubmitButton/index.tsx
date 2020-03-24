@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
   base: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: Paddings.MIN_X,
-    paddingVertical: Paddings.MIN_Y,
+    paddingHorizontal: Paddings.X,
+    paddingVertical: Paddings.Y,
     padding: 15,
     minWidth: 100,
     borderRadius: 5,
@@ -66,6 +66,7 @@ export default function SubmitButton({
           paddingHorizontal: Paddings.MIN_X,
           paddingVertical: Paddings.MIN_Y,
           minWidth: 100,
+          minHeight: 40,
           borderRadius: 5,
           backgroundColor: activityScaleRef.current.interpolate({
             inputRange: [0, 1],

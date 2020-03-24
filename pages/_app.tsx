@@ -5,12 +5,13 @@ import Head from 'next/head';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
+// import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalFooter from '../components/GlobalFooter';
 import Layout from '../components/Layout';
-import { initStore } from '../store';
+// import { initStore } from '../store';
+import store from '../store';
 import '../config/localization';
 
 // Sentry.init({
@@ -26,7 +27,11 @@ const site = {
 const themeColor = '#fff';
 
 function App(props: any) {
-  const { pageProps, Component, store } = props;
+  const {
+    pageProps,
+    Component,
+    //  store
+  } = props;
 
   return (
     <Provider store={store}>
@@ -64,7 +69,7 @@ function App(props: any) {
           `,
           }}
         />
-        <link rel="manifest" href="/manifest.webmanifest"></link>
+        <link rel="manifest" href="/manifest.webmanifest" />
         {/* <GoogleAnalytics id="UA-107832480-1" /> */}
         {injectMeta.map((value, index) => {
           return <meta key={`meta-${index}`} {...value} />;
@@ -139,14 +144,20 @@ const injectMeta = [
   // { property: 'og:image:alt', content: image.description },
 ];
 
+/* eslint-disable */
 if (typeof navigator == 'object' && 'serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('/sw.js').then(function (registration) {
-      console.log('SW registered: ', registration)
-    }).catch(function (error) {
-      console.log('SW registration failed: ', error)
-    })
-  })
+  window.addEventListener('load', function() {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(function(registration) {
+        console.log('SW registered: ', registration);
+      })
+      .catch(function(error) {
+        console.log('SW registration failed: ', error);
+      });
+  });
 }
+/* eslint-enable */
 
-export default withRedux(initStore)(App);
+export default App;
+// export default withRedux(initStore)(App);
