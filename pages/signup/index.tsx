@@ -17,6 +17,7 @@ import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
 import AuthUtils from '../../util/AuthUtils';
 import { Colors, Margins } from '../../styles';
+import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
   container: {
@@ -76,9 +77,8 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
     !AuthUtils.isValidPassword(password1) ||
     !AuthUtils.isValidEmail(email);
 
-  // Todo: create flex Loading component
   if (authStatus === AuthStatus.SignedIn) {
-    return null;
+    return <FlexLoader />;
   }
 
   return (

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { View } from 'react-native';
 // import * as Sentry from '@sentry/node';
 import Head from 'next/head';
 import { AppearanceProvider } from 'react-native-appearance';
@@ -34,6 +35,24 @@ function App(props: any) {
         <style
           dangerouslySetInnerHTML={{
             __html: `
+            html,
+            body {
+              position: relative;
+              margin: 0;
+              border: 0;
+              padding: 0;
+              width: 100%;
+              height: 100%;
+            }
+          
+            html,
+            body,
+            #__next {
+              display: flex;
+              flex-direction: column;
+              flex-grow: 1;
+            }
+
             @font-face {
               font-family: 'office-code';
               src: url(${require('../assets/fonts/OfficeCodePro-Regular.eot')});
@@ -56,13 +75,13 @@ function App(props: any) {
       <SafeAreaProvider>
         <AppearanceProvider>
           <CustomAppearanceProvider>
-            <>
+            <View style={{ flex: 1 }}>
               <Favicon />
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-              <GlobalFooter />
-            </>
+            </View>
+            <GlobalFooter />
           </CustomAppearanceProvider>
         </AppearanceProvider>
       </SafeAreaProvider>
