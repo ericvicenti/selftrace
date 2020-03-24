@@ -64,6 +64,7 @@ function App(props: any) {
           `,
           }}
         />
+        <link rel="manifest" href="/manifest.webmanifest"></link>
         {/* <GoogleAnalytics id="UA-107832480-1" /> */}
         {injectMeta.map((value, index) => {
           return <meta key={`meta-${index}`} {...value} />;
@@ -137,5 +138,15 @@ const injectMeta = [
   // { property: 'og:image:height', content: image.height },
   // { property: 'og:image:alt', content: image.description },
 ];
+
+if (typeof navigator == 'object' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').then(function (registration) {
+      console.log('SW registered: ', registration)
+    }).catch(function (error) {
+      console.log('SW registration failed: ', error)
+    })
+  })
+}
 
 export default withRedux(initStore)(App);
