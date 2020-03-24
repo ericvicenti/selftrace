@@ -1,18 +1,15 @@
 import * as React from 'react';
 // import * as Sentry from '@sentry/node';
 import Head from 'next/head';
-import { View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
-import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import Layout from '../components/Layout';
 import { initStore } from '../store';
-import data from '../assets/data.json';
 import '../config/localization';
 
 // Sentry.init({
@@ -51,9 +48,7 @@ function App(props: any) {
           `,
           }}
         />
-
         {/* <GoogleAnalytics id="UA-107832480-1" /> */}
-
         {injectMeta.map((value, index) => {
           return <meta key={`meta-${index}`} {...value} />;
         })}
@@ -63,20 +58,10 @@ function App(props: any) {
           <CustomAppearanceProvider>
             <>
               <Favicon />
-              <View
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  maxWidth: 1300,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                }}>
-                <GlobalHeader count={data.libraries.length} />
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-                <GlobalFooter />
-              </View>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <GlobalFooter />
             </>
           </CustomAppearanceProvider>
         </AppearanceProvider>

@@ -2,16 +2,24 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Router from 'next/router';
 import Icon, { IconName } from '../Icon';
-import { Colors } from '../../styles';
+import { Main, Colors, Paddings } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     flexDirection: 'row',
-    height: 60,
+    minHeight: Main.HEADER_HEIGHT,
     alignItems: 'center',
     justifyContent: 'space-around',
+    shadowRadius: 3,
+    shadowColor: Colors.SHADOW.toString(),
+    shadowOffset: {
+      height: 0.5,
+      width: 0,
+    },
+    paddingVertical: Paddings.MAX_Y,
   },
+  touchable: {},
 });
 
 interface Props {
@@ -32,7 +40,7 @@ export default function TabNavigator({ pathname }: Props) {
   return (
     <View style={styles.container}>
       {tabs.map(t => (
-        <TouchableOpacity onPress={onPress(t.path)} key={t.path}>
+        <TouchableOpacity onPress={onPress(t.path)} key={t.path} style={styles.touchable}>
           <Icon
             name={t.iconName!}
             color={

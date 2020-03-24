@@ -16,7 +16,7 @@ export const Colors = {
   LIGHT_GRAY_BG: rgb(242, 242, 242),
   TOUCH: rgb(225, 225, 225),
   BORDER: rgb(225, 225, 225),
-  SHADOW: rgb(200, 200, 200),
+  SHADOW: rgb(215, 215, 215),
   INACTIVE_ICON: rgb(175, 175, 175),
   INACTIVE_TEXT: rgb(125, 125, 125),
   DARK_TEXT: rgb(60, 60, 60),

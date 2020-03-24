@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
 export const Main = {
-  HEADER_HEIGHT: 50,
+  HEADER_HEIGHT: 60,
   BOTTOM_TAB_HEIGHT: 50,
   FORM_INPUT_HEIGHT: 80,
   W_WIDTH,
@@ -25,6 +25,8 @@ export const Paddings = {
   MIN_Y: 10,
   X: 15,
   Y: 15,
+  MAX_X: 20,
+  MAX_Y: 20,
 };
 
 export * from './colors';
