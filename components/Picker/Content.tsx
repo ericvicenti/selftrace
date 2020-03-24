@@ -7,16 +7,20 @@ import {
   View,
 } from 'react-native';
 import withDelayedUnmount from '../../hocs/withDelayedUnmount';
+import { Paddings } from '../../styles';
 import { Colors } from '../../styles/colors';
 
-const PICKER_HEIGHT = 300;
+const PICKER_CONTAINER_HEIGHT = 120;
 
 const styles = StyleSheet.create({
   container: {
+    height: PICKER_CONTAINER_HEIGHT,
+    justifyContent: 'center',
+    paddingHorizontal: Paddings.X,
     zIndex: -1,
   },
   picker: {
-    height: PICKER_HEIGHT,
+    borderColor: 'white',
     justifyContent: 'center',
   },
   border: {
@@ -44,7 +48,7 @@ function Content({ scale, items, ...rest }: ContentProps) {
         {
           marginTop: scale.interpolate({
             inputRange: [0, 1],
-            outputRange: [-PICKER_HEIGHT, 0],
+            outputRange: [-PICKER_CONTAINER_HEIGHT, 0],
           }),
         },
       ]}>
