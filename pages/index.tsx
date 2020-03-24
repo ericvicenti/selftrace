@@ -84,6 +84,11 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
     Router.push(path);
   };
 
+  // Todo: create flex Loading component
+  if (authStatus === AuthStatus.SignedIn) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo.png')} />

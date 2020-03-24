@@ -68,6 +68,11 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
     Router.push(path);
   };
 
+  // Todo: create flex Loading component
+  if (authStatus === AuthStatus.SignedOut) {
+    return null;
+  }
+
   return (
     <>
       <TabNavigator pathname={pathname} />
