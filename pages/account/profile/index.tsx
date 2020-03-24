@@ -10,7 +10,6 @@ import EmailInput from '../../../components/TextInput/Email';
 import Text from '../../../components/Text';
 import AuthUtils from '../../../util/AuthUtils';
 import SubmitButton from '../../../components/SubmitButton';
-import { ProgressStatus } from '../../../data-types';
 import { Action, Dispatch } from '../../../actions';
 import * as Actions from '../../../actions/auth/userInfo';
 import { ReduxRoot } from '../../../reducers';

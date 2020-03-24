@@ -11,7 +11,7 @@ import FormContainer from '../components/FormContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
-import { ProgressStatus, AuthStatus } from '../data-types';
+import { AuthStatus } from '../data-types';
 import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';

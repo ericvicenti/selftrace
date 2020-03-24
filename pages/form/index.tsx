@@ -16,7 +16,7 @@ import { ReduxRoot } from '../../reducers';
 import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
 import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
 import { MARGIN_Y, W_MARGIN, MIN_MARGIN_Y } from '../../styles';
-import { Wellbeing, ProgressStatus } from '../../data-types';
+import { Wellbeing } from '../../data-types';
 
 const styles = StyleSheet.create({
   container: {

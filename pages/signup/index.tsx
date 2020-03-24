@@ -13,7 +13,7 @@ import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import { PRIMARY_COLOR } from '../../styles/colors';
 import { MARGIN_Y } from '../../styles';
-import { ProgressStatus, AuthStatus } from '../../data-types';
+import { AuthStatus } from '../../data-types';
 import { ReduxRoot, isAuthDisabled } from '../../reducers';
 import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
