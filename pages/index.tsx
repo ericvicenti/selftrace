@@ -81,7 +81,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
 
-  const onPressLink = (path: string) => () => {
+  const onLinkPress = (path: string) => () => {
     Router.push(path);
   };
 
@@ -110,12 +110,10 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
       />
-
-      <TouchableOpacity onPress={onPressLink('/reset-password')}>
+      <TouchableOpacity onPress={onLinkPress('/reset-password')}>
         <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={onPressLink('/signup')}>
+      <TouchableOpacity onPress={onLinkPress('/signup')}>
         <Text style={styles.signupButton}> {t('buttons.signup')}</Text>
       </TouchableOpacity>
     </View>
