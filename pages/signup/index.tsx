@@ -76,6 +76,11 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
     !AuthUtils.isValidPassword(password1) ||
     !AuthUtils.isValidEmail(email);
 
+  // Todo: create flex Loading component
+  if (authStatus === AuthStatus.SignedIn) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t('headers.signup')}</Text>
