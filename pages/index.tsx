@@ -15,8 +15,7 @@ import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
-import { MIN_MARGIN_Y, MARGIN_Y, MAX_MARGIN_Y } from '../styles';
-import { Colors.BLUE, Colors.INACTIVE_TEXT } from '../styles/colors';
+import { Colors, Margins } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,15 +29,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    marginTop: MIN_MARGIN_Y,
+    marginTop: Margins.MIN_Y,
   },
   forgotPasswordButton: {
-    marginTop: MAX_MARGIN_Y,
+    marginTop: Margins.MAX_Y,
     color: Colors.INACTIVE_TEXT.toString(),
     fontSize: 16,
   },
   signupButton: {
-    marginTop: 3 * MARGIN_Y,
+    marginTop: 3 * Margins.Y,
     color: Colors.BLUE.toString(),
     fontSize: 16,
   },

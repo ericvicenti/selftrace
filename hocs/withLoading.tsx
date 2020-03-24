@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Color from '../styles/Color';
-import { Colors.INACTIVE_ICON } from '../styles/colors';
+import { Colors } from '../styles/colors';
 
 interface WithLoadingProps {
   loading?: boolean;

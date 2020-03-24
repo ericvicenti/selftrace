@@ -11,13 +11,12 @@ import EmailInput from '../../components/TextInput/Email';
 import PasswordInput from '../../components/TextInput/Password';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
-import { Colors.PRIMARY } from '../../styles/colors';
-import { MARGIN_Y } from '../../styles';
 import { AuthStatus } from '../../data-types';
 import { ReduxRoot, isAuthDisabled } from '../../reducers';
 import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
 import AuthUtils from '../../util/AuthUtils';
+import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    marginTop: MARGIN_Y,
+    marginTop: Margins.Y,
   },
 });
 
