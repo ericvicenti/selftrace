@@ -1,10 +1,9 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { A } from '@expo/html-elements';
 import Router from 'next/router';
 import { t } from 'i18n-js';
 import FormContainer from '../components/FormContainer';
@@ -36,10 +35,12 @@ const styles = StyleSheet.create({
   forgotPasswordButton: {
     marginTop: MAX_MARGIN_Y,
     color: INACTIVE_TEXT_COLOR.toString(),
+    fontSize: 16,
   },
   signupButton: {
     marginTop: 3 * MARGIN_Y,
     color: BLUE_COLOR.toString(),
+    fontSize: 16,
   },
 });
 
@@ -80,6 +81,10 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
 
+  const onLinkPress = (path: string) => () => {
+    Router.push(path);
+  };
+
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo.png')} />
@@ -105,12 +110,12 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
       />
-      <A href="/reset-password" style={styles.forgotPasswordButton}>
-        {t('buttons.forgotPassword')}
-      </A>
-      <A href="/signup" style={styles.signupButton}>
-        {t('buttons.signup')}
-      </A>
+      <TouchableOpacity onPress={onLinkPress('/reset-password')}>
+        <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onLinkPress('/signup')}>
+        <Text style={styles.signupButton}> {t('buttons.signup')}</Text>
+      </TouchableOpacity>
     </View>
   );
 }

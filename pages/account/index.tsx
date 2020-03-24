@@ -1,8 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View } from 'react-native';
-import { A } from '@expo/html-elements';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -69,16 +68,20 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
     }
   }, [authStatus]);
 
+  const onLinkPress = (path: string) => () => {
+    Router.push(path);
+  };
+
   return (
     <>
       <View style={styles.container}>
         <Text style={styles.title}>{t('headers.account')}</Text>
-        <A href="/account/profile">
+        <TouchableOpacity onPress={onLinkPress('/account/profile')}>
           <Text>{t('screens.account.profile')}</Text>
-        </A>
-        <A href="/account/update-password">
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onLinkPress('/account/update-password')}>
           <Text>{t('screens.account.updatePassword')}</Text>
-        </A>
+        </TouchableOpacity>
         <SubmitButton
           label={t('buttons.signout')}
           progress={progress}
