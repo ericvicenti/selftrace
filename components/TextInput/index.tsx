@@ -6,12 +6,16 @@ import {
   TextStyle,
   ViewStyle,
   StyleSheet,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Text from '../Text';
 import { FORM_INPUT_HEIGHT, W_MARGIN, MARGIN_X } from '../../styles';
 import { MAIN_FONT_FAMILY } from '../../styles/typography';
-import { INACTIVE_TEXT_COLOR, BORDER_COLOR, BLUE_COLOR } from '../../styles/colors';
+import {
+  INACTIVE_TEXT_COLOR,
+  BORDER_COLOR,
+  BLUE_COLOR,
+  LIGHT_GRAY_BG_COLOR,
+} from '../../styles/colors';
 
 const baseStyles = StyleSheet.create({
   container: {
@@ -29,10 +33,12 @@ const baseStyles = StyleSheet.create({
     marginRight: MARGIN_X,
   },
   textInput: {
+    backgroundColor: LIGHT_GRAY_BG_COLOR.toString(),
     flex: 1,
     fontSize: 14,
     fontFamily: MAIN_FONT_FAMILY,
     height: 40,
+    paddingHorizontal: MARGIN_X,
   },
 });
 
@@ -91,73 +97,68 @@ export default class TextInput extends React.PureComponent<TextInputProps> {
     delete rest.onFocus;
 
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          if (this.textInputRef.current) this.textInputRef.current.focus();
-        }}>
-        <Animated.View
-          style={[baseStyles.container, { borderBottomColor: this.borderBottomColor }, style]}>
-          <Text animated style={[baseStyles.label, { color: this.labelColor }, labelStyle]}>
-            {label}
-          </Text>
-          <RNTextInput
-            ref={this.textInputRef}
-            style={[baseStyles.textInput, textInputStyle]}
-            allowFontScaling // d
-            autoCapitalize="none"
-            autoCompleteType="off" // android
-            autoCorrect={false}
-            autoFocus={false} // d
-            blurOnSubmit
-            caretHidden={false} // d
-            clearButtonMode="while-editing" // ios
-            clearTextOnFocus={false} // ios
-            contextMenuHidden={false}
-            dataDetectorTypes="none" // ios
-            // defaultValue={undefined}
-            disableFullscreenUI={false} // android
-            editable
-            enablesReturnKeyAutomatically // ios
-            // importantForAutofill='auto' // android TODO: add
-            // inlineImageLeft={undefined} android
-            // inlineImagePadding={undefined} android
-            // inputAccessoryViewID={undefined} // ios
-            keyboardAppearance="dark" // ios
-            keyboardType="default"
-            // maxFontSizeMultiplier={undefined}
-            maxLength={150}
-            multiline={false}
-            // numberOfLines={undefined} android
-            onBlur={this.handleBlur}
-            // onChange={undefined}
-            // onChangeText={() => {}}
-            // onContentSizeChange={undefined}
-            // onEndEditing={undefined}
-            onFocus={this.handleFocus}
-            // onKeyPress={undefined}
-            // onLayout={undefined}
-            // onScroll={undefined}
-            // onSelectionChange={undefined}
-            onSubmitEditing={undefined}
-            // placeholder='Enter a text'
-            placeholderTextColor={INACTIVE_TEXT_COLOR.toString()}
-            // returnKeyLabel='Done' // android
-            returnKeyType="done"
-            // rejectResponderTermination // ios TODO: add
-            scrollEnabled // ios
-            secureTextEntry={false}
-            selectionColor={BLUE_COLOR.toString()}
-            // selection
-            // selectionState
-            selectTextOnFocus={false}
-            spellCheck={false}
-            textContentType="none" // ios
-            textBreakStrategy="highQuality" // android
-            // value
-            {...rest}
-          />
-        </Animated.View>
-      </TouchableWithoutFeedback>
+      <Animated.View
+        style={[baseStyles.container, { borderBottomColor: this.borderBottomColor }, style]}>
+        <Text animated style={[baseStyles.label, { color: this.labelColor }, labelStyle]}>
+          {label}
+        </Text>
+        <RNTextInput
+          ref={this.textInputRef}
+          style={[baseStyles.textInput, textInputStyle]}
+          allowFontScaling // d
+          autoCapitalize="none"
+          autoCompleteType="off" // android
+          autoCorrect={false}
+          autoFocus={false} // d
+          blurOnSubmit
+          caretHidden={false} // d
+          clearButtonMode="while-editing" // ios
+          clearTextOnFocus={false} // ios
+          contextMenuHidden={false}
+          dataDetectorTypes="none" // ios
+          // defaultValue={undefined}
+          disableFullscreenUI={false} // android
+          editable
+          enablesReturnKeyAutomatically // ios
+          // importantForAutofill='auto' // android TODO: add
+          // inlineImageLeft={undefined} android
+          // inlineImagePadding={undefined} android
+          // inputAccessoryViewID={undefined} // ios
+          keyboardAppearance="dark" // ios
+          keyboardType="default"
+          // maxFontSizeMultiplier={undefined}
+          maxLength={150}
+          multiline={false}
+          // numberOfLines={undefined} android
+          onBlur={this.handleBlur}
+          // onChange={undefined}
+          // onChangeText={() => {}}
+          // onContentSizeChange={undefined}
+          // onEndEditing={undefined}
+          onFocus={this.handleFocus}
+          // onKeyPress={undefined}
+          // onLayout={undefined}
+          // onScroll={undefined}
+          // onSelectionChange={undefined}
+          onSubmitEditing={undefined}
+          // placeholder='Enter a text'
+          placeholderTextColor={INACTIVE_TEXT_COLOR.toString()}
+          // returnKeyLabel='Done' // android
+          returnKeyType="done"
+          // rejectResponderTermination // ios TODO: add
+          scrollEnabled // ios
+          secureTextEntry={false}
+          selectionColor={BLUE_COLOR.toString()}
+          // selection
+          // selectionState
+          selectTextOnFocus={false}
+          spellCheck={false}
+          textContentType="none" // ios
+          textBreakStrategy="highQuality" // android
+          // value
+          {...rest}
+        />
+      </Animated.View>
     );
   }
 }
