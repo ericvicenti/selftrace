@@ -17,4 +17,6 @@ if (__DEV__) {
   // middleware.push(logger);
 }
 
-export const initStore = () => createStore(reducers, {}, applyMiddleware(...middleware));
+export default createStore(reducers, {}, applyMiddleware(...middleware));
+
+// export const initStore = () => createStore(reducers, {}, applyMiddleware(...middleware));

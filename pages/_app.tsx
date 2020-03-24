@@ -4,12 +4,13 @@ import Head from 'next/head';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
+// import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import GlobalFooter from '../components/GlobalFooter';
 import Layout from '../components/Layout';
-import { initStore } from '../store';
+// import { initStore } from '../store';
+import store from '../store';
 import '../config/localization';
 
 // Sentry.init({
@@ -25,7 +26,11 @@ const site = {
 const themeColor = '#fff';
 
 function App(props: any) {
-  const { pageProps, Component, store } = props;
+  const {
+    pageProps,
+    Component,
+    //  store
+  } = props;
 
   return (
     <Provider store={store}>
@@ -122,4 +127,6 @@ const injectMeta = [
   // { property: 'og:image:alt', content: image.description },
 ];
 
-export default withRedux(initStore)(App);
+// export default withRedux(initStore)(App);
+
+export default App;
