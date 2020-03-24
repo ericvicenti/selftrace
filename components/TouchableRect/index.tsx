@@ -2,18 +2,17 @@ import React, { ReactElement, ReactNode } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { RectButton, RectButtonProperties } from 'react-native-gesture-handler';
-import { TOUCH_COLOR, BORDER_COLOR, WHITE_BG_COLOR } from '../../styles/colors';
-import { W_WIDTH, W_MARGIN, PADDING_Y } from '../../styles';
+import { Main, Colors, Margins, Paddings } from '../../styles';
 
 const baseStyles = StyleSheet.create({
   touchable: {
     minHeight: 60,
     flexDirection: 'row',
     alignItems: 'center',
-    width: W_WIDTH,
-    backgroundColor: WHITE_BG_COLOR.toString(),
-    paddingHorizontal: W_MARGIN,
-    paddingVertical: PADDING_Y,
+    width: Main.W_WIDTH,
+    backgroundColor: Colors.WHITE_BG.toString(),
+    paddingHorizontal: Margins.WINDOW,
+    paddingVertical: Paddings.Y,
   },
 });
 
@@ -57,12 +56,12 @@ function TouchableRect({
     <View
       style={{
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: BORDER_COLOR.toString(),
+        borderBottomColor: Colors.BORDER.toString(),
         ...containerStyle,
       }}>
       <RectButton
         onPress={onPressFinal}
-        underlayColor={TOUCH_COLOR.toString()}
+        underlayColor={Colors.TOUCH.toString()}
         activeOpacity={1}
         style={[baseStyles.touchable, style]}
         {...rest}>

@@ -10,13 +10,11 @@ import Picker from '../../components/Picker';
 import TabNavigator from '../../components/TabNavigator';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
+import { Wellbeing } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { PRIMARY_COLOR, BORDER_COLOR } from '../../styles/colors';
-import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
-import { MARGIN_Y, W_MARGIN, MIN_MARGIN_Y } from '../../styles';
-import { Wellbeing } from '../../data-types';
+import { Colors, Margins, Typography } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,13 +23,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   topText: {
-    ...INACTIVE_TEXT_STYLES,
+    ...Typography.INACTIVE_TEXT_STYLES,
   },
   descriptionText: {
     marginBottom: 5,
   },
   noteSection: {
-    marginTop: MIN_MARGIN_Y,
+    marginTop: Margins.MIN_Y,
   },
   noteTitle: {
     fontSize: 12,
@@ -41,18 +39,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   textContainer: {
-    padding: W_MARGIN,
+    padding: Margins.WINDOW,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER_COLOR.toString(),
+    borderBottomColor: Colors.BORDER.toString(),
   },
   title: {
     fontWeight: '900',
-    color: PRIMARY_COLOR.toString(),
+    color: Colors.PRIMARY.toString(),
     fontSize: 28,
   },
   formContainer: {
     width: '100%',
-    marginTop: MARGIN_Y,
+    marginTop: Margins.Y,
   },
 });
 

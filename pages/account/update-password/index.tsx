@@ -14,8 +14,7 @@ import { ProgressStatus } from '../../../data-types';
 import { Action, Dispatch } from '../../../actions';
 import * as Actions from '../../../actions/auth/updatePassword';
 import { ReduxRoot } from '../../../reducers';
-import { PRIMARY_COLOR } from '../../../styles/colors';
-import { MARGIN_Y } from '../../../styles';
+import { Colors, Margins } from '../../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,12 +24,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '900',
-    color: PRIMARY_COLOR.toString(),
+    color: Colors.PRIMARY.toString(),
     fontSize: 28,
   },
   formContainer: {
     width: '100%',
-    marginTop: MARGIN_Y,
+    marginTop: Margins.Y,
   },
 });
 

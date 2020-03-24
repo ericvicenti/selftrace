@@ -3,10 +3,9 @@ import { View, StyleSheet, Animated, ViewStyle } from 'react-native';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import { SECTION_APPEAR_DURATION } from '../../styles/animations';
-import { INACTIVE_TEXT_COLOR, WHITE_BG_COLOR, BORDER_COLOR } from '../../styles/colors';
-import { W_MARGIN } from '../../styles';
+import { Colors, Margins } from '../../styles';
 
-const FORM_BG_COLOR = WHITE_BG_COLOR.toString();
+const FORM_BG_COLOR = Colors.WHITE_BG.toString();
 const PROGRESS_SECTION_HEIGHT = 70;
 
 const styles = StyleSheet.create({
@@ -21,13 +20,13 @@ const styles = StyleSheet.create({
     height: PROGRESS_SECTION_HEIGHT,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: W_MARGIN,
+    paddingHorizontal: Margins.WINDOW,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: BORDER_COLOR.toString(),
+    borderBottomColor: Colors.BORDER.toString(),
   },
   progressMessage: {
     fontSize: 13,
-    color: INACTIVE_TEXT_COLOR.toString(),
+    color: Colors.INACTIVE_TEXT.toString(),
     textAlign: 'center',
   },
 });

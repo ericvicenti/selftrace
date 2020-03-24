@@ -4,20 +4,19 @@ import { RectButton } from 'react-native-gesture-handler';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import Color from '../../styles/Color';
-import { INACTIVE_ICON_COLOR, BLUE_COLOR } from '../../styles/colors';
-import { MIN_PADDING_X, MIN_PADDING_Y, MAX_MARGIN_Y } from '../../styles';
+import { Colors, Paddings, Margins } from '../../styles';
 
 const RectButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
 export const styles = StyleSheet.create({
   container: {
-    marginTop: MAX_MARGIN_Y,
+    marginTop: Margins.MAX_Y,
   },
   base: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: MIN_PADDING_X,
-    paddingVertical: MIN_PADDING_Y,
+    paddingHorizontal: Paddings.MIN_X,
+    paddingVertical: Paddings.MIN_Y,
     padding: 15,
     minWidth: 100,
     borderRadius: 5,
@@ -64,8 +63,8 @@ export default function SubmitButton({
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          paddingHorizontal: MIN_PADDING_X,
-          paddingVertical: MIN_PADDING_Y,
+          paddingHorizontal: Paddings.MIN_X,
+          paddingVertical: Paddings.MIN_Y,
           minWidth: 100,
           borderRadius: 5,
           backgroundColor: activityScaleRef.current.interpolate({
@@ -78,7 +77,7 @@ export default function SubmitButton({
         enabled={!isSubmitDisabled}
         onPress={onPress}>
         {isLoading ? (
-          <ActivityIndicator size="small" color={INACTIVE_ICON_COLOR.toString()} />
+          <ActivityIndicator size="small" color={Colors.INACTIVE_ICON.toString()} />
         ) : (
           <View>
             <Text style={labelTextStyle}>{label}</Text>
@@ -90,7 +89,7 @@ export default function SubmitButton({
 }
 
 SubmitButton.defaultProps = {
-  backgroundColor: BLUE_COLOR,
+  backgroundColor: Colors.BLUE,
   labelTextStyle: {
     color: 'white',
   },

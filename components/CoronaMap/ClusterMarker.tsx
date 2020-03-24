@@ -4,7 +4,7 @@ import { Marker, Callout, CalloutSubview } from 'react-native-maps';
 import i18n from 'i18n-js';
 import Text from '../Text';
 import { ClusterObject } from '../../data-types';
-import { CLUSTER_BASE_COLOR } from '../../styles/colors';
+import { Colors } from '../../styles';
 
 const BASE_DIAMETER = 30;
 // BASE_DIAMETER + MAX_DELTA will be maximum marker diameter (size)
@@ -41,7 +41,7 @@ export default function ClusterMarker({ cluster }: Props) {
 
   const perc = Math.min(1, (0.9 * (size - 1)) / size);
   const diameter = BASE_DIAMETER + perc * MAX_DELTA;
-  const backgroundColor = CLUSTER_BASE_COLOR.lighten(-perc * 5);
+  const backgroundColor = Colors.CLUSTER_BASE.lighten(-perc * 5);
 
   return (
     <Marker

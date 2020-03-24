@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Text as RNText, TextProps as RNTextProps, Animated, TextStyle } from 'react-native';
-import { MAIN_FONT_FAMILY } from '../../styles/typography';
-import { BLACK_TEXT_COLOR } from '../../styles/colors';
+import { Text as RNText, TextProps as RNTextProps, Animated } from 'react-native';
+import { Colors, Typography } from '../../styles';
 
 export interface TextProps extends RNTextProps {
   children: ReactNode;
@@ -15,9 +14,9 @@ function Text({ children, animated, style, ...rest }: TextProps) {
     <Wrapper
       style={[
         {
-          fontFamily: MAIN_FONT_FAMILY,
+          fontFamily: Typography.MAIN_FONT_FAMILY,
           fontSize: 14, // TODO: import from /styles/typography
-          color: BLACK_TEXT_COLOR.toString(),
+          color: Colors.BLACK_TEXT.toString(),
         },
         style,
       ]}

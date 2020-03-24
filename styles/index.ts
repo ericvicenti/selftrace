@@ -1,28 +1,31 @@
 import { Dimensions } from 'react-native';
-import Constants from 'expo-constants';
 
-export const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
+const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
-// General margins
-export const MIN_MARGIN_X = 5;
-export const MIN_MARGIN_Y = 10;
-export const MARGIN_X = 15;
-export const MARGIN_Y = 20;
-export const MAX_MARGIN_X = 25;
-export const MAX_MARGIN_Y = 30;
+export const Main = {
+  HEADER_HEIGHT: 50,
+  BOTTOM_TAB_HEIGHT: 50,
+  FORM_INPUT_HEIGHT: 80,
+  W_WIDTH,
+  W_HEIGHT,
+};
 
-// Minimum distance from a window edge and a UI element
-export const W_MARGIN = 20;
+export const Margins = {
+  MIN_X: 5,
+  MIN_Y: 10,
+  X: 15,
+  Y: 20,
+  MAX_X: 25,
+  MAX_Y: 30,
+  WINDOW: 20, // Minimum distance from a window edge and a UI element
+};
 
-// Paddings
-export const MIN_PADDING_X = 10;
-export const MIN_PADDING_Y = 10;
-export const PADDING_X = 15;
-export const PADDING_Y = 15;
+export const Paddings = {
+  MIN_X: 10,
+  MIN_Y: 10,
+  X: 15,
+  Y: 15,
+};
 
-// Main Element Styles
-export const STATUS_BAR_HEIGHT = Constants.statusBarHeight;
-export const RAW_HEADER_HEIGHT = 50;
-export const HEADER_HEIGHT = STATUS_BAR_HEIGHT + RAW_HEADER_HEIGHT;
-export const BOTTOM_TAB_HEIGHT = 50;
-export const FORM_INPUT_HEIGHT = 80;
+export * from './colors';
+export * from './typography';

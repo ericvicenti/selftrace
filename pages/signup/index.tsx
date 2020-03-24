@@ -11,7 +11,7 @@ import EmailInput from '../../components/TextInput/Email';
 import PasswordInput from '../../components/TextInput/Password';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
-import { PRIMARY_COLOR } from '../../styles/colors';
+import { Colors.PRIMARY } from '../../styles/colors';
 import { MARGIN_Y } from '../../styles';
 import { AuthStatus } from '../../data-types';
 import { ReduxRoot, isAuthDisabled } from '../../reducers';
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '900',
-    color: PRIMARY_COLOR.toString(),
+    color: Colors.PRIMARY.toString(),
     fontSize: 28,
   },
   formContainer: {

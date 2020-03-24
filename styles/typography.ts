@@ -1,17 +1,19 @@
 import { Platform, TextStyle } from 'react-native';
-import { INACTIVE_TEXT_COLOR } from './colors';
+import { Colors } from './colors';
 
-export const INACTIVE_TEXT_STYLES: TextStyle = {
+const INACTIVE_TEXT_STYLES: TextStyle = {
   fontWeight: '600',
-  color: INACTIVE_TEXT_COLOR.toString(),
+  color: Colors.INACTIVE_TEXT.toString(),
 };
 
-export const MAIN_FONT_FAMILY = Platform.select({
-  //   ios: 'Helvetica Neue',
-  android: 'notoserif',
-});
-
-export const HEADER_FONT_FAMILY = Platform.select({
-  ios: 'AvenirNext-Heavy',
-  android: 'notoserif',
-});
+export const Typography = {
+  MAIN_FONT_FAMILY: Platform.select({
+    //   ios: 'Helvetica Neue',
+    android: 'notoserif',
+  }),
+  HEADER_FONT_FAMILY: Platform.select({
+    ios: 'AvenirNext-Heavy',
+    android: 'notoserif',
+  }),
+  INACTIVE_TEXT_STYLES,
+};

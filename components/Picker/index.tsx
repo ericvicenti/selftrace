@@ -3,8 +3,7 @@ import { View, StyleSheet, TextStyle, Animated } from 'react-native';
 import Text from '../Text';
 import TouchableRect, { TouchableRectProps } from '../TouchableRect';
 import Content, { ContentProps } from './Content';
-import { MARGIN_X, W_MARGIN } from '../../styles';
-import { INACTIVE_TEXT_STYLES } from '../../styles/typography';
+import { Margins, Typography } from '../../styles';
 
 const ANIMATION_DURATION = 200;
 
@@ -14,14 +13,14 @@ const styles = StyleSheet.create({
   },
   touchableRect: {
     width: '100%',
-    paddingHorizontal: W_MARGIN,
+    paddingHorizontal: Margins.WINDOW,
     flexDirection: 'row',
     alignItems: 'center',
   },
   label: {
-    ...INACTIVE_TEXT_STYLES,
+    ...Typography.INACTIVE_TEXT_STYLES,
     minWidth: 90,
-    marginRight: MARGIN_X,
+    marginRight: Margins.X,
   },
   displayValue: {
     fontWeight: '800',

@@ -15,10 +15,9 @@ import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
-import { W_WIDTH, MIN_MARGIN_Y, W_MARGIN } from '../../styles';
-import { PRIMARY_COLOR } from '../../styles/colors';
+import { Main, Margins, Colors } from '../../styles';
 
-const WARNING_CONTAINER_WIDTH = W_WIDTH - 4 * W_MARGIN;
+const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
 
 const styles = StyleSheet.create({
   container: {
@@ -32,12 +31,12 @@ const styles = StyleSheet.create({
     height: 600,
   },
   warningContainer: {
-    backgroundColor: PRIMARY_COLOR.toString(),
+    backgroundColor: Colors.PRIMARY.toString(),
     borderRadius: 10,
     width: WARNING_CONTAINER_WIDTH,
     padding: 15,
-    marginHorizontal: W_MARGIN,
-    shadowColor: PRIMARY_COLOR.lighten(20),
+    marginHorizontal: Margins.WINDOW,
+    shadowColor: Colors.PRIMARY.lighten(20),
     shadowRadius: 20,
     shadowOpacity: 0.8,
     shadowOffset: {
@@ -52,12 +51,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 15,
     fontWeight: '700',
-    marginTop: MIN_MARGIN_Y,
+    marginTop: Margins.MIN_Y,
     color: 'white',
   },
   warningMessage: {
     alignSelf: 'center',
-    marginTop: MIN_MARGIN_Y,
+    marginTop: Margins.MIN_Y,
     color: 'white',
     textAlign: 'center',
   },

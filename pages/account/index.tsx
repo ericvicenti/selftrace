@@ -13,8 +13,7 @@ import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { PRIMARY_COLOR, RED_COLOR } from '../../styles/colors';
-import { MARGIN_Y } from '../../styles';
+import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,15 +23,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '900',
-    color: PRIMARY_COLOR.toString(),
+    color: Colors.PRIMARY.toString(),
     fontSize: 28,
   },
   formContainer: {
     width: '100%',
-    marginTop: MARGIN_Y,
-  },
-  signoutText: {
-    color: 'red',
+    marginTop: Margins.Y,
   },
 });
 
@@ -86,7 +82,7 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
         <SubmitButton
           label={t('buttons.signout')}
           progress={progress}
-          backgroundColor={RED_COLOR}
+          backgroundColor={Colors.RED}
           onPress={() => {
             signoutUser();
           }}

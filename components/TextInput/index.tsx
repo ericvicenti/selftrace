@@ -8,37 +8,30 @@ import {
   StyleSheet,
 } from 'react-native';
 import Text from '../Text';
-import { FORM_INPUT_HEIGHT, W_MARGIN, MARGIN_X } from '../../styles';
-import { MAIN_FONT_FAMILY } from '../../styles/typography';
-import {
-  INACTIVE_TEXT_COLOR,
-  BORDER_COLOR,
-  BLUE_COLOR,
-  LIGHT_GRAY_BG_COLOR,
-} from '../../styles/colors';
+import { Main, Margins, Colors, Typography } from '../../styles';
 
 const baseStyles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     width: '100%',
-    height: FORM_INPUT_HEIGHT,
+    height: Main.FORM_INPUT_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: W_MARGIN,
+    paddingHorizontal: Margins.WINDOW,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   label: {
     minWidth: 90,
     fontWeight: '600',
-    marginRight: MARGIN_X,
+    marginRight: Margins.X,
   },
   textInput: {
-    backgroundColor: LIGHT_GRAY_BG_COLOR.toString(),
+    backgroundColor: Colors.LIGHT_GRAY_BG.toString(),
     flex: 1,
     fontSize: 14,
-    fontFamily: MAIN_FONT_FAMILY,
+    fontFamily: Typography.MAIN_FONT_FAMILY,
     height: 40,
-    paddingHorizontal: MARGIN_X,
+    paddingHorizontal: Margins.X,
   },
 });
 
@@ -63,11 +56,11 @@ export default class TextInput extends React.PureComponent<TextInputProps> {
     this.isFocused = new Animated.Value(0); // 0: !focused, 1: focused
     this.labelColor = this.isFocused.interpolate({
       inputRange: [0, 1],
-      outputRange: [INACTIVE_TEXT_COLOR.toString(), BLUE_COLOR.toString()],
+      outputRange: [Colors.INACTIVE_TEXT.toString(), Colors.BLUE.toString()],
     });
     this.borderBottomColor = this.isFocused.interpolate({
       inputRange: [0, 1],
-      outputRange: [BORDER_COLOR.toString(), BLUE_COLOR.toString()],
+      outputRange: [Colors.BORDER.toString(), Colors.BLUE.toString()],
     });
     this.textInputRef = createRef();
   }
@@ -142,13 +135,13 @@ export default class TextInput extends React.PureComponent<TextInputProps> {
           // onSelectionChange={undefined}
           onSubmitEditing={undefined}
           // placeholder='Enter a text'
-          placeholderTextColor={INACTIVE_TEXT_COLOR.toString()}
+          placeholderTextColor={Colors.INACTIVE_TEXT.toString()}
           // returnKeyLabel='Done' // android
           returnKeyType="done"
           // rejectResponderTermination // ios TODO: add
           scrollEnabled // ios
           secureTextEntry={false}
-          selectionColor={BLUE_COLOR.toString()}
+          selectionColor={Colors.BLUE.toString()}
           // selection
           // selectionState
           selectTextOnFocus={false}

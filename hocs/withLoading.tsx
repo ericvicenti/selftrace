@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Color from '../styles/Color';
-import { INACTIVE_ICON_COLOR } from '../styles/colors';
+import { Colors.INACTIVE_ICON } from '../styles/colors';
 
 interface WithLoadingProps {
   loading?: boolean;
@@ -20,7 +20,7 @@ const withLoading = <P extends object>(
   loading ? (
     <ActivityIndicator
       size={activityIndicatorSize || 'small'}
-      color={activityIndicatorColor.toString() || INACTIVE_ICON_COLOR.toString()}
+      color={activityIndicatorColor.toString() || Colors.INACTIVE_ICON.toString()}
     />
   ) : (
     <Component {...(props as P)} />

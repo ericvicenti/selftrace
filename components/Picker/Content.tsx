@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import withDelayedUnmount from '../../hocs/withDelayedUnmount';
-import { BORDER_COLOR } from '../../styles/colors';
+import { Colors } from '../../styles/colors';
 
 const PICKER_HEIGHT = 300;
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   border: {
-    backgroundColor: BORDER_COLOR.toString(),
+    backgroundColor: Colors.BORDER.toString(),
     width: '100%',
     height: StyleSheet.hairlineWidth,
   },

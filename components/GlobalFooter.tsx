@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Text from './Text';
 import ExternalLink from './ExternalLink';
-import { INACTIVE_TEXT_COLOR } from '../styles/colors';
+import { Colors } from '../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 export default () => {
   return (
     <View style={styles.container}>
-      <Text style={{ lineHeight: 22, color: INACTIVE_TEXT_COLOR.toString() }}>
+      <Text style={{ lineHeight: 22, color: Colors.INACTIVE_TEXT.toString() }}>
         See more from the{' '}
         <ExternalLink href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC</ExternalLink>.
       </Text>

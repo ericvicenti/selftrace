@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Router from 'next/router';
 import Icon, { IconName } from '../Icon';
-import { INACTIVE_ICON_COLOR, PRIMARY_COLOR } from '../../styles/colors';
+import { Colors } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,7 +35,9 @@ export default function TabNavigator({ pathname }: Props) {
         <TouchableOpacity onPress={onPress(t.path)} key={t.path}>
           <Icon
             name={t.iconName!}
-            color={pathname === t.path ? PRIMARY_COLOR.toString() : INACTIVE_ICON_COLOR.toString()}
+            color={
+              pathname === t.path ? Colors.PRIMARY.toString() : Colors.INACTIVE_ICON.toString()
+            }
           />
         </TouchableOpacity>
       ))}
