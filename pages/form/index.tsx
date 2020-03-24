@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { t } from 'i18n-js';
 import FormContainer from '../../components/FormContainer';
 import Picker from '../../components/Picker';
-import BottomTab from '../../components/BottomTab';
+import TabNavigator from '../../components/TabNavigator';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import * as Actions from '../../actions/auth/userInfo';
@@ -129,6 +129,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
 
   return (
     <>
+      <TabNavigator pathname={pathname} />
       <View style={styles.container}>
         <Text style={styles.title}>Form</Text>
         <View style={styles.textContainer}>
@@ -177,7 +178,6 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
           }}
         />
       </View>
-      <BottomTab pathname={pathname} />
     </>
   );
 }

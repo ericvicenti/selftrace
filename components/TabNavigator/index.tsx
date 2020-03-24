@@ -28,7 +28,7 @@ const onPress = (path: string) => () => {
   Router.push(path);
 };
 
-export default function BottomTab({ pathname }: Props) {
+export default function TabNavigator({ pathname }: Props) {
   return (
     <View style={styles.container}>
       {tabs.map(t => (

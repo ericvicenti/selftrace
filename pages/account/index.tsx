@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
-import BottomTab from '../../components/BottomTab';
+import TabNavigator from '../../components/TabNavigator';
 import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
@@ -74,6 +74,7 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
 
   return (
     <>
+      <TabNavigator pathname={pathname} />
       <View style={styles.container}>
         <Text style={styles.title}>{t('headers.account')}</Text>
         <TouchableOpacity onPress={onLinkPress('/account/profile')}>
@@ -91,7 +92,6 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
           }}
         />
       </View>
-      <BottomTab pathname={pathname} />
     </>
   );
 }

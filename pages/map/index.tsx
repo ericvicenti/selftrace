@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
 import Text from '../../components/Text';
-import BottomTab from '../../components/BottomTab';
+import TabNavigator from '../../components/TabNavigator';
 import CoronaMap from '../../components/CoronaMap';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
@@ -104,6 +104,7 @@ function MapPage({ wellbeing, pathname }: Props) {
 
   return (
     <>
+      <TabNavigator pathname={pathname} />
       <View style={styles.container}>
         {wellbeingIsDefined ? (
           <CoronaMap
@@ -138,7 +139,6 @@ function MapPage({ wellbeing, pathname }: Props) {
           </>
         )}
       </View>
-      <BottomTab pathname={pathname} />
     </>
   );
 }
