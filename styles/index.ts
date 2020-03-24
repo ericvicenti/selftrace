@@ -21,12 +21,12 @@ export const Margins = {
 };
 
 export const Paddings = {
-  MIN_X: 10,
-  MIN_Y: 10,
-  X: 15,
-  Y: 15,
-  MAX_X: 20,
-  MAX_Y: 20,
+  MIN_X: 8,
+  MIN_Y: 5,
+  X: 13,
+  Y: 10,
+  MAX_X: 18,
+  MAX_Y: 15,
 };
 
 export * from './colors';

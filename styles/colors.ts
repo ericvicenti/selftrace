@@ -14,6 +14,7 @@ export const Colors = {
   WHITE: rgb(255, 255, 255),
   WHITE_BG: rgb(255, 255, 255),
   LIGHT_GRAY_BG: rgb(242, 242, 242),
+  HOVER: rgb(238, 238, 238),
   TOUCH: rgb(225, 225, 225),
   BORDER: rgb(225, 225, 225),
   SHADOW: rgb(215, 215, 215),
