@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -16,6 +16,7 @@ import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
 import { Colors, Margins } from '../styles';
+import FlexLoader from '../components/FlexLoader';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,6 +84,10 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
   const onLinkPress = (path: string) => () => {
     Router.push(path);
   };
+
+  if (authStatus === AuthStatus.SignedIn) {
+    return <FlexLoader />;
+  }
 
   return (
     <View style={styles.container}>

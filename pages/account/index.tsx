@@ -14,6 +14,7 @@ import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import { Colors, Margins } from '../../styles';
+import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,6 +68,10 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
   const onLinkPress = (path: string) => () => {
     Router.push(path);
   };
+
+  if (authStatus === AuthStatus.SignedOut) {
+    return <FlexLoader />;
+  }
 
   return (
     <>
