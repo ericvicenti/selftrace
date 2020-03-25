@@ -130,7 +130,7 @@ function MapPage({ wellbeing, pathname }: Props) {
               intensity={75}
               style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
               <View style={styles.warningContainer}>
-                <Icon name="lock" color="white" style={styles.lockIcon} />
+                <Icon.Lock color="white" style={styles.lockIcon} />
                 <Text style={styles.warningTitle}>{t('screens.map.chooseWellbeingTitle')}</Text>
                 <Text style={styles.warningMessage}>{t('screens.map.chooseWellbeingMessage')}</Text>
               </View>
