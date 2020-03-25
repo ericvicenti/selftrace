@@ -15,7 +15,7 @@ import { Wellbeing } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Colors, Margins, Typography } from '../../styles';
+import { Colors, Margins, Typography, Paddings } from '../../styles';
 
 const styles = StyleSheet.create({
   topText: {
@@ -35,10 +35,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   textContainer: {
-    padding: Margins.WINDOW,
+    paddingHorizontal: Paddings.X,
+    paddingVertical: Paddings.Y,
     marginBottom: Margins.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
+  },
+  picker: {
+    paddingHorizontal: Paddings.X,
+    paddingVertical: Paddings.Y,
   },
   title: {
     fontWeight: '900',
@@ -126,17 +131,17 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
     <>
       <TabNavigator pathname={pathname} />
       <PageContainer>
-        <Text style={styles.title}>Form</Text>
+        <Text style={styles.title}>{t('headers.form')}</Text>
         <View style={styles.textContainer}>
           <Text style={styles.topText}>{t('form.topNote')}</Text>
         </View>
         <FormContainer progress={progress}>
           <Picker
             label={t('form.wellbeing')}
-            displayValue={wellbeing ? WELLBEING_OPTION_MAP[wellbeing].label : ''}
             selectedValue={wellbeing}
             onValueChange={val => setWellbeing(val)}
             items={WELLBEING_OPTIONS}
+            style={styles.picker}
           />
           {wellbeingObj && (
             <View style={styles.textContainer}>
