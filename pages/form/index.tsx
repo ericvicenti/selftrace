@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     padding: Margins.WINDOW,
+    marginBottom: Margins.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
   },

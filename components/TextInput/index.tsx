@@ -25,6 +25,7 @@ const baseStyles = StyleSheet.create({
     marginRight: Margins.X,
   },
   textInput: {
+    width: '100%',
     flex: 1,
     backgroundColor: Colors.LIGHT_GRAY_BG.toString(),
     fontSize: 14,
