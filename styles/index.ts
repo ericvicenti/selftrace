@@ -1,4 +1,5 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, ViewStyle } from 'react-native';
+import { Colors } from '../styles';
 
 const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
@@ -28,6 +29,20 @@ export const Paddings = {
   Y: 10,
   MAX_X: 25,
   MAX_Y: 15,
+};
+
+const FORM_CONTAINER: ViewStyle = {
+  shadowOffset: {
+    height: 0,
+    width: 0,
+  },
+  shadowRadius: 15,
+  shadowOpacity: 0.5,
+  shadowColor: Colors.SHADOW.toString(),
+};
+
+export const Shadows = {
+  FORM_CONTAINER,
 };
 
 export * from './colors';

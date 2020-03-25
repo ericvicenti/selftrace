@@ -4,22 +4,26 @@ import { RectButton } from 'react-native-gesture-handler';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import Color from '../../styles/Color';
-import { Colors, Paddings, Margins } from '../../styles';
+import { Colors, Paddings, Margins, Shadows } from '../../styles';
 
 const RectButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
+const BORDER_RADIUS = 5;
+
 export const styles = StyleSheet.create({
   container: {
+    ...Shadows.FORM_CONTAINER,
     marginTop: Margins.MAX_Y,
+    borderRadius: BORDER_RADIUS,
   },
-  base: {
+  rectButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: Paddings.X,
-    paddingVertical: Paddings.Y,
-    padding: 15,
+    paddingHorizontal: Paddings.MIN_X,
+    paddingVertical: Paddings.MIN_Y,
     minWidth: 100,
-    borderRadius: 5,
+    minHeight: 40,
+    borderRadius: BORDER_RADIUS,
   },
 });
 
@@ -57,22 +61,22 @@ export default function SubmitButton({
     }).start();
   }, [isSubmitDisabled]);
 
+  const bgColor = backgroundColor.toString();
+  const bgColorSaturated = backgroundColor.saturate(20, true);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { shadowColor: isSubmitDisabled ? bgColorSaturated : bgColor }]}>
       <RectButtonAnimated
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: Paddings.MIN_X,
-          paddingVertical: Paddings.MIN_Y,
-          minWidth: 100,
-          minHeight: 40,
-          borderRadius: 5,
-          backgroundColor: activityScaleRef.current.interpolate({
-            inputRange: [0, 1],
-            outputRange: [backgroundColor.saturate(20, true), backgroundColor.toString()],
-          }),
-        }}
+        style={[
+          styles.rectButton,
+          {
+            backgroundColor: activityScaleRef.current.interpolate({
+              inputRange: [0, 1],
+              outputRange: [bgColorSaturated, bgColor],
+            }),
+          },
+        ]}
         activeOpacity={1}
         underlayColor={backgroundColor.shade(-20)}
         enabled={!isSubmitDisabled}
