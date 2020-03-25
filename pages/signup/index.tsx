@@ -1,12 +1,13 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
 import Router from 'next/router';
 import FormContainer from '../../components/FormContainer';
+import PageContainer from '../../components/PageContainer';
 import EmailInput from '../../components/TextInput/Email';
 import PasswordInput from '../../components/TextInput/Password';
 import Text from '../../components/Text';
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    padding: 10,
+    padding: Margins.WINDOW,
   },
   title: {
     fontWeight: '900',
@@ -82,7 +83,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
   }
 
   return (
-    <View style={styles.container}>
+    <PageContainer>
       <Text style={styles.title}>{t('headers.signup')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput
@@ -116,7 +117,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
         disabled={submitDisabled}
         onPress={() => signupUser(email, password1)}
       />
-    </View>
+    </PageContainer>
   );
 }
 

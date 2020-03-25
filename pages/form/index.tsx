@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
 import FormContainer from '../../components/FormContainer';
+import PageContainer from '../../components/PageContainer';
 import Picker from '../../components/Picker';
 import TabNavigator from '../../components/TabNavigator';
 import Text from '../../components/Text';
@@ -17,11 +18,6 @@ import { ReduxRoot } from '../../reducers';
 import { Colors, Margins, Typography } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-  },
   topText: {
     ...Typography.INACTIVE_TEXT_STYLES,
   },
@@ -128,7 +124,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
   return (
     <>
       <TabNavigator pathname={pathname} />
-      <View style={styles.container}>
+      <PageContainer>
         <Text style={styles.title}>Form</Text>
         <View style={styles.textContainer}>
           <Text style={styles.topText}>{t('form.topNote')}</Text>
@@ -175,7 +171,7 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
             );
           }}
         />
-      </View>
+      </PageContainer>
     </>
   );
 }

@@ -1,12 +1,13 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import { t } from 'i18n-js';
 import FormContainer from '../components/FormContainer';
+import PageContainer from '../components/PageContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
@@ -18,19 +19,16 @@ import AuthUtils from '../util/AuthUtils';
 import { Colors, Margins } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 
+const logoSource = require('../assets/logo.png');
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-  },
   logo: {
     height: 160,
     width: 160,
   },
   formContainer: {
     width: '100%',
-    marginTop: Margins.MIN_Y,
+    marginTop: Margins.MAX_Y,
   },
   forgotPasswordButton: {
     marginTop: Margins.MAX_Y,
@@ -90,8 +88,8 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
   }
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.logo} source={require('../assets/logo.png')} />
+    <PageContainer>
+      <Image style={styles.logo} source={logoSource} />
       <FormContainer showErrorsOnly progress={progress} style={styles.formContainer}>
         <EmailInput
           value={email}
@@ -120,7 +118,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
       <TouchableOpacity onPress={onLinkPress('/signup')}>
         <Text style={styles.signupButton}> {t('buttons.signup')}</Text>
       </TouchableOpacity>
-    </View>
+    </PageContainer>
   );
 }
 

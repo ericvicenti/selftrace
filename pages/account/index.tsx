@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
+import PageContainer from '../../components/PageContainer';
 import TabNavigator from '../../components/TabNavigator';
 import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
@@ -17,11 +18,6 @@ import { Colors, Margins } from '../../styles';
 import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-  },
   title: {
     fontWeight: '900',
     color: Colors.PRIMARY.toString(),
@@ -76,7 +72,7 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
   return (
     <>
       <TabNavigator pathname={pathname} />
-      <View style={styles.container}>
+      <PageContainer>
         <Text style={styles.title}>{t('headers.account')}</Text>
         <TouchableOpacity onPress={onLinkPress('/account/profile')}>
           <Text>{t('screens.account.profile')}</Text>
@@ -92,7 +88,7 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
             signoutUser();
           }}
         />
-      </View>
+      </PageContainer>
     </>
   );
 }

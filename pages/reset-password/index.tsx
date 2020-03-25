@@ -1,11 +1,12 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FormContainer from '../../components/FormContainer';
+import PageContainer from '../../components/PageContainer';
 import EmailInput from '../../components/TextInput/Email';
 import Text from '../../components/Text';
 import AuthUtils from '../../util/AuthUtils';
@@ -17,11 +18,6 @@ import { ReduxRoot } from '../../reducers';
 import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 10,
-  },
   title: {
     fontWeight: '900',
     color: Colors.PRIMARY.toString(),
@@ -61,7 +57,7 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
   const submitDisabled = !AuthUtils.isValidEmail(email);
 
   return (
-    <View style={styles.container}>
+    <PageContainer>
       <Text style={styles.title}>{t('headers.resetPassword')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput
@@ -80,7 +76,7 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
           resetUserPassword(email);
         }}
       />
-    </View>
+    </PageContainer>
   );
 }
 
