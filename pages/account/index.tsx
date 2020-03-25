@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
   },
   item: {
     ...Shadows.FORM_CONTAINER,
-    shadowRadius: 10,
+    shadowRadius: 7,
     alignSelf: 'flex-start',
     marginBottom: Margins.MIN_Y,
-    minWidth: 180,
+    minWidth: 270,
     minHeight: 50,
   },
 });
