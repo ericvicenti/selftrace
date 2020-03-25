@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 const FlexLoader: React.FC = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={Colors.INACTIVE_ICON.toString()} />
+      <ActivityIndicator size="large" color={Colors.PRIMARY.toString()} />
     </View>
   );
 };

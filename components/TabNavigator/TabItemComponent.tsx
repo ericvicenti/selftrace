@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, ViewStyle, StyleSheet } from 'react-native';
 import Hoverable from '../Hoverable';
-import Icon, { IconName } from '../Icon';
 import { Colors } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -17,28 +16,26 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  iconName: IconName;
   path: string;
   isActive?: boolean;
   activeColor?: string;
-  defaultColor?: string;
+  Icon: JSX.Element;
   onPress: () => void;
   style: ViewStyle;
 }
 
 export default function TabItemComponent({
-  iconName,
   path,
   isActive,
   activeColor = Colors.PRIMARY.toString(),
-  defaultColor = Colors.INACTIVE_ICON.toString(),
+  Icon,
   onPress,
   style,
 }: Props) {
   return (
     <View style={styles.container}>
       <Hoverable key={path} onPress={onPress} style={style} disabled={isActive}>
-        <Icon name={iconName} color={isActive ? activeColor : defaultColor} />
+        {Icon}
       </Hoverable>
       <View
         style={[styles.activeBorder, { backgroundColor: isActive ? activeColor : 'transparent' }]}

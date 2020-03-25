@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Router from 'next/router';
-import { IconName } from '../Icon';
+import Icon from '../Icon';
 import { Colors, Paddings } from '../../styles';
 import TabItemComponent from './TabItemComponent';
 
-const TAB_ITEMS: { path: string; iconName: IconName }[] = [
-  { path: '/form', iconName: 'form' },
-  { path: '/map', iconName: 'map-marker-multiple' },
-  { path: '/account', iconName: 'person' },
+const TAB_ITEMS = [
+  { path: '/map', Icon: Icon.MapMarkerMultiple },
+  { path: '/form', Icon: Icon.Form },
+  { path: '/account', Icon: Icon.Person },
 ];
 
 const styles = StyleSheet.create({
@@ -43,15 +43,23 @@ const onPressHandler = (path: string) => () => {
 export default function TabNavigator({ pathname }: Props) {
   return (
     <View style={styles.container}>
-      {TAB_ITEMS.map(t => (
-        <TabItemComponent
-          iconName={t.iconName}
-          path={t.path}
-          isActive={pathname === t.path}
-          onPress={onPressHandler(t.path)}
-          style={styles.tabItem}
-        />
-      ))}
+      {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
+        const isActive = pathname === path;
+
+        return (
+          <TabItemComponent
+            path={path}
+            Icon={
+              <TabIcon
+                color={isActive ? Colors.PRIMARY.toString() : Colors.INACTIVE_ICON.toString()}
+              />
+            }
+            isActive={isActive}
+            onPress={onPressHandler(path)}
+            style={styles.tabItem}
+          />
+        );
+      })}
     </View>
   );
 }

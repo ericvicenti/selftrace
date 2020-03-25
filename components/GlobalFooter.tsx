@@ -11,16 +11,19 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingLeft: 20,
     marginBottom: 10,
-    borderTopWidth: 1,
-    marginTop: 10,
-    borderTopColor: '#ececec',
+    borderTopColor: Colors.BORDER.toString(),
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
+  text: {
+    lineHeight: 22,
+    color: Colors.INACTIVE_TEXT.toString(),
   },
 });
 
 export default () => {
   return (
     <View style={styles.container}>
-      <Text style={{ lineHeight: 22, color: Colors.INACTIVE_TEXT.toString() }}>
+      <Text style={styles.text}>
         See more from the{' '}
         <ExternalLink href="https://www.cdc.gov/coronavirus/2019-ncov/">CDC</ExternalLink>.
       </Text>
