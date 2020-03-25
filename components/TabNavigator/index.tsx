@@ -14,7 +14,7 @@ const TAB_ITEMS = [
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     shadowRadius: 3,
     shadowColor: Colors.SHADOW.toString(),
     shadowOffset: {
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
       width: 0,
     },
     paddingTop: Paddings.Y,
-    paddingHorizontal: Paddings.X,
   },
   tabItem: {
     width: '100%',
