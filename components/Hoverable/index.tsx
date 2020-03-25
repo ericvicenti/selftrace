@@ -36,10 +36,14 @@ export default function Hoverable({
 
   React.useEffect(() => {
     if (!disabled) {
-      Animated.timing(hoverScaleRef.current, {
-        toValue: isHovered ? 1 : 0,
-        duration: 100,
-      }).start();
+      if (isHovered) {
+        hoverScaleRef.current.setValue(1);
+      } else {
+        Animated.timing(hoverScaleRef.current, {
+          toValue: 0,
+          duration: 100,
+        }).start();
+      }
     }
   }, [isHovered, disabled]);
 
