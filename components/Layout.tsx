@@ -27,16 +27,6 @@ class App extends React.PureComponent<Props> {
     this.unsubscribeFromAuthStateChange = this.props.subscribeToAuthStateChange();
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.authStatus !== this.props.authStatus) {
-      if (prevProps.authStatus === AuthStatus.Checking) {
-        if (this.props.authStatus === AuthStatus.SignedOut) {
-          // Router.push('/');
-        }
-      }
-    }
-  }
-
   componentWillUnmount() {
     this.unsubscribeFromAuthStateChange();
   }

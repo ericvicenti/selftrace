@@ -6,8 +6,8 @@ import { Colors, Paddings, Margins } from '../../styles';
 import TabItemComponent from './TabItemComponent';
 
 const TAB_ITEMS = [
-  { path: '/form', Icon: Icon.Form },
   { path: '/map', Icon: Icon.MapMarkerMultiple },
+  { path: '/form', Icon: Icon.Form },
   { path: '/account', Icon: Icon.Person },
 ];
 

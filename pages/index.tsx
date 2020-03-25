@@ -74,7 +74,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
 
   React.useEffect(() => {
     if (authStatus === AuthStatus.SignedIn) {
-      Router.push('/form');
+      Router.push('/map');
     }
   }, [authStatus]);
 
