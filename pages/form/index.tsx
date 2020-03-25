@@ -8,7 +8,6 @@ import { t } from 'i18n-js';
 import FormContainer from '../../components/FormContainer';
 import PageContainer from '../../components/PageContainer';
 import Picker from '../../components/Picker';
-import TabNavigator from '../../components/TabNavigator';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import { Wellbeing } from '../../data-types';
@@ -93,11 +92,9 @@ interface WellbeingOptionMap {
   [key: number]: Omit<WellbeingObject, 'value'>;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
-  pathname: string;
-}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }: Props) {
+function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
 
   // TODO: Clean up
@@ -138,7 +135,6 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
 
   return (
     <>
-      <TabNavigator pathname={pathname} />
       <PageContainer>
         <Text style={styles.title}>{t('headers.form')}</Text>
         <View style={styles.topTextContainer}>

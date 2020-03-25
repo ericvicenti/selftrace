@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
-import TabNavigator from '../../components/TabNavigator';
 import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
@@ -43,11 +42,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     dispatch
   );
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
-  pathname: string;
-}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgress }: Props) {
+function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props) {
   React.useEffect(
     () => () => {
       clearProgress();
@@ -71,7 +68,6 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
 
   return (
     <>
-      <TabNavigator pathname={pathname} />
       <PageContainer>
         <Text style={styles.title}>{t('headers.account')}</Text>
         <TouchableOpacity onPress={onLinkPress('/account/profile')}>

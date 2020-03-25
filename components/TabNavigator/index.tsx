@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Router from 'next/router';
 import Icon from '../Icon';
 import { Colors, Paddings } from '../../styles';
 import TabItemComponent from './TabItemComponent';
+import {
+  ResponsiveWidthRenderProps,
+  ResponsiveSize,
+  withResponsiveWidth,
+} from '../../hocs/withResponsiveWidth';
 
 const TAB_ITEMS = [
   { path: '/map', Icon: Icon.MapMarkerMultiple },
@@ -31,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props {
+interface Props extends ResponsiveWidthRenderProps {
   pathname: string;
 }
 
@@ -39,9 +44,15 @@ const onPressHandler = (path: string) => () => {
   Router.push(path);
 };
 
-export default function TabNavigator({ pathname }: Props) {
+const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
+  const containerStyles: StyleProp<ViewStyle> = [styles.container];
+
+  containerStyles.push({
+    justifyContent: responsiveWidth < ResponsiveSize.Medium ? 'space-between' : 'center',
+  });
+
   return (
-    <View style={styles.container}>
+    <View style={containerStyles}>
       {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
         const isActive = pathname === path;
 
@@ -61,4 +72,6 @@ export default function TabNavigator({ pathname }: Props) {
       })}
     </View>
   );
-}
+};
+
+export default withResponsiveWidth(TabNavigator);

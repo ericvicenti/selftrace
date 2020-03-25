@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
 import Text from '../../components/Text';
-import TabNavigator from '../../components/TabNavigator';
 import CoronaMap from '../../components/CoronaMap';
 import PageContainer from '../../components/PageContainer';
 import Icon from '../../components/Icon';
@@ -76,11 +75,9 @@ interface State {
   isLoading: boolean;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
-  pathname: string;
-}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function MapPage({ wellbeing, pathname }: Props) {
+function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
 
   async function handleRegionChange(regionObj: RegionObject) {
@@ -104,7 +101,6 @@ function MapPage({ wellbeing, pathname }: Props) {
 
   return (
     <>
-      <TabNavigator pathname={pathname} />
       <PageContainer>
         {wellbeingIsDefined ? (
           <CoronaMap
