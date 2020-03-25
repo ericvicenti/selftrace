@@ -9,8 +9,8 @@ import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
+
 import Hoverable from '../../components/Hoverable';
-import TabNavigator from '../../components/TabNavigator';
 import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
@@ -55,11 +55,9 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
     dispatch
   );
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
-  pathname: string;
-}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgress }: Props) {
+function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props) {
   React.useEffect(
     () => () => {
       clearProgress();
@@ -83,7 +81,6 @@ function AccountPage({ signoutUser, pathname, authStatus, progress, clearProgres
 
   return (
     <>
-      <TabNavigator pathname={pathname} />
       <PageContainer>
         <Text style={styles.title}>{t('headers.account')}</Text>
         <View style={styles.itemsContainer}>
