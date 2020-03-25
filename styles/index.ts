@@ -5,6 +5,7 @@ const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 export const Main = {
   HEADER_HEIGHT: 60,
   BOTTOM_TAB_HEIGHT: 50,
+  FORM_CONTANER_MAX_WIDTH: 600,
   FORM_INPUT_HEIGHT: 80,
   W_WIDTH,
   W_HEIGHT,
@@ -25,7 +26,7 @@ export const Paddings = {
   MIN_Y: 5,
   X: 13,
   Y: 10,
-  MAX_X: 18,
+  MAX_X: 25,
   MAX_Y: 15,
 };
 

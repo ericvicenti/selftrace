@@ -3,14 +3,14 @@ import { View, StyleSheet, Animated, ViewStyle } from 'react-native';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import { SECTION_APPEAR_DURATION } from '../../styles/animations';
-import { Colors, Margins, Paddings } from '../../styles';
+import { Colors, Margins, Paddings, Main } from '../../styles';
 
 const FORM_BG_COLOR = Colors.WHITE_BG.toString();
 const PROGRESS_SECTION_HEIGHT = 70;
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 500,
+    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
     borderRadius: 10,
     paddingHorizontal: Paddings.MAX_X,
     paddingVertical: Paddings.MAX_Y,

@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, ViewStyle, StyleSheet } from 'react-native';
 import Hoverable from '../Hoverable';
-import { Colors } from '../../styles';
+import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flex: 1,
     maxWidth: 180,
+    marginHorizontal: Margins.MIN_X,
   },
   activeBorder: {
     height: 2,

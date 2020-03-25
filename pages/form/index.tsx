@@ -15,9 +15,17 @@ import { Wellbeing } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Colors, Margins, Typography, Paddings } from '../../styles';
+import { Main, Colors, Margins, Typography, Paddings } from '../../styles';
 
 const styles = StyleSheet.create({
+  topTextContainer: {
+    marginTop: Margins.MAX_Y,
+    paddingHorizontal: Paddings.MAX_X,
+    paddingVertical: Paddings.Y,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.BORDER.toString(),
+    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
+  },
   topText: {
     ...Typography.INACTIVE_TEXT_STYLES,
   },
@@ -34,25 +42,26 @@ const styles = StyleSheet.create({
   noteText: {
     fontSize: 12,
   },
+  formContainer: {
+    width: '100%',
+    marginTop: Margins.Y,
+    paddingHorizontal: Paddings.MAX_X,
+  },
   textContainer: {
-    paddingHorizontal: Paddings.X,
+    alignSelf: 'flex-start',
     paddingVertical: Paddings.Y,
     marginBottom: Margins.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
+    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
   },
   picker: {
-    paddingHorizontal: Paddings.X,
     paddingVertical: Paddings.Y,
   },
   title: {
     fontWeight: '900',
     color: Colors.PRIMARY.toString(),
     fontSize: 28,
-  },
-  formContainer: {
-    width: '100%',
-    marginTop: Margins.Y,
   },
 });
 
@@ -132,10 +141,10 @@ function FormPage({ currentWellbeing, progress, pathname, uploadUserInfo, uid }:
       <TabNavigator pathname={pathname} />
       <PageContainer>
         <Text style={styles.title}>{t('headers.form')}</Text>
-        <View style={styles.textContainer}>
+        <View style={styles.topTextContainer}>
           <Text style={styles.topText}>{t('form.topNote')}</Text>
         </View>
-        <FormContainer progress={progress}>
+        <FormContainer progress={progress} style={styles.formContainer}>
           <Picker
             label={t('form.wellbeing')}
             selectedValue={wellbeing}
