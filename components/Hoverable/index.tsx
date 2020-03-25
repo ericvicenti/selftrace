@@ -41,7 +41,7 @@ export default function Hoverable({
       } else {
         Animated.timing(hoverScaleRef.current, {
           toValue: 0,
-          duration: 100,
+          duration: 200,
         }).start();
       }
     }

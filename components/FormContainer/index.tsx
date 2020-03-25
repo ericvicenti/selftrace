@@ -3,17 +3,29 @@ import { View, StyleSheet, Animated, ViewStyle } from 'react-native';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import { SECTION_APPEAR_DURATION } from '../../styles/animations';
-import { Colors, Margins } from '../../styles';
+import { Colors, Margins, Paddings } from '../../styles';
 
 const FORM_BG_COLOR = Colors.WHITE_BG.toString();
 const PROGRESS_SECTION_HEIGHT = 70;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: FORM_BG_COLOR,
+    maxWidth: 500,
+    borderRadius: 10,
+    paddingHorizontal: Paddings.MAX_X,
+    paddingVertical: Paddings.MAX_Y,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 15,
+    shadowOpacity: 0.5,
+    shadowColor: Colors.SHADOW.toString(),
   },
   childrenContainer: {
     backgroundColor: FORM_BG_COLOR,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   progressMessageContainer: {
     zIndex: -1,
@@ -21,8 +33,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: Margins.WINDOW,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.BORDER.toString(),
   },
   progressMessage: {
     fontSize: 13,

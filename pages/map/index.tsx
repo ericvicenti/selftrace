@@ -9,6 +9,7 @@ import { t } from 'i18n-js';
 import Text from '../../components/Text';
 import TabNavigator from '../../components/TabNavigator';
 import CoronaMap from '../../components/CoronaMap';
+import PageContainer from '../../components/PageContainer';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
 import { Dispatch, Action } from '../../actions';
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     flex: 1,
     width: '100%',
-    height: 600,
+    maxHeight: 500,
   },
   warningContainer: {
     backgroundColor: Colors.PRIMARY.toString(),
@@ -104,7 +105,7 @@ function MapPage({ wellbeing, pathname }: Props) {
   return (
     <>
       <TabNavigator pathname={pathname} />
-      <View style={styles.container}>
+      <PageContainer>
         {wellbeingIsDefined ? (
           <CoronaMap
             googleMapURL={GOOGLE_MAP_URL}
@@ -137,7 +138,7 @@ function MapPage({ wellbeing, pathname }: Props) {
             </BlurView>
           </>
         )}
-      </View>
+      </PageContainer>
     </>
   );
 }

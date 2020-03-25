@@ -12,7 +12,6 @@ import { Main, Margins, Colors, Typography } from '../../styles';
 
 const baseStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '100%',
     height: Main.FORM_INPUT_HEIGHT,
     flexDirection: 'row',
@@ -26,12 +25,13 @@ const baseStyles = StyleSheet.create({
     marginRight: Margins.X,
   },
   textInput: {
-    backgroundColor: Colors.LIGHT_GRAY_BG.toString(),
     flex: 1,
+    backgroundColor: Colors.LIGHT_GRAY_BG.toString(),
     fontSize: 14,
     fontFamily: Typography.MAIN_FONT_FAMILY,
     height: 40,
     paddingHorizontal: Margins.X,
+    borderRadius: 3,
   },
 });
 
