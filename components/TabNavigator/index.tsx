@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Router from 'next/router';
 import { IconName } from '../Icon';
-import { Colors, Paddings, Margins } from '../../styles';
+import { Colors, Paddings } from '../../styles';
 import TabItemComponent from './TabItemComponent';
 
 const TAB_ITEMS: { path: string; iconName: IconName }[] = [
@@ -13,10 +13,8 @@ const TAB_ITEMS: { path: string; iconName: IconName }[] = [
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     shadowRadius: 3,
     shadowColor: Colors.SHADOW.toString(),
     shadowOffset: {
@@ -24,12 +22,11 @@ const styles = StyleSheet.create({
       width: 0,
     },
     paddingTop: Paddings.Y,
-    paddingBottom: 2,
+    paddingHorizontal: Paddings.X,
   },
   tabItem: {
-    width: `${Math.floor(100 / TAB_ITEMS.length - 2)}vw`,
-    maxWidth: 180,
-    marginHorizontal: Margins.MIN_X,
+    width: '100%',
+    paddingHorizontal: Paddings.MIN_X,
     alignItems: 'center',
     alignSelf: 'center',
   },
@@ -53,7 +50,6 @@ export default function TabNavigator({ pathname }: Props) {
           isActive={pathname === t.path}
           onPress={onPressHandler(t.path)}
           style={styles.tabItem}
-          width={styles.tabItem.width}
         />
       ))}
     </View>
