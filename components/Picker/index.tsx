@@ -10,6 +10,7 @@ const ANIMATION_DURATION = 200;
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
+    width: '100%',
   },
   touchableRect: {
     width: '100%',
