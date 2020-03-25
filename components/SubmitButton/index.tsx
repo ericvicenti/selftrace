@@ -1,12 +1,18 @@
 import React from 'react';
-import { Animated, ActivityIndicator, StyleSheet, View, TextStyle } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import {
+  Animated,
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  TextStyle,
+  TouchableOpacity,
+} from 'react-native';
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import Color from '../../styles/Color';
 import { Colors, Paddings, Margins, Shadows } from '../../styles';
 
-const RectButtonAnimated = Animated.createAnimatedComponent(RectButton);
+const TouchableOpacityAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 
 const BORDER_RADIUS = 5;
 
@@ -67,7 +73,7 @@ export default function SubmitButton({
   return (
     <View
       style={[styles.container, { shadowColor: isSubmitDisabled ? bgColorSaturated : bgColor }]}>
-      <RectButtonAnimated
+      <TouchableOpacityAnimated
         style={[
           styles.rectButton,
           {
@@ -79,7 +85,7 @@ export default function SubmitButton({
         ]}
         activeOpacity={1}
         underlayColor={backgroundColor.shade(-20)}
-        enabled={!isSubmitDisabled}
+        disabled={isSubmitDisabled}
         onPress={onPress}>
         {isLoading ? (
           <ActivityIndicator size="small" color={Colors.INACTIVE_ICON.toString()} />
@@ -88,7 +94,7 @@ export default function SubmitButton({
             <Text style={labelTextStyle}>{label}</Text>
           </View>
         )}
-      </RectButtonAnimated>
+      </TouchableOpacityAnimated>
     </View>
   );
 }
