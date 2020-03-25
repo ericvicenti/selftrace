@@ -6,7 +6,7 @@ import { Colors } from '../../styles';
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    flexGrow: 1,
+    flex: 1,
     maxWidth: 180,
   },
   activeBorder: {
