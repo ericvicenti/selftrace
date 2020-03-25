@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '100%',
-    marginTop: Margins.Y,
+    marginTop: Margins.MAX_Y,
   },
 });
 

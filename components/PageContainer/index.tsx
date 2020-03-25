@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    padding: Margins.WINDOW,
+    paddingTop: Margins.MAX_Y,
+    paddingHorizontal: Margins.WINDOW,
   },
 });
 

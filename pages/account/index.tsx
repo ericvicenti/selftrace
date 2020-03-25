@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { t } from 'i18n-js';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,11 +9,13 @@ import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
+
+import Hoverable from '../../components/Hoverable';
 import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Colors, Margins } from '../../styles';
+import { Colors, Margins, Shadows } from '../../styles';
 import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
@@ -25,6 +27,17 @@ const styles = StyleSheet.create({
   formContainer: {
     width: '100%',
     marginTop: Margins.Y,
+  },
+  itemsContainer: {
+    marginTop: Margins.MAX_Y,
+  },
+  item: {
+    ...Shadows.FORM_CONTAINER,
+    shadowRadius: 7,
+    alignSelf: 'flex-start',
+    marginBottom: Margins.MIN_Y,
+    minWidth: 270,
+    minHeight: 50,
   },
 });
 
@@ -70,12 +83,14 @@ function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props
     <>
       <PageContainer>
         <Text style={styles.title}>{t('headers.account')}</Text>
-        <TouchableOpacity onPress={onLinkPress('/account/profile')}>
-          <Text>{t('screens.account.profile')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onLinkPress('/account/update-password')}>
-          <Text>{t('screens.account.updatePassword')}</Text>
-        </TouchableOpacity>
+        <View style={styles.itemsContainer}>
+          <Hoverable onPress={onLinkPress('/account/profile')} style={styles.item}>
+            <Text>{t('screens.account.profile')}</Text>
+          </Hoverable>
+          <Hoverable onPress={onLinkPress('/account/update-password')} style={styles.item}>
+            <Text>{t('screens.account.updatePassword')}</Text>
+          </Hoverable>
+        </View>
         <SubmitButton
           label={t('buttons.signout')}
           progress={progress}

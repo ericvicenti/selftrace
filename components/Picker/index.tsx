@@ -40,7 +40,7 @@ function Picker({ items, label, labelTextStyle, style, ...rest }: Props) {
     <View style={[styles.container, style]}>
       <Text style={[styles.label, labelTextStyle]}>{label}</Text>
       <RNPicker style={styles.picker} {...rest}>
-        {items.map(item => (
+        {[{ label: 'Please select', value: '' }, ...items].map(item => (
           <RNPicker.Item key={item.value} label={item.label} value={item.value} />
         ))}
       </RNPicker>

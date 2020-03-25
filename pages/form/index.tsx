@@ -144,7 +144,7 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
           <Picker
             label={t('form.wellbeing')}
             selectedValue={wellbeing}
-            onValueChange={val => setWellbeing(val)}
+            onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
             items={WELLBEING_OPTIONS}
             style={styles.picker}
           />

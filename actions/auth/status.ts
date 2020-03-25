@@ -1,6 +1,7 @@
 // import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
 import { UserInfo } from 'firebase';
+import { AsyncStorage } from 'react-native';
 import * as API from '../../api';
 import { ActionCreator, AuthStatusAction, Dispatch, ActionType } from '..';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
@@ -24,6 +25,8 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
   return API.requestAuthStateListener((async (user: UserInfo) => {
     if (!user) {
       // Case 1: Signed out
+      await AsyncStorage.removeItem('wellbeing');
+
       return dispatch(setAuthStatusToSignedOut());
     }
 
