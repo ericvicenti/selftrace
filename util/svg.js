@@ -43,7 +43,7 @@ export const Award = props => (
 );
 
 export const GoogleLogo = props => (
-  <Svg width={32} height={32} viewBox="0 0 533.5 544.3" fill="none" stroke="555" {...props}>
+  <Svg width={18} height={18} viewBox="0 0 533.5 544.3" fill="none" stroke="555" {...props}>
     <G>
       <Path
         fill="#4285F4"
