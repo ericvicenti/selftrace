@@ -80,27 +80,25 @@ function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props
   }
 
   return (
-    <>
-      <PageContainer>
-        <Text style={styles.title}>{t('headers.account')}</Text>
-        <View style={styles.itemsContainer}>
-          <Hoverable onPress={onLinkPress('/account/profile')} style={styles.item}>
-            <Text>{t('screens.account.profile')}</Text>
-          </Hoverable>
-          <Hoverable onPress={onLinkPress('/account/update-password')} style={styles.item}>
-            <Text>{t('screens.account.updatePassword')}</Text>
-          </Hoverable>
-        </View>
-        <SubmitButton
-          label={t('buttons.signout')}
-          progress={progress}
-          backgroundColor={Colors.RED}
-          onPress={() => {
-            signoutUser();
-          }}
-        />
-      </PageContainer>
-    </>
+    <PageContainer>
+      <Text style={styles.title}>{t('headers.account')}</Text>
+      <View style={styles.itemsContainer}>
+        <Hoverable onPress={onLinkPress('/account/profile')} style={styles.item}>
+          <Text>{t('screens.account.profile')}</Text>
+        </Hoverable>
+        <Hoverable onPress={onLinkPress('/account/update-password')} style={styles.item}>
+          <Text>{t('screens.account.updatePassword')}</Text>
+        </Hoverable>
+      </View>
+      <SubmitButton
+        label={t('buttons.signout')}
+        progress={progress}
+        backgroundColor={Colors.RED}
+        onPress={() => {
+          signoutUser();
+        }}
+      />
+    </PageContainer>
   );
 }
 

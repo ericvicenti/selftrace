@@ -84,6 +84,7 @@ function MapPage({ wellbeing }: Props) {
     setState(prevState => ({ ...prevState, isLoading: true }));
     try {
       const receivedClusters = await API.requestClusters(regionObj, true);
+
       setState({
         clusters: receivedClusters.map(cluster => ({
           key: ReactUtils.generateListKey(),
@@ -100,42 +101,40 @@ function MapPage({ wellbeing }: Props) {
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
 
   return (
-    <>
-      <PageContainer>
-        {wellbeingIsDefined ? (
+    <PageContainer>
+      {wellbeingIsDefined ? (
+        <CoronaMap
+          googleMapURL={GOOGLE_MAP_URL}
+          loadingElement={<div />}
+          clusters={state.clusters}
+          onRegionChangeComplete={handleRegionChange}
+          style={styles.mapContainer}
+        />
+      ) : (
+        <>
           <CoronaMap
             googleMapURL={GOOGLE_MAP_URL}
             loadingElement={<div />}
             clusters={state.clusters}
-            onRegionChangeComplete={handleRegionChange}
+            pitchEnabled={false}
+            rotateEnabled={false}
+            scrollEnabled={false}
+            zoomEnabled={false}
             style={styles.mapContainer}
           />
-        ) : (
-          <>
-            <CoronaMap
-              googleMapURL={GOOGLE_MAP_URL}
-              loadingElement={<div />}
-              clusters={state.clusters}
-              pitchEnabled={false}
-              rotateEnabled={false}
-              scrollEnabled={false}
-              zoomEnabled={false}
-              style={styles.mapContainer}
-            />
-            <BlurView
-              tint="dark"
-              intensity={75}
-              style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
-              <View style={styles.warningContainer}>
-                <Icon.Lock color="white" style={styles.lockIcon} />
-                <Text style={styles.warningTitle}>{t('screens.map.chooseWellbeingTitle')}</Text>
-                <Text style={styles.warningMessage}>{t('screens.map.chooseWellbeingMessage')}</Text>
-              </View>
-            </BlurView>
-          </>
-        )}
-      </PageContainer>
-    </>
+          <BlurView
+            tint="dark"
+            intensity={75}
+            style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={styles.warningContainer}>
+              <Icon.Lock color="white" style={styles.lockIcon} />
+              <Text style={styles.warningTitle}>{t('screens.map.chooseWellbeingTitle')}</Text>
+              <Text style={styles.warningMessage}>{t('screens.map.chooseWellbeingMessage')}</Text>
+            </View>
+          </BlurView>
+        </>
+      )}
+    </PageContainer>
   );
 }
 

@@ -14,7 +14,6 @@ module.exports = withExpo(
           if (!options.isServer) {
             config.resolve.alias['@sentry/node'] = '@sentry/browser';
           }
-          config.resolve.alias['react-native-maps'] = 'react-native-web-maps';
           return config;
         },
         env: {

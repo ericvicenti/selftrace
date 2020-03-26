@@ -134,56 +134,50 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
   const submitDisabled = !wellbeing;
 
   return (
-    <>
-      <PageContainer>
-        <Text style={styles.title}>{t('headers.form')}</Text>
-        <View style={styles.topTextContainer}>
-          <Text style={styles.topText}>{t('form.topNote')}</Text>
-        </View>
-        <FormContainer progress={progress} style={styles.formContainer}>
-          <Picker
-            label={t('form.wellbeing')}
-            selectedValue={wellbeing}
-            onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
-            items={WELLBEING_OPTIONS}
-            style={styles.picker}
-          />
-          {wellbeingObj && (
-            <View style={styles.textContainer}>
-              <Text style={styles.descriptionText}>{wellbeingObj.description}</Text>
-              {!!wellbeingObj.important && (
-                <View style={styles.noteSection}>
-                  <Text>
-                    <Text style={styles.noteTitle}>{t('form.important')}: </Text>
-                    <Text style={styles.noteText}>{wellbeingObj.important}</Text>
-                  </Text>
-                </View>
-              )}
-              {!!wellbeingObj.note && (
-                <View style={styles.noteSection}>
-                  <Text>
-                    <Text style={styles.noteTitle}>{t('form.note')}: </Text>
-                    <Text style={styles.noteText}>{wellbeingObj.note}</Text>
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-        </FormContainer>
-        <SubmitButton
-          label={t('buttons.update')}
-          progress={progress}
-          disabled={submitDisabled}
-          onPress={() => {
-            uploadUserInfo(
-              uid,
-              { wellbeing: wellbeing!.valueOf() },
-              currentWellbeing === wellbeing
-            );
-          }}
+    <PageContainer>
+      <Text style={styles.title}>{t('headers.form')}</Text>
+      <View style={styles.topTextContainer}>
+        <Text style={styles.topText}>{t('form.topNote')}</Text>
+      </View>
+      <FormContainer progress={progress} style={styles.formContainer}>
+        <Picker
+          label={t('form.wellbeing')}
+          selectedValue={wellbeing}
+          onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
+          items={WELLBEING_OPTIONS}
+          style={styles.picker}
         />
-      </PageContainer>
-    </>
+        {wellbeingObj && (
+          <View style={styles.textContainer}>
+            <Text style={styles.descriptionText}>{wellbeingObj.description}</Text>
+            {!!wellbeingObj.important && (
+              <View style={styles.noteSection}>
+                <Text>
+                  <Text style={styles.noteTitle}>{t('form.important')}: </Text>
+                  <Text style={styles.noteText}>{wellbeingObj.important}</Text>
+                </Text>
+              </View>
+            )}
+            {!!wellbeingObj.note && (
+              <View style={styles.noteSection}>
+                <Text>
+                  <Text style={styles.noteTitle}>{t('form.note')}: </Text>
+                  <Text style={styles.noteText}>{wellbeingObj.note}</Text>
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
+      </FormContainer>
+      <SubmitButton
+        label={t('buttons.update')}
+        progress={progress}
+        disabled={submitDisabled}
+        onPress={() => {
+          uploadUserInfo(uid, { wellbeing: wellbeing!.valueOf() }, currentWellbeing === wellbeing);
+        }}
+      />
+    </PageContainer>
   );
 }
 
