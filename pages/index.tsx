@@ -21,6 +21,8 @@ import { Colors, Margins, Main, Paddings } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 
+import GoogleButton from '../components/SocialButton/GoogleButton';
+
 const logoSource = require('../assets/logo.png');
 
 const styles = StyleSheet.create({
