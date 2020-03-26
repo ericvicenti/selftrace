@@ -44,5 +44,10 @@ export const Shadows = {
   FORM_CONTAINER,
 };
 
+export const Buttons = {
+  MIN_WIDTH: 230,
+  FONT_SIZE: 16,
+};
+
 export * from './colors';
 export * from './typography';

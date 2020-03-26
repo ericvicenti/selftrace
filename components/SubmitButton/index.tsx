@@ -10,7 +10,7 @@ import {
 import Text from '../Text';
 import { Progress, ProgressStatus } from '../../data-types';
 import Color from '../../styles/Color';
-import { Colors, Paddings, Margins, Shadows } from '../../styles';
+import { Colors, Buttons, Paddings, Margins, Shadows } from '../../styles';
 
 const TouchableOpacityAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -21,13 +21,13 @@ export const styles = StyleSheet.create({
     ...Shadows.FORM_CONTAINER,
     marginTop: Margins.MAX_Y,
     borderRadius: BORDER_RADIUS,
+    minWidth: Buttons.MIN_WIDTH,
   },
   rectButton: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: Paddings.MIN_X,
     paddingVertical: Paddings.MIN_Y * 3,
-    minWidth: 100,
     borderRadius: BORDER_RADIUS,
   },
 });
@@ -102,6 +102,6 @@ SubmitButton.defaultProps = {
   backgroundColor: Colors.BLUE,
   labelTextStyle: {
     color: 'white',
-    fontSize: 16,
+    fontSize: Buttons.FONT_SIZE,
   },
 };

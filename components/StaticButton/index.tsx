@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, TextStyle, TouchableHighlight } from 'react-native';
 import Text from '../Text';
-import { Colors, Paddings, Shadows } from '../../styles';
+import { Colors, Buttons, Paddings, Shadows } from '../../styles';
 
 const BORDER_RADIUS = 5;
 
 export const styles = StyleSheet.create({
   container: {
+    minWidth: Buttons.MIN_WIDTH,
     borderRadius: BORDER_RADIUS,
     ...Shadows.FORM_CONTAINER,
   },
@@ -15,7 +16,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Paddings.MIN_X,
     paddingVertical: Paddings.MIN_Y * 3,
-    minWidth: 100,
     borderRadius: BORDER_RADIUS,
   },
 });
@@ -54,6 +54,6 @@ StaticButton.defaultProps = {
   backgroundColor: Colors.BLUE,
   labelTextStyle: {
     color: 'white',
-    fontSize: 16,
+    fontSize: Buttons.FONT_SIZE,
   },
 };
