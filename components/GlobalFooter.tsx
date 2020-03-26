@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     paddingVertical: Paddings.MAX_Y * 2,
-    marginHorizontal: Margins.WINDOW,
+    paddingHorizontal: Paddings.WINDOW,
     marginTop: Margins.MAX_Y,
     borderTopColor: Colors.BORDER.toString(),
     borderTopWidth: StyleSheet.hairlineWidth,

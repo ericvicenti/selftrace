@@ -27,6 +27,7 @@ export const Paddings = {
   Y: 10,
   MAX_X: 25,
   MAX_Y: 15,
+  WINDOW: 20, // Minimum distance from a window edge and a UI element
 };
 
 const FORM_CONTAINER: ViewStyle = {
