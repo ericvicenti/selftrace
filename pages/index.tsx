@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -17,7 +17,7 @@ import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
-import { Colors, Margins } from '../styles';
+import { Colors, Margins, Main } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 
@@ -42,6 +42,10 @@ const styles = StyleSheet.create({
     marginTop: Margins.MIN_Y,
     color: Colors.BLUE.toString(),
     fontSize: 16,
+  },
+  dividerTextContainer: {
+    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
+    width: '100%',
   },
 });
 
@@ -115,7 +119,9 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
       />
-      <DividerText label={t('dividers.or').toUpperCase()} />
+      <View style={styles.dividerTextContainer}>
+        <DividerText label={t('dividers.or').toUpperCase()} />
+      </View>
       <StaticButton label={t('buttons.signup')} onPress={onLinkPress('/signup')} />
       <TouchableOpacity onPress={onLinkPress('/reset-password')}>
         <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
