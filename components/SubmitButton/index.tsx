@@ -26,9 +26,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: Paddings.MIN_X,
-    paddingVertical: Paddings.MIN_Y,
+    paddingVertical: Paddings.MIN_Y * 3,
     minWidth: 100,
-    minHeight: 40,
     borderRadius: BORDER_RADIUS,
   },
 });
@@ -103,5 +102,6 @@ SubmitButton.defaultProps = {
   backgroundColor: Colors.BLUE,
   labelTextStyle: {
     color: 'white',
+    fontSize: 16,
   },
 };

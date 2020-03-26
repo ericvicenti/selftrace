@@ -7,16 +7,15 @@ const BORDER_RADIUS = 5;
 
 export const styles = StyleSheet.create({
   container: {
-    ...Shadows.FORM_CONTAINER,
     borderRadius: BORDER_RADIUS,
+    ...Shadows.FORM_CONTAINER,
   },
   rectButton: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: Paddings.MIN_X,
-    paddingVertical: Paddings.MIN_Y,
+    paddingVertical: Paddings.MIN_Y * 3,
     minWidth: 100,
-    minHeight: 40,
     borderRadius: BORDER_RADIUS,
   },
 });
@@ -55,5 +54,6 @@ StaticButton.defaultProps = {
   backgroundColor: Colors.BLUE,
   labelTextStyle: {
     color: 'white',
+    fontSize: 16,
   },
 };
