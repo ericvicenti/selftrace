@@ -4,10 +4,8 @@ import { Colors } from '../styles';
 const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
 export const Main = {
-  HEADER_HEIGHT: 60,
   BOTTOM_TAB_HEIGHT: 50,
-  FORM_CONTANER_MAX_WIDTH: 600,
-  FORM_INPUT_HEIGHT: 80,
+  FORM_CONTANER_MAX_WIDTH: 400,
   W_WIDTH,
   W_HEIGHT,
 };
@@ -29,6 +27,7 @@ export const Paddings = {
   Y: 10,
   MAX_X: 25,
   MAX_Y: 15,
+  WINDOW: 20, // Minimum distance from a window edge and a UI element
 };
 
 const FORM_CONTAINER: ViewStyle = {

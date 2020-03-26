@@ -16,7 +16,7 @@ interface Props {
 
 const Icon = {
   Question: (props: Props) => <FontAwesome name="question" size={25} {...props} />,
-  Person: (props: Props) => <MaterialIcons name="person" size={25} {...props} />,
+  Person: (props: Props) => <MaterialIcons name="person" size={28} {...props} />,
   MapMarker: (props: Props) => <MaterialCommunityIcons name="map-marker" size={25} {...props} />,
   MapMarkerMultiple: (props: Props) => (
     <MaterialCommunityIcons name="map-marker-multiple" size={25} {...props} />

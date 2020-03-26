@@ -5,7 +5,7 @@ import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     flex: 1,
     maxWidth: 180,
     marginHorizontal: Margins.MIN_X,

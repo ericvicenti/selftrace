@@ -8,30 +8,27 @@ import {
   StyleSheet,
 } from 'react-native';
 import Text from '../Text';
-import { Main, Margins, Colors, Typography } from '../../styles';
+import { Margins, Colors, Typography, Paddings } from '../../styles';
 
 const baseStyles = StyleSheet.create({
   container: {
     width: '100%',
-    height: Main.FORM_INPUT_HEIGHT,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: Margins.WINDOW,
+    paddingTop: Paddings.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   label: {
-    minWidth: 90,
     fontWeight: '600',
-    marginRight: Margins.X,
   },
   textInput: {
     width: '100%',
     flex: 1,
     backgroundColor: Colors.LIGHT_GRAY_BG.toString(),
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: Typography.MAIN_FONT_FAMILY,
-    height: 40,
-    paddingHorizontal: Margins.X,
+    paddingHorizontal: Paddings.X,
+    paddingVertical: 11,
+    marginTop: Margins.MIN_Y,
+    marginBottom: Margins.Y,
     borderRadius: 3,
   },
 });

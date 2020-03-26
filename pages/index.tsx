@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   signupButton: {
-    marginTop: 3 * Margins.Y,
+    marginTop: Margins.MIN_Y,
     color: Colors.BLUE.toString(),
     fontSize: 16,
   },

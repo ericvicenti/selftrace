@@ -3,19 +3,18 @@ import { StyleSheet, View } from 'react-native';
 import Text from './Text';
 import ExternalLink from './ExternalLink';
 import { Colors } from '../styles/colors';
+import { Margins, Paddings } from '../styles';
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    width: '100%',
-    padding: 24,
-    paddingLeft: 20,
-    marginBottom: 10,
+    paddingVertical: Paddings.MAX_Y * 2,
+    paddingHorizontal: Paddings.WINDOW,
+    marginTop: Margins.MAX_Y,
     borderTopColor: Colors.BORDER.toString(),
     borderTopWidth: StyleSheet.hairlineWidth,
   },
   text: {
-    lineHeight: 22,
     color: Colors.INACTIVE_TEXT.toString(),
   },
 });
