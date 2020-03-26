@@ -11,9 +11,9 @@ import {
 } from '../../hocs/withResponsiveWidth';
 
 const TAB_ITEMS = [
-  { id: '1', path: '/map', Icon: Icon.MapMarkerMultiple },
-  { id: '2', path: '/form', Icon: Icon.Form },
-  { id: '3', path: '/account', Icon: Icon.Person },
+  { path: '/map', Icon: Icon.MapMarkerMultiple },
+  { path: '/form', Icon: Icon.Form },
+  { path: '/account', Icon: Icon.Person },
 ];
 
 const styles = StyleSheet.create({
@@ -53,12 +53,12 @@ const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
 
   return (
     <View style={containerStyles}>
-      {TAB_ITEMS.map(({ id, path, Icon: TabIcon }) => {
+      {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
         const isActive = pathname === path;
 
         return (
           <TabItemComponent
-            key={id}
+            key={path}
             path={path}
             Icon={
               <TabIcon
