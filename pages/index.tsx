@@ -88,7 +88,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
   }
 
   return (
-    <PageContainer>
+    <PageContainer showHeader={false}>
       <Image style={styles.logo} source={logoSource} />
       <FormContainer showErrorsOnly progress={progress} style={styles.formContainer}>
         <EmailInput
