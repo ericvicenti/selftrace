@@ -58,6 +58,7 @@ const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
 
         return (
           <TabItemComponent
+            key={path}
             path={path}
             Icon={
               <TabIcon
