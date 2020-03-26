@@ -14,7 +14,9 @@ import { Wellbeing } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Main, Colors, Margins, Typography, Paddings } from '../../styles';
+import { Colors, Margins, Typography, Paddings } from '../../styles';
+
+const CONTENT_MAX_WIDTH = 600;
 
 const styles = StyleSheet.create({
   topTextContainer: {
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     paddingVertical: Paddings.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
-    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
+    maxWidth: CONTENT_MAX_WIDTH,
   },
   topText: {
     ...Typography.INACTIVE_TEXT_STYLES,
@@ -45,6 +47,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: Margins.Y,
     paddingHorizontal: Paddings.MAX_X,
+    maxWidth: CONTENT_MAX_WIDTH,
   },
   textContainer: {
     alignSelf: 'flex-start',
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
     marginBottom: Margins.Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
-    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
   },
   picker: {
     paddingVertical: Paddings.Y,

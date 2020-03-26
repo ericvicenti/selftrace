@@ -5,7 +5,7 @@ const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
 export const Main = {
   BOTTOM_TAB_HEIGHT: 50,
-  FORM_CONTANER_MAX_WIDTH: 600,
+  FORM_CONTANER_MAX_WIDTH: 400,
   W_WIDTH,
   W_HEIGHT,
 };

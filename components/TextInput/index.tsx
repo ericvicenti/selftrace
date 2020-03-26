@@ -26,7 +26,7 @@ const baseStyles = StyleSheet.create({
     fontSize: 16,
     fontFamily: Typography.MAIN_FONT_FAMILY,
     paddingHorizontal: Paddings.X,
-    paddingVertical: Paddings.MAX_Y,
+    paddingVertical: 11,
     marginTop: Margins.MIN_Y,
     marginBottom: Margins.Y,
     borderRadius: 3,
