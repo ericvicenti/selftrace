@@ -78,7 +78,7 @@ function App(props: any) {
       <SafeAreaProvider>
         <AppearanceProvider>
           <CustomAppearanceProvider>
-            <View style={{ flex: 1 }}>
+            <View style={{ flexGrow: 1 }}>
               <Favicon />
               <Layout>
                 <Component {...pageProps} />
