@@ -45,10 +45,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   ctaContainer: {
-    flex: 1,
-    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
-    paddingHorizontal: Paddings.MAX_X,
     width: '100%',
+    marginBottom: Margins.Y,
   },
   dividerTextContainer: {
     width: '100%',
@@ -118,22 +116,23 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
             setPassword(text);
           }}
         />
-      </FormContainer>
-      <View style={styles.ctaContainer}>
-        <SubmitButton
-          label={t('buttons.signin')}
-          progress={progress}
-          disabled={submitDisabled}
-          onPress={() => signinUser(email, password)}
-        />
-        <View style={styles.dividerTextContainer}>
-          <DividerText label={t('dividers.or').toUpperCase()} />
+
+        <View style={styles.ctaContainer}>
+          <SubmitButton
+            label={t('buttons.signin')}
+            progress={progress}
+            disabled={submitDisabled}
+            onPress={() => signinUser(email, password)}
+          />
+          <View style={styles.dividerTextContainer}>
+            <DividerText label={t('dividers.or').toUpperCase()} />
+          </View>
+          <StaticButton label={t('buttons.signup')} onPress={onLinkPress('/signup')} />
+          <TouchableOpacity onPress={onLinkPress('/reset-password')}>
+            <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
+          </TouchableOpacity>
         </View>
-        <StaticButton label={t('buttons.signup')} onPress={onLinkPress('/signup')} />
-        <TouchableOpacity onPress={onLinkPress('/reset-password')}>
-          <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
-        </TouchableOpacity>
-      </View>
+      </FormContainer>
     </PageContainer>
   );
 }
