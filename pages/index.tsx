@@ -11,6 +11,7 @@ import PageContainer from '../components/PageContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
+import StaticButton from '../components/StaticButton';
 import { AuthStatus } from '../data-types';
 import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
@@ -18,6 +19,7 @@ import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
 import { Colors, Margins } from '../styles';
 import FlexLoader from '../components/FlexLoader';
+import DividerText from '../components/DividerText';
 
 const logoSource = require('../assets/logo.png');
 
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
     marginTop: Margins.MAX_Y,
     color: Colors.INACTIVE_TEXT.toString(),
     fontSize: 16,
+    textDecorationLine: 'underline',
   },
   signupButton: {
     marginTop: Margins.MIN_Y,
@@ -112,11 +115,10 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
         disabled={submitDisabled}
         onPress={() => signinUser(email, password)}
       />
+      <DividerText label={t('dividers.or').toUpperCase()} />
+      <StaticButton label={t('buttons.signup')} onPress={onLinkPress('/signup')} />
       <TouchableOpacity onPress={onLinkPress('/reset-password')}>
         <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onLinkPress('/signup')}>
-        <Text style={styles.signupButton}> {t('buttons.signup')}</Text>
       </TouchableOpacity>
     </PageContainer>
   );
