@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 });
 
 interface PublicProps extends ViewProps {
+  showHeader?: boolean;
   children?: ReactNode;
 }
 
@@ -24,16 +25,22 @@ interface PrivateProps {
 interface Props extends PublicProps, PrivateProps {}
 
 const PageContainer = (props: Props) => {
-  const { children, style, router, ...rest } = props;
-  return (
+  const { showHeader = true, children, style, router, ...rest } = props;
+  const Content = (
+    <View style={[styles.container, style]} {...rest}>
+      {children}
+    </View>
+  );
+
+  return showHeader ? (
     <>
       <View>
         <TabNavigator pathname={router.pathname} />
       </View>
-      <View style={[styles.container, style]} {...rest}>
-        {children}
-      </View>
+      {Content}
     </>
+  ) : (
+    Content
   );
 };
 
