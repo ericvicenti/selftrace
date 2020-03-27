@@ -3,20 +3,18 @@ import { StyleSheet, View, TextStyle, TouchableHighlight } from 'react-native';
 import Text from '../Text';
 import { Colors, Buttons, Paddings, Shadows } from '../../styles';
 
-const BORDER_RADIUS = 5;
-
 export const styles = StyleSheet.create({
   container: {
+    borderRadius: Buttons.BORDER_RADIUS,
     minWidth: Buttons.MIN_WIDTH,
-    borderRadius: BORDER_RADIUS,
     ...Shadows.FORM_CONTAINER,
   },
   rectButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: Paddings.MIN_X,
+    borderRadius: Buttons.BORDER_RADIUS,
+    height: Buttons.HEIGHT,
     paddingVertical: Paddings.MIN_Y * 3,
-    borderRadius: BORDER_RADIUS,
   },
 });
 
@@ -36,9 +34,9 @@ export default function StaticButton({
   onPress,
 }: Props) {
   return (
-    <View style={[styles.container, { backgroundColor, shadowColor: backgroundColor }]}>
+    <View style={[styles.container, { shadowColor: backgroundColor }]}>
       <TouchableHighlight
-        style={styles.rectButton}
+        style={[styles.rectButton, { backgroundColor }]}
         activeOpacity={1}
         onPress={onPress}
         disabled={disabled}>

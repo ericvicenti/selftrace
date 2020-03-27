@@ -45,8 +45,10 @@ export const Shadows = {
 };
 
 export const Buttons = {
-  MIN_WIDTH: 230,
+  BORDER_RADIUS: 5,
   FONT_SIZE: 16,
+  HEIGHT: 48,
+  MIN_WIDTH: 230,
 };
 
 export * from './colors';

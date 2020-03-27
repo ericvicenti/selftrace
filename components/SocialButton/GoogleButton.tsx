@@ -3,34 +3,34 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { View } from 'react-native-web';
 
 import { GoogleLogo } from '../../util/svg';
-import { Margins, Shadows } from '../../styles';
+import { Margins, Shadows, Buttons, Paddings } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    width: 'fit-content',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: Margins.MAX_Y,
-    borderRadius: 5,
-    backgroundColor: '#EEEEEE', // From Google's Sketch
+    borderRadius: Buttons.BORDER_RADIUS,
+    marginTop: Margins.Y,
+    minWidth: Buttons.MIN_WIDTH,
     ...Shadows.FORM_CONTAINER,
   },
   button: {
-    height: 40, // does not recognize dp
-    paddingHorizontal: 8,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    height: 48,
+    borderRadius: Buttons.BORDER_RADIUS,
+    paddingHorizontal: Paddings.MIN_X,
   },
   logo: {
     marginRight: 24,
+    width: 22,
+    height: 22,
   },
   text: {
     // TODO: Move this to Colors
     color: 'rgba(0,0,0,0.54)', // From Google's Sketch
     fontFamily: "'Roboto', sans-serif;", // From Google's brandline
+    fontSize: Buttons.FONT_SIZE,
   },
 });
 

@@ -14,21 +14,19 @@ import { Colors, Buttons, Paddings, Margins, Shadows } from '../../styles';
 
 const TouchableOpacityAnimated = Animated.createAnimatedComponent(TouchableOpacity);
 
-const BORDER_RADIUS = 5;
-
 export const styles = StyleSheet.create({
   container: {
-    ...Shadows.FORM_CONTAINER,
+    borderRadius: Buttons.BORDER_RADIUS,
     marginTop: Margins.MAX_Y,
-    borderRadius: BORDER_RADIUS,
     minWidth: Buttons.MIN_WIDTH,
+    ...Shadows.FORM_CONTAINER,
   },
   rectButton: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: Buttons.HEIGHT,
+    borderRadius: Buttons.BORDER_RADIUS,
     paddingHorizontal: Paddings.MIN_X,
-    paddingVertical: Paddings.MIN_Y * 3,
-    borderRadius: BORDER_RADIUS,
   },
 });
 
