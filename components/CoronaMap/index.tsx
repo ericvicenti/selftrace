@@ -3,11 +3,13 @@ import { View, ViewStyle, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import { withScriptjs } from 'react-google-maps';
 import { t } from 'i18n-js';
-import ClusterMarker from './ClusterMarker';
+// import ClusterMarker from './ClusterMarker';
 import LoadingIndicator from './LoadingIndicator';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { useAnimatedBool } from '../../hooks';
 import { Margins } from '../../styles';
+
+const { Marker } = MapView as any;
 
 const styles = StyleSheet.create({
   container: {},
@@ -60,7 +62,14 @@ function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
         style={styles.mapView}
         {...rest}>
         {clusters.map(({ data: cluster, key }) => (
-          <ClusterMarker key={key} cluster={cluster} />
+          <Marker
+            key={key}
+            coordinate={{
+              latitude: cluster.lat,
+              longitude: cluster.lng,
+            }}
+            tracksViewChanges={false}
+          />
         ))}
       </MapView>
     </View>
