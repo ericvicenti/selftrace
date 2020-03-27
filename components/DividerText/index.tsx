@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Text from '../Text';
 import { Colors, Paddings } from '../../styles';
-import Color from '../../styles/Color';
 
 export const styles = StyleSheet.create({
   orContainer: {
@@ -21,28 +20,25 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   orLine: {
-    height: 1,
     flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: Colors.BORDER.toString(),
   },
 });
 
 interface Props {
   label: string;
-  color?: Color;
+  color?: string;
 }
 
-export default function DividerText({ label, color }: Props) {
+export default function DividerText({ label, color = Colors.INACTIVE_TEXT.toString() }: Props) {
   return (
     <View style={styles.orContainer}>
-      <View style={[styles.orLine, { backgroundColor: color.toString() }]} />
+      <View style={styles.orLine} />
       <View style={styles.orTextContainer}>
         <Text style={[styles.orText, { color }]}>{label}</Text>
       </View>
-      <View style={[styles.orLine, { backgroundColor: color.toString() }]} />
+      <View style={styles.orLine} />
     </View>
   );
 }
-
-DividerText.defaultProps = {
-  color: Colors.INACTIVE_TEXT,
-};

@@ -20,9 +20,6 @@ import AuthUtils from '../util/AuthUtils';
 import { Colors, Margins, Main, Paddings } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
-
-import { loginWithGoogle } from '../api/auth';
-
 import GoogleButton from '../components/SocialButton/GoogleButton';
 
 const logoSource = require('../assets/logo.png');
