@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -11,13 +11,15 @@ import PageContainer from '../components/PageContainer';
 import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
+import StaticButton from '../components/StaticButton';
 import { AuthStatus } from '../data-types';
 import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
-import { Colors, Margins } from '../styles';
+import { Colors, Margins, Main, Paddings } from '../styles';
 import FlexLoader from '../components/FlexLoader';
+import DividerText from '../components/DividerText';
 
 const logoSource = require('../assets/logo.png');
 
@@ -31,14 +33,25 @@ const styles = StyleSheet.create({
     marginTop: Margins.MAX_Y,
   },
   forgotPasswordButton: {
-    marginTop: Margins.MAX_Y,
     color: Colors.INACTIVE_TEXT.toString(),
     fontSize: 16,
+    marginTop: Margins.MAX_Y,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   signupButton: {
     marginTop: Margins.MIN_Y,
     color: Colors.BLUE.toString(),
     fontSize: 16,
+  },
+  ctaContainer: {
+    flex: 1,
+    maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
+    paddingHorizontal: Paddings.MAX_X,
+    width: '100%',
+  },
+  dividerTextContainer: {
+    width: '100%',
   },
 });
 
@@ -106,18 +119,21 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
           }}
         />
       </FormContainer>
-      <SubmitButton
-        label={t('buttons.signin')}
-        progress={progress}
-        disabled={submitDisabled}
-        onPress={() => signinUser(email, password)}
-      />
-      <TouchableOpacity onPress={onLinkPress('/reset-password')}>
-        <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onLinkPress('/signup')}>
-        <Text style={styles.signupButton}> {t('buttons.signup')}</Text>
-      </TouchableOpacity>
+      <View style={styles.ctaContainer}>
+        <SubmitButton
+          label={t('buttons.signin')}
+          progress={progress}
+          disabled={submitDisabled}
+          onPress={() => signinUser(email, password)}
+        />
+        <View style={styles.dividerTextContainer}>
+          <DividerText label={t('dividers.or').toUpperCase()} />
+        </View>
+        <StaticButton label={t('buttons.signup')} onPress={onLinkPress('/signup')} />
+        <TouchableOpacity onPress={onLinkPress('/reset-password')}>
+          <Text style={styles.forgotPasswordButton}>{t('buttons.forgotPassword')}</Text>
+        </TouchableOpacity>
+      </View>
     </PageContainer>
   );
 }

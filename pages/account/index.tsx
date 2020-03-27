@@ -15,7 +15,7 @@ import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Colors, Margins, Shadows } from '../../styles';
+import { Colors, Margins, Shadows, Buttons } from '../../styles';
 import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     shadowRadius: 7,
     alignSelf: 'flex-start',
     marginBottom: Margins.MIN_Y,
-    minWidth: 270,
+    minWidth: Buttons.MIN_WIDTH,
     minHeight: 50,
   },
 });

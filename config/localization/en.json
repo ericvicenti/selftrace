@@ -7,6 +7,9 @@
     "signup": "Sign up",
     "signout": "Sign out"
   },
+  "dividers": {
+    "or": "or"
+  },
   "alerts": {
     "signout": {
       "title": "Sign out?",
