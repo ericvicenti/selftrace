@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 // import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
-import GlobalFooter from '../components/GlobalFooter';
 import Layout from '../components/Layout';
 // import { initStore } from '../store';
 import store from '../store';
@@ -84,7 +83,6 @@ function App(props: any) {
                 <Component {...pageProps} />
               </Layout>
             </View>
-            <GlobalFooter />
           </CustomAppearanceProvider>
         </AppearanceProvider>
       </SafeAreaProvider>
