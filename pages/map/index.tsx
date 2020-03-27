@@ -31,9 +31,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mapContainer: {
-    flex: 1,
     width: '100%',
-    maxHeight: 500,
+    height: '100%',
   },
   warningContainer: {
     backgroundColor: Colors.PRIMARY.toString(),
@@ -75,6 +74,8 @@ const mapStateToProps = (state: ReduxRoot) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators({}, dispatch);
 
+const MIN_EXECUTION_TIME = 1000;
+
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
@@ -86,19 +87,35 @@ function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
 
   async function handleRegionChange(regionObj: RegionObject) {
+    const requestStartedAt = Date.now();
+    let requestEndedAt = requestStartedAt;
     setState(prevState => ({ ...prevState, isLoading: true }));
-    try {
-      const receivedClusters = await API.requestClusters(regionObj, true);
+    let newClusters = [];
 
-      setState({
-        clusters: receivedClusters.map(cluster => ({
-          key: ReactUtils.generateListKey(),
-          data: cluster,
-        })),
-        isLoading: false,
-      });
+    try {
+      newClusters = await API.requestClusters(regionObj, true);
+      requestEndedAt = Date.now();
     } catch (err) {
-      setState(prevState => ({ ...prevState, isLoading: false }));
+      requestEndedAt = Date.now();
+    } finally {
+      const executionTime = requestEndedAt - requestStartedAt;
+
+      const endRequest = () =>
+        setState({
+          clusters: newClusters.map(cluster => ({
+            key: ReactUtils.generateListKey(),
+            data: cluster,
+          })),
+          isLoading: false,
+        });
+
+      if (executionTime < MIN_EXECUTION_TIME) {
+        setTimeout(() => {
+          endRequest();
+        }, MIN_EXECUTION_TIME - executionTime);
+      } else {
+        endRequest();
+      }
     }
   }
 
@@ -111,6 +128,7 @@ function MapPage({ wellbeing }: Props) {
         <CoronaMap
           googleMapURL={GOOGLE_MAP_URL}
           loadingElement={<div />}
+          isLoading={state.isLoading}
           clusters={state.clusters}
           onRegionChangeComplete={handleRegionChange}
           style={styles.mapContainer}
