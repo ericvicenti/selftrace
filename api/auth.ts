@@ -51,3 +51,13 @@ export const requestUpdatePassword = (newPassword: string) => {
     ? currentUser.updatePassword(newPassword)
     : Promise.reject(new Error('User does not exist.'));
 };
+
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+export const loginWithGoogle = () =>
+  firebase
+    .auth()
+    .signInWithPopup(googleProvider)
+    .then(result => {
+      console.log(result);
+    });

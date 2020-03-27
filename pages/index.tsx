@@ -21,6 +21,8 @@ import { Colors, Margins, Main, Paddings } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 
+import { loginWithGoogle } from '../api/auth';
+
 import GoogleButton from '../components/SocialButton/GoogleButton';
 
 const logoSource = require('../assets/logo.png');
@@ -128,7 +130,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
           disabled={submitDisabled}
           onPress={() => signinUser(email, password)}
         />
-        <GoogleButton onPress={() => console.log('Pressed google button')} />
+        <GoogleButton onPress={loginWithGoogle} />
         <View style={styles.dividerTextContainer}>
           <DividerText label={t('dividers.or').toUpperCase()} />
         </View>
