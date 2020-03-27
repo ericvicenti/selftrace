@@ -69,6 +69,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
   bindActionCreators(
     {
       signinUser: SigninActions.signinUser,
+      googleOAuthUser: SigninActions.googleOAuthUser,
       clearProgress: () => (d: Dispatch) => d(SigninActions.clearSigninProgress()),
     },
     dispatch
@@ -76,7 +77,14 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStatus }: Props) {
+function LoginPage({
+  authDisabled,
+  signinUser,
+  progress,
+  clearProgress,
+  authStatus,
+  googleOAuthUser,
+}: Props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -130,7 +138,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
           disabled={submitDisabled}
           onPress={() => signinUser(email, password)}
         />
-        <GoogleButton onPress={loginWithGoogle} />
+        <GoogleButton onPress={googleOAuthUser} />
         <View style={styles.dividerTextContainer}>
           <DividerText label={t('dividers.or').toUpperCase()} />
         </View>
