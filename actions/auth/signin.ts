@@ -1,4 +1,4 @@
-import { requestSignin } from '../../api';
+import { requestSignin, loginWithGoogle } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
 
@@ -40,6 +40,17 @@ export const signinUser = (email: string, password: string) => async (dispatch: 
   try {
     const res = await requestSignin(email, password);
     return dispatch(receiveSigninResponse(res));
+  } catch (err) {
+    return dispatch(receiveSigninError(err));
+  }
+};
+
+export const googleOAuthUser = () => async (dispatch: Dispatch) => {
+  dispatch(startSigninRequest());
+
+  try {
+    await loginWithGoogle();
+    return dispatch(receiveSigninResponse());
   } catch (err) {
     return dispatch(receiveSigninError(err));
   }
