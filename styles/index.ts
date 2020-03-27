@@ -31,18 +31,16 @@ export const Paddings = {
   MAX_Y: 15,
 };
 
-const FORM_CONTAINER: ViewStyle = {
-  shadowOffset: {
-    height: 0,
-    width: 0,
+export const Shadows: { [key: string]: ViewStyle } = {
+  FORM_CONTAINER: {
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 15,
+    shadowOpacity: 0.5,
+    shadowColor: Colors.SHADOW.toString(),
   },
-  shadowRadius: 15,
-  shadowOpacity: 0.5,
-  shadowColor: Colors.SHADOW.toString(),
-};
-
-export const Shadows = {
-  FORM_CONTAINER,
 };
 
 export * from './colors';

@@ -86,10 +86,15 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
 
+  // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
     const requestStartedAt = Date.now();
     let requestEndedAt = requestStartedAt;
-    setState(prevState => ({ ...prevState, isLoading: true }));
+    setState(prevState => ({
+      ...prevState,
+      clusters: [],
+      isLoading: true,
+    }));
     let newClusters = [];
 
     try {

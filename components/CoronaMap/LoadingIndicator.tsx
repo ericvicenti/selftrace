@@ -7,7 +7,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.PRIMARY.toString(),
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.6,
+    shadowColor: Colors.CLUSTER_BASE.toString(),
+    backgroundColor: Colors.CLUSTER_BASE.toString(),
     paddingHorizontal: Paddings.X,
     paddingVertical: Paddings.Y,
     borderRadius: 25,

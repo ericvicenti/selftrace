@@ -54,8 +54,8 @@ function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 1.822,
+          longitudeDelta: 1.821,
         }}
         style={styles.mapView}
         {...rest}>

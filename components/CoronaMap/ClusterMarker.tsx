@@ -12,6 +12,13 @@ const MAX_DELTA = 20;
 
 const styles = StyleSheet.create({
   container: {
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 15,
+    shadowOpacity: 0.8,
+    shadowColor: Colors.CLUSTER_BASE.toString(),
     justifyContent: 'center',
     alignItems: 'center',
   },
