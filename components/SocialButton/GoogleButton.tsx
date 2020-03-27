@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: Margins.MAX_Y,
     borderRadius: 5,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#EEEEEE', // From Google's Sketch
     ...Shadows.FORM_CONTAINER,
   },
   button: {
@@ -29,16 +29,20 @@ const styles = StyleSheet.create({
   },
   text: {
     // TODO: Move this to Colors
-    color: 'rgba(0,0,0,0.54)',
-    fontFamily: "'Roboto', sans-serif;",
+    color: 'rgba(0,0,0,0.54)', // From Google's Sketch
+    fontFamily: "'Roboto', sans-serif;", // From Google's brandline
   },
 });
 
 // TODO: This changes the opacity of Logo and Text too, really I just want the background to transition color
 // May need to switch to animated for this, but this is low priority in terms of functionality
-const GoogleButton = () => (
+interface GoogleButtonProps {
+  onPress: () => void;
+}
+
+const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }: GoogleButtonProps) => (
   <View style={styles.container}>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <GoogleLogo style={styles.logo} />
       <Text style={styles.text}>Sign in with Google</Text>
     </TouchableOpacity>

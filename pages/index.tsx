@@ -128,7 +128,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
           disabled={submitDisabled}
           onPress={() => signinUser(email, password)}
         />
-        <GoogleButton />
+        <GoogleButton onPress={() => console.log('Pressed google button')} />
         <View style={styles.dividerTextContainer}>
           <DividerText label={t('dividers.or').toUpperCase()} />
         </View>
