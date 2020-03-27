@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, ViewStyle, StyleSheet, Animated } from 'react-native';
+import { View, ViewStyle, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import { withScriptjs } from 'react-google-maps';
 import { t } from 'i18n-js';
 import ClusterMarker from './ClusterMarker';
 import LoadingIndicator from './LoadingIndicator';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
+import { useAnimatedBool } from '../../hooks';
 import { Margins } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -33,14 +34,7 @@ interface CoronaMapProps {
 }
 
 function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
-  const isLoadingScaleRef = React.useRef(new Animated.Value(isLoading ? 1 : 0));
-
-  React.useEffect(() => {
-    Animated.timing(isLoadingScaleRef.current, {
-      toValue: isLoading ? 1 : 0,
-      duration: 200,
-    }).start();
-  }, [isLoading]);
+  const isLoadingAnim = useAnimatedBool(isLoading, 200);
 
   return (
     <View style={[styles.container, style]}>
@@ -49,7 +43,7 @@ function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
         style={[
           styles.loadingIndicator,
           {
-            opacity: isLoadingScaleRef.current.interpolate({
+            opacity: isLoadingAnim.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 1],
             }),
