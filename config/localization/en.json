@@ -4,6 +4,7 @@
     "forgotPassword": "Forgot my password",
     "reset": "Reset",
     "signin": "Sign in",
+    "signInGoogle": "Sign in with Google",
     "signup": "Sign up",
     "signout": "Sign out"
   },

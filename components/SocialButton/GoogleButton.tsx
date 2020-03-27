@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { View } from 'react-native-web';
-
+import { t } from 'i18n-js';
 import { GoogleLogo } from '../../util/svg';
 import { Margins, Shadows, Buttons, Paddings } from '../../styles';
 
@@ -44,7 +44,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ onPress }: GoogleButtonProp
   <View style={styles.container}>
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <GoogleLogo style={styles.logo} />
-      <Text style={styles.text}>Sign in with Google</Text>
+      <Text style={styles.text}>{t('buttons.signInGoogle')}</Text>
     </TouchableOpacity>
   </View>
 );
