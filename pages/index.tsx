@@ -17,20 +17,23 @@ import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
-import { Colors, Margins, Main, Paddings } from '../styles';
+import { Colors, Margins, Main, Paddings, Typography } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 import GoogleButton from '../components/SocialButton/GoogleButton';
 
-const logoSource = require('../assets/logo.png');
+const logoSource = require('../assets/logo-with-title.png');
 
 const styles = StyleSheet.create({
   container: {
     paddingBottom: Paddings.MAX_Y,
   },
   logo: {
-    height: 160,
-    width: 160,
+    paddingVertical: Paddings.Y,
+    paddingHorizontal: Paddings.X,
+    marginVertical: Margins.MAX_Y,
+    height: 120,
+    width: 300,
   },
   formContainer: {
     width: '100%',
