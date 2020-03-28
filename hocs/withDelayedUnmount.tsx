@@ -6,13 +6,14 @@ interface WithDelayedUnmountProps {
 }
 
 const withDelayedUnmount = <P extends object>(
-  Component: React.ComponentType<P> | null
+  Component: React.ComponentType<P>
 ): React.FC<P & WithDelayedUnmountProps> => ({
   isVisible,
   duration,
   ...rest
-}: WithDelayedUnmountProps): ReactElement => {
+}: WithDelayedUnmountProps): ReactElement<any> | null => {
   const [isMounted, setIsMounted] = useState(isVisible);
+
   useEffect(() => {
     if (isVisible) setIsMounted(true);
     else
@@ -20,6 +21,7 @@ const withDelayedUnmount = <P extends object>(
         setIsMounted(false);
       }, duration);
   }, [duration, isVisible]);
+
   return isMounted ? <Component {...(rest as P)} /> : null;
 };
 
