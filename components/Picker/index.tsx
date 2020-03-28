@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Text from '../Text';
 import { Margins, Typography } from '../../styles';
+import { t } from 'i18n-js';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +41,7 @@ function Picker({ items, label, labelTextStyle, style, ...rest }: Props) {
     <View style={[styles.container, style]}>
       <Text style={[styles.label, labelTextStyle]}>{label}</Text>
       <RNPicker style={styles.picker} {...rest}>
-        {[{ label: 'Please select', value: '' }, ...items].map(item => (
+        {[{ label: t('dropdowns.selectPlaceholder'), value: '' }, ...items].map(item => (
           <RNPicker.Item key={item.value} label={item.label} value={item.value} />
         ))}
       </RNPicker>

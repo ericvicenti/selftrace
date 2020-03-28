@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, ActivityIndicator, StyleSheet } from 'react-native';
 import Text from '../Text';
 import { Colors, Paddings, Margins } from '../../styles';
+import withDelayedUnmount from '../../hocs/withDelayedUnmount';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +31,7 @@ interface Props {
   style?: any;
 }
 
-export default function LoadingIndicator({ message, style }: Props) {
+function LoadingIndicator({ message, style }: Props) {
   return (
     <Animated.View style={[styles.container, style]}>
       <ActivityIndicator size="small" color="white" />
@@ -38,3 +39,5 @@ export default function LoadingIndicator({ message, style }: Props) {
     </Animated.View>
   );
 }
+
+export default withDelayedUnmount(LoadingIndicator);

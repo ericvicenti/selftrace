@@ -7,6 +7,9 @@
     "signup": "",
     "signout": ""
   },
+  "dropdowns": {
+    "selectPlaceholder": ""
+  },  
   "alerts": {
     "signout": {
       "title": "",
@@ -26,7 +29,9 @@
   },
   "inputs": {
     "email": "",
+    "enterEmailPlaceholder": "",
     "password": "",
+    "enterPasswordPlaceholder": "",
     "newPasswordPlaceholder": "",
     "confirmPasswordPlaceholder": ""
   },
@@ -36,6 +41,8 @@
       "updatePassword": ""
     },
     "map": {
+      "loadingMessage": "",
+      "clusterDetailsTitle": "",
       "userTestedPositive": "",
       "userShowingSymptoms": "",
       "testedPositive": "",

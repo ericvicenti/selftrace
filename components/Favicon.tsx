@@ -7,14 +7,14 @@ export default function() {
       <link
         rel="icon"
         type="image/png"
-        sizes="32x32"
-        href={require('../assets/favicon-32x32.png')}
+        sizes="64x64"
+        href={require('../assets/favicon-64x64.png')}
       />
       <link
         rel="icon"
         type="image/png"
-        sizes="16x16"
-        href={require('../assets/favicon-16x16.png')}
+        sizes="32x32"
+        href={require('../assets/favicon-32x32.png')}
       />
     </Head>
   );
