@@ -66,6 +66,9 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
             if (progress.status !== ProgressStatus.NIL) clearProgress();
             setEmail(text.toLowerCase());
           }}
+          onSubmitEditing={() => {
+            resetUserPassword(email);
+          }}
         />
       </FormContainer>
       <SubmitButton

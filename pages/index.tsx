@@ -122,6 +122,7 @@ function LoginPage({
             if (progress.status) clearProgress();
             setEmail(text);
           }}
+          onSubmitEditing={() => signinUser(email, password)}
         />
         <PasswordInput
           value={password}
@@ -129,6 +130,7 @@ function LoginPage({
             if (progress.status) clearProgress();
             setPassword(text);
           }}
+          onSubmitEditing={() => signinUser(email, password)}
         />
       </FormContainer>
       <View style={styles.ctaContainer}>

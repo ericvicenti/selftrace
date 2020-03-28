@@ -92,6 +92,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             if (progress.status) clearProgress();
             setEmail(text);
           }}
+          onSubmitEditing={() => signupUser(email, password1)}
           placeholder="Enter your email" // TODO: Localize
         />
         <PasswordInput
@@ -100,6 +101,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             if (progress.status) clearProgress();
             setPassword1(text);
           }}
+          onSubmitEditing={() => signupUser(email, password1)}
           placeholder="Enter a new password" // TODO: Localize
         />
         <PasswordInput
@@ -108,7 +110,8 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             if (progress.status) clearProgress();
             setPassword2(text);
           }}
-          placeholder="Confirm your new password" // TODO: Localize
+          onSubmitEditing={() => signupUser(email, password1)}
+          placeholder="Confirm your new password" // TODO: Localize          
         />
       </FormContainer>
       <SubmitButton
