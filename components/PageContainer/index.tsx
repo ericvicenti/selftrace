@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, ViewProps, StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { withRouter, SingletonRouter } from 'next/router';
 import { Margins } from '../../styles';
 import TabNavigator from '../TabNavigator';
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 interface PublicProps extends ViewProps {
   showHeader?: boolean;
   children?: ReactNode;
+  isFullScreen?: boolean;
 }
 
 interface PrivateProps {
@@ -25,9 +26,16 @@ interface PrivateProps {
 interface Props extends PublicProps, PrivateProps {}
 
 const PageContainer = (props: Props) => {
-  const { showHeader = true, children, style, router, ...rest } = props;
+  const { showHeader = true, children, isFullScreen, style, router, ...rest } = props;
+
+  const containerStyles: StyleProp<ViewStyle> = [styles.container];
+
+  if (isFullScreen) {
+    containerStyles.push({ padding: 0 });
+  }
+
   const Content = (
-    <View style={[styles.container, style]} {...rest}>
+    <View style={[containerStyles, style]} {...rest}>
       {children}
     </View>
   );

@@ -28,8 +28,11 @@ interface Props {
 
 export default function StaticButton({
   label,
-  labelTextStyle,
-  backgroundColor,
+  labelTextStyle = {
+    color: 'white',
+    fontSize: Buttons.FONT_SIZE,
+  },
+  backgroundColor = Colors.BLUE.toString(),
   disabled,
   onPress,
 }: Props) {
@@ -47,11 +50,3 @@ export default function StaticButton({
     </View>
   );
 }
-
-StaticButton.defaultProps = {
-  backgroundColor: Colors.BLUE,
-  labelTextStyle: {
-    color: 'white',
-    fontSize: Buttons.FONT_SIZE,
-  },
-};

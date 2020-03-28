@@ -126,7 +126,7 @@ function MapPage({ wellbeing }: Props) {
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
 
   return (
-    <PageContainer>
+    <PageContainer isFullScreen>
       {wellbeingIsDefined ? (
         <CoronaMap
           googleMapURL={GOOGLE_MAP_URL}

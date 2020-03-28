@@ -43,7 +43,9 @@ function TouchableRect({
       if (haptic === 'heavy') impact = Heavy;
 
       await Haptics.impactAsync(impact);
-      onPress(false);
+      if (onPress) {
+        onPress(false);
+      }
     };
   }
 
