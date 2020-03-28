@@ -30,7 +30,9 @@
   },
   "inputs": {
     "email": "Email",
+    "enterEmailPlaceholder": "Enter your email",
     "password": "Password",
+    "enterPasswordPlaceholder": "Enter a new password",
     "newPasswordPlaceholder": "Your new password",
     "confirmPasswordPlaceholder": "Confirm new password"
   },
