@@ -1,19 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, Platform } from 'react-native';
+import { StyleSheet, Text, TextStyle } from 'react-native';
 import { A } from '@expo/html-elements';
 import { useHover } from 'react-native-web-hooks';
 
-export default function ExternalLink({
-  isColored = true,
-  href,
-  target = 'blank',
-  children,
-  style = null,
-}) {
-  let linkStyles: [any] = [isColored ? styles.bright : styles.plain];
+interface Props {
+  isColored: boolean;
+  href: string;
+  target: string;
+  children: React.ReactNode | string;
+  style?: TextStyle;
+}
 
-  let linkRef = React.useRef();
-  let isHovered = useHover(linkRef);
+export default function ExternalLink(props: Props) {
+  const { isColored, href, target, children, style } = props;
+  const linkStyles: [TextStyle] = [isColored ? styles.bright : styles.plain];
+  const linkRef = React.useRef();
+  const isHovered = useHover(linkRef);
+
   if (isHovered) {
     linkStyles.push(isColored ? styles.brightHovered : styles.plainHovered);
   }
@@ -43,3 +46,8 @@ let styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
+ExternalLink.defaultProps = {
+  isColored: true,
+  target: 'blank',
+};
