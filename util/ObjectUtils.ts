@@ -27,7 +27,7 @@ export default class ObjectUtils {
    *  }
    * };
    */
-  static modify<T>(obj: object, address: string[], value: T): object {
+  static modify<T>(obj: object, address: string[], value: T): object | undefined {
     const n = address.length;
     if (n === 0) return;
     let cur = obj;
