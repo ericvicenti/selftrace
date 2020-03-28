@@ -20,7 +20,10 @@ const withLoading = <P extends object>(
   loading ? (
     <ActivityIndicator
       size={activityIndicatorSize || 'small'}
-      color={activityIndicatorColor.toString() || Colors.INACTIVE_ICON.toString()}
+      color={
+        (activityIndicatorColor && activityIndicatorColor.toString()) ||
+        Colors.INACTIVE_ICON.toString()
+      }
     />
   ) : (
     <Component {...(props as P)} />
