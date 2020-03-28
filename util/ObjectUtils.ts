@@ -27,24 +27,30 @@ export default class ObjectUtils {
    *  }
    * };
    */
-  static modify<T>(obj: object, address: string[], value: T): object | undefined {
+  static modify<T>(obj: object, address: string[], value: T): object {
     const n = address.length;
-    if (n === 0) return;
+    if (n === 0) {
+      return obj;
+    }
     let cur = obj;
     if (n === 1) {
       cur[address[0]] = value;
-      return;
+      return obj;
     }
     for (let i = 0; i < n; i += 1) {
       const key = address[i];
       const nextKey = address[i + 1];
-      if (!cur[key]) cur[key] = {};
+      if (!cur[key]) {
+        cur[key] = {};
+      }
       cur = cur[key];
       if (i === n - 2) {
         cur[nextKey] = value;
         break;
       }
     }
+
+    return obj;
   }
 
   /**
