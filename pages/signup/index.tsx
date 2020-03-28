@@ -93,7 +93,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             setEmail(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}
-          placeholder="Enter your email" // TODO: Localize
+          placeholder={t('inputs.enterEmailPlaceholder')}
         />
         <PasswordInput
           value={password1}
@@ -102,7 +102,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             setPassword1(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}
-          placeholder="Enter a new password" // TODO: Localize
+          placeholder={t('inputs.enterPasswordPlaceholder')}
         />
         <PasswordInput
           value={password2}
@@ -111,7 +111,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             setPassword2(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}
-          placeholder="Confirm your new password" // TODO: Localize          
+          placeholder={t('inputs.confirmPasswordPlaceholder')}
         />
       </FormContainer>
       <SubmitButton
