@@ -4,6 +4,7 @@ import { t } from 'i18n-js';
 import Text from '../Text';
 import { Colors, Paddings, Margins } from '../../styles';
 import { ClusterObject, AnonymListItem } from '../../data-types';
+import withDelayedUnmount from '../../hocs/withDelayedUnmount';
 
 const backgroundColor = Colors.PRIMARY.toString();
 
@@ -49,7 +50,7 @@ interface Props {
   style?: any;
 }
 
-export default function InfoBox({ cluster, duration, style }: Props) {
+function InfoBox({ cluster, duration, style }: Props) {
   const [persistentCluster, setPersistentCluster] = React.useState(cluster);
 
   React.useEffect(() => {
@@ -96,3 +97,5 @@ export default function InfoBox({ cluster, duration, style }: Props) {
     </Animated.View>
   );
 }
+
+export default withDelayedUnmount(InfoBox);

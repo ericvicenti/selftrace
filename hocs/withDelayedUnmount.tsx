@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react';
 
 interface WithDelayedUnmountProps {
   isVisible: boolean;
-  duration: number;
+  delayTime: number;
 }
 
 const withDelayedUnmount = <P extends object>(
   Component: React.ComponentType<P>
 ): React.FC<P & WithDelayedUnmountProps> => ({
   isVisible,
-  duration,
+  delayTime,
   ...rest
 }: WithDelayedUnmountProps) => {
   const [isMounted, setIsMounted] = useState(isVisible);
   useEffect(() => {
-    if (isVisible) setIsMounted(true);
-    else
+    if (isVisible) {
+      setIsMounted(true);
+    } else {
       setTimeout(() => {
         setIsMounted(false);
-      }, duration);
-  }, [duration, isVisible]);
+      }, delayTime);
+    }
+  }, [delayTime, isVisible]);
   return isMounted ? <Component {...(rest as P)} /> : null;
 };
 

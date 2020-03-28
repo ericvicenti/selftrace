@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
   },
 });
 
+const IS_LOADING_ANIM_DURATION = 200;
+const CLUSTER_DETAILS_ANIM_DURATION = 100;
+
 interface CoronaMapProps {
   center?: { lat: number; lng: number };
   clusters: AnonymListItem<ClusterObject>[];
@@ -54,16 +57,19 @@ function CoronaMap({
   onRegionChangeComplete,
   style,
 }: CoronaMapProps) {
-  const [infoBox, setInfoBox] = React.useState<InfoBoxState>({
+  const [clusterDetails, setClusterDetails] = React.useState<InfoBoxState>({
     isVisible: false,
     cluster: {},
   });
   const googleMapRef = React.useRef(null);
-  const isLoadingAnim = useAnimatedBool(isLoading, 200);
-  const infoBoxScale = useAnimatedBool(infoBox.isVisible, 100);
+  const isLoadingAnim = useAnimatedBool(isLoading, IS_LOADING_ANIM_DURATION);
+  const clusterDetailsScale = useAnimatedBool(
+    clusterDetails.isVisible,
+    CLUSTER_DETAILS_ANIM_DURATION
+  );
 
   function handleRegionChange() {
-    setInfoBox({ isVisible: false, cluster: {} });
+    setClusterDetails({ isVisible: false, cluster: {} });
 
     if (googleMapRef.current) {
       const regionObj = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
@@ -74,7 +80,7 @@ function CoronaMap({
   }
 
   function onPressCluster(cluster: AnonymListItem<ClusterObject>) {
-    setInfoBox(prev => {
+    setClusterDetails(prev => {
       // Case 1: Pressing a new/different cluster
       if (!prev.cluster || prev.cluster.key !== cluster.key) {
         return { isVisible: true, cluster };
@@ -87,6 +93,8 @@ function CoronaMap({
   return (
     <View style={[styles.container, style]}>
       <LoadingIndicator
+        delayTime={IS_LOADING_ANIM_DURATION}
+        isVisible={isLoading}
         message={t('screens.map.loadingMessage')}
         style={[
           styles.loadingIndicator,
@@ -99,16 +107,18 @@ function CoronaMap({
         ]}
       />
       <ClusterDetails
-        duration={100}
-        cluster={infoBox.cluster}
+        delayTime={CLUSTER_DETAILS_ANIM_DURATION}
+        isVisible={clusterDetails.isVisible}
+        duration={CLUSTER_DETAILS_ANIM_DURATION}
+        cluster={clusterDetails.cluster}
         style={[
           styles.clusterDetails,
           {
-            opacity: infoBoxScale.interpolate({
+            opacity: clusterDetailsScale.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 1],
             }),
-            top: infoBoxScale.interpolate({
+            top: clusterDetailsScale.interpolate({
               inputRange: [0, 1],
               outputRange: [0, 50 + Margins.MIN_Y],
             }),
