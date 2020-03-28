@@ -1,7 +1,12 @@
-import { LatLng, Region } from 'react-native-maps';
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
 
-export type Location = LatLng;
-export type RegionObject = Region;
+export interface RegionObject extends Location {
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
 
 export interface ClusterObject {
   lat: number;

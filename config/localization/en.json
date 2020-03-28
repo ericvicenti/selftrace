@@ -40,6 +40,7 @@
       "updatePassword": "Update password"
     },
     "map": {
+      "loadingMessage": "Loading live data",
       "userTestedPositive": "User tested positive",
       "userShowingSymptoms": "User showing symptoms",
       "testedPositive": "Tested positive",

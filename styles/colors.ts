@@ -8,6 +8,7 @@ const PRIMARY = rgb(252, 10, 116);
 export const Colors = {
   PRIMARY,
   SECONDARY: rgb(254, 39, 177),
+  // CLUSTER_BASE: rgb(211, 26, 253),
   CLUSTER_BASE: PRIMARY,
   BLUE: rgb(26, 141, 249),
   RED: rgb(230, 44, 62),

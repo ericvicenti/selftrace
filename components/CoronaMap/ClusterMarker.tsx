@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Marker, Callout, CalloutSubview } from 'react-native-maps';
-import i18n from 'i18n-js';
+// import i18n from 'i18n-js';
 import Text from '../Text';
 import { ClusterObject } from '../../data-types';
 import { Colors } from '../../styles';
@@ -12,6 +11,13 @@ const MAX_DELTA = 20;
 
 const styles = StyleSheet.create({
   container: {
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 15,
+    shadowOpacity: 0.8,
+    shadowColor: Colors.CLUSTER_BASE.toString(),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -36,7 +42,7 @@ interface Props {
 }
 
 export default function ClusterMarker({ cluster }: Props) {
-  const { lat, lng, positiveCount, showingSymptomsCount } = cluster;
+  const { positiveCount, showingSymptomsCount } = cluster;
   const size = positiveCount + showingSymptomsCount;
 
   const perc = Math.min(1, (0.9 * (size - 1)) / size);
@@ -44,25 +50,18 @@ export default function ClusterMarker({ cluster }: Props) {
   const backgroundColor = Colors.CLUSTER_BASE.lighten(-perc * 5);
 
   return (
-    <Marker
-      coordinate={{
-        latitude: lat,
-        longitude: lng,
-      }}
-      tracksViewChanges={false}>
-      <View
-        style={[
-          styles.container,
-          {
-            height: diameter,
-            width: diameter,
-            borderRadius: diameter / 2,
-            backgroundColor,
-          },
-        ]}>
-        <Text style={styles.number}>{size}</Text>
-      </View>
-      <Callout style={styles.callout}>
+    <View
+      style={[
+        styles.container,
+        {
+          height: diameter,
+          width: diameter,
+          borderRadius: diameter / 2,
+          backgroundColor,
+        },
+      ]}>
+      <Text style={styles.number}>{size}</Text>
+      {/* <Callout style={styles.callout}>
         <CalloutSubview>
           {size === 1 ? (
             <Text style={styles.calloutDescription}>
@@ -81,7 +80,7 @@ export default function ClusterMarker({ cluster }: Props) {
             </>
           )}
         </CalloutSubview>
-      </Callout>
-    </Marker>
+          </Callout> */}
+    </View>
   );
 }

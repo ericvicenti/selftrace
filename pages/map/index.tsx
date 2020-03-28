@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
+import dynamic from 'next/dynamic';
 import Text from '../../components/Text';
-import CoronaMap from '../../components/CoronaMap';
 import PageContainer from '../../components/PageContainer';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
@@ -16,6 +16,11 @@ import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { Main, Margins, Colors } from '../../styles';
+
+// Need to do this to prevent `ReferenceError: window is not defined`
+const CoronaMap = dynamic(() => import('../../components/CoronaMap'), {
+  ssr: false,
+});
 
 const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
 
@@ -26,9 +31,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mapContainer: {
-    flex: 1,
     width: '100%',
-    maxHeight: 500,
+    height: '100%',
   },
   warningContainer: {
     backgroundColor: Colors.PRIMARY.toString(),
@@ -70,6 +74,8 @@ const mapStateToProps = (state: ReduxRoot) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators({}, dispatch);
 
+const MIN_EXECUTION_TIME = 1000;
+
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
@@ -80,19 +86,39 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
 
+  // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
-    setState(prevState => ({ ...prevState, isLoading: true }));
+    const requestStartedAt = Date.now();
+    let requestEndedAt = requestStartedAt;
+    setState(prevState => ({
+      ...prevState,
+      clusters: [],
+      isLoading: true,
+    }));
+    let newClusters = [];
+
     try {
-      const receivedClusters = await API.requestClusters(regionObj, true);
-      setState({
-        clusters: receivedClusters.map(cluster => ({
-          key: ReactUtils.generateListKey(),
-          data: cluster,
-        })),
-        isLoading: false,
-      });
+      newClusters = await API.requestClusters(regionObj, true);
+      requestEndedAt = Date.now();
     } catch (err) {
-      setState(prevState => ({ ...prevState, isLoading: false }));
+      requestEndedAt = Date.now();
+    } finally {
+      const executionTime = requestEndedAt - requestStartedAt;
+
+      const endRequest = () =>
+        setState({
+          clusters: newClusters.map(cluster => ({
+            key: ReactUtils.generateListKey(),
+            data: cluster,
+          })),
+          isLoading: false,
+        });
+
+      if (executionTime < MIN_EXECUTION_TIME) {
+        setTimeout(endRequest, MIN_EXECUTION_TIME - executionTime);
+      } else {
+        endRequest();
+      }
     }
   }
 
@@ -100,42 +126,40 @@ function MapPage({ wellbeing }: Props) {
   const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
 
   return (
-    <>
-      <PageContainer>
-        {wellbeingIsDefined ? (
+    <PageContainer>
+      {wellbeingIsDefined ? (
+        <CoronaMap
+          googleMapURL={GOOGLE_MAP_URL}
+          loadingElement={<div />}
+          clusters={state.clusters}
+          isLoading={state.isLoading}
+          onRegionChangeComplete={handleRegionChange}
+          style={styles.mapContainer}
+          // ... //
+        />
+      ) : (
+        <>
           <CoronaMap
             googleMapURL={GOOGLE_MAP_URL}
             loadingElement={<div />}
-            clusters={state.clusters}
-            onRegionChangeComplete={handleRegionChange}
+            clusters={[]}
+            isLoading={false}
             style={styles.mapContainer}
+            // ... //
           />
-        ) : (
-          <>
-            <CoronaMap
-              googleMapURL={GOOGLE_MAP_URL}
-              loadingElement={<div />}
-              clusters={state.clusters}
-              pitchEnabled={false}
-              rotateEnabled={false}
-              scrollEnabled={false}
-              zoomEnabled={false}
-              style={styles.mapContainer}
-            />
-            <BlurView
-              tint="dark"
-              intensity={75}
-              style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
-              <View style={styles.warningContainer}>
-                <Icon.Lock color="white" style={styles.lockIcon} />
-                <Text style={styles.warningTitle}>{t('screens.map.chooseWellbeingTitle')}</Text>
-                <Text style={styles.warningMessage}>{t('screens.map.chooseWellbeingMessage')}</Text>
-              </View>
-            </BlurView>
-          </>
-        )}
-      </PageContainer>
-    </>
+          <BlurView
+            tint="dark"
+            intensity={75}
+            style={[StyleSheet.absoluteFill, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={styles.warningContainer}>
+              <Icon.Lock color="white" style={styles.lockIcon} />
+              <Text style={styles.warningTitle}>{t('screens.map.chooseWellbeingTitle')}</Text>
+              <Text style={styles.warningMessage}>{t('screens.map.chooseWellbeingMessage')}</Text>
+            </View>
+          </BlurView>
+        </>
+      )}
+    </PageContainer>
   );
 }
 
