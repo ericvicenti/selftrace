@@ -6,7 +6,7 @@ interface WithDelayedUnmountProps {
 }
 
 const withDelayedUnmount = <P extends object>(
-  Component: React.ComponentType<P>
+  Component: React.ComponentType<P> | null
 ): React.FC<P & WithDelayedUnmountProps> => ({
   isVisible,
   duration,
