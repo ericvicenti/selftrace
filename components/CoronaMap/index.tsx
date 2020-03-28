@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, ViewStyle, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { withScriptjs } from 'react-google-maps';
+import { GoogleMap, OverlayView } from '@react-google-maps/api';
 import { t } from 'i18n-js';
-// import ClusterMarker from './ClusterMarker';
-import GoogleMapView from '../GoogleMapView';
 import LoadingIndicator from './LoadingIndicator';
+import ClusterMarker from './ClusterMarker';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { useAnimatedBool } from '../../hooks';
+import GeoUtils from '../../util/GeoUtils';
 import { Margins } from '../../styles';
+
+const SAN_FRAN_COORDS = {
+  lat: 37.7749,
+  lng: -122.4194,
+};
 
 const styles = StyleSheet.create({
   container: {},
@@ -23,24 +29,25 @@ const styles = StyleSheet.create({
 });
 
 interface CoronaMapProps {
+  center?: { lat: number; lng: number };
   clusters: AnonymListItem<ClusterObject>[];
-  isLoading?: boolean;
-  pitchEnabled?: boolean;
-  rotateEnabled?: boolean;
-  scrollEnabled?: boolean;
-  zoomEnabled?: boolean;
-  onRegionChangeComplete?: (regionObj: RegionObject | undefined) => void;
-  style?: ViewStyle;
+  isLoading: boolean;
+  onRegionChangeComplete?: (regionObj: RegionObject) => void;
+  style?: any;
 }
 
-function CoronaMap({
-  clusters,
-  isLoading,
-  onRegionChangeComplete,
-  style,
-  ...rest
-}: CoronaMapProps) {
+function CoronaMap({ center, clusters, isLoading, onRegionChangeComplete, style }: CoronaMapProps) {
+  const googleMapRef = React.useRef(null);
   const isLoadingAnim = useAnimatedBool(isLoading, 200);
+
+  function handleRegionChange() {
+    if (googleMapRef.current) {
+      const regionObj = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
+      if (regionObj) {
+        onRegionChangeComplete(regionObj);
+      }
+    }
+  }
 
   return (
     <View style={[styles.container, style]}>
@@ -56,15 +63,31 @@ function CoronaMap({
           },
         ]}
       />
-      <GoogleMapView
-        markers={clusters.map(cluster => ({
-          key: cluster.key,
-          coords: { latitude: cluster.data.lat, longitude: cluster.data.lng },
-        }))}
-        style={styles.mapView}
-        onRegionChangeComplete={onRegionChangeComplete}
-        {...rest}
-      />
+      <GoogleMap
+        zoom={8}
+        center={center || SAN_FRAN_COORDS}
+        onLoad={map => {
+          googleMapRef.current = map;
+          setTimeout(handleRegionChange, 500);
+        }}
+        mapContainerStyle={{
+          height: '100%',
+          width: '100%',
+        }}
+        onDragEnd={handleRegionChange}
+        onZoomChanged={handleRegionChange}>
+        {clusters.map(cluster => (
+          <OverlayView
+            key={cluster.key}
+            position={{
+              lat: cluster.data.lat,
+              lng: cluster.data.lng,
+            }}
+            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
+            <ClusterMarker cluster={cluster.data} />
+          </OverlayView>
+        ))}
+      </GoogleMap>
     </View>
   );
 }

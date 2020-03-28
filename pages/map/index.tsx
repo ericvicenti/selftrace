@@ -115,9 +115,7 @@ function MapPage({ wellbeing }: Props) {
         });
 
       if (executionTime < MIN_EXECUTION_TIME) {
-        setTimeout(() => {
-          endRequest();
-        }, MIN_EXECUTION_TIME - executionTime);
+        setTimeout(endRequest, MIN_EXECUTION_TIME - executionTime);
       } else {
         endRequest();
       }
@@ -133,22 +131,21 @@ function MapPage({ wellbeing }: Props) {
         <CoronaMap
           googleMapURL={GOOGLE_MAP_URL}
           loadingElement={<div />}
-          isLoading={state.isLoading}
           clusters={state.clusters}
+          isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
           style={styles.mapContainer}
+          // ... //
         />
       ) : (
         <>
           <CoronaMap
             googleMapURL={GOOGLE_MAP_URL}
             loadingElement={<div />}
-            clusters={state.clusters}
-            pitchEnabled={false}
-            rotateEnabled={false}
-            scrollEnabled={false}
-            zoomEnabled={false}
+            clusters={[]}
+            isLoading={false}
             style={styles.mapContainer}
+            // ... //
           />
           <BlurView
             tint="dark"
