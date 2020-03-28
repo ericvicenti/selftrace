@@ -97,6 +97,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
             if (progress.status) clearProgress();
             setEmail(text);
           }}
+          onSubmitEditing={() => signinUser(email, password)}
         />
         <PasswordInput
           value={password}
