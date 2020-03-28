@@ -7,9 +7,9 @@ import {
   PickerProps as RNPickerProps,
   ViewStyle,
 } from 'react-native';
+import { t } from 'i18n-js';
 import Text from '../Text';
 import { Margins, Typography } from '../../styles';
-import { t } from 'i18n-js';
 
 const styles = StyleSheet.create({
   container: {
