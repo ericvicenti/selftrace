@@ -36,6 +36,8 @@
       "updatePassword": ""
     },
     "map": {
+      "loadingMessage": "",
+      "clusterDetailsTitle": "",
       "userTestedPositive": "",
       "userShowingSymptoms": "",
       "testedPositive": "",

@@ -41,6 +41,7 @@
     },
     "map": {
       "loadingMessage": "Loading live data",
+      "clusterDetailsTitle": "Details",
       "userTestedPositive": "User tested positive",
       "userShowingSymptoms": "User showing symptoms",
       "testedPositive": "Tested positive",

@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-// import i18n from 'i18n-js';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Text from '../Text';
-import { ClusterObject } from '../../data-types';
+import { AnonymListItem, ClusterObject } from '../../data-types';
 import { Colors } from '../../styles';
 
 const BASE_DIAMETER = 30;
@@ -38,11 +37,12 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  cluster: ClusterObject;
+  cluster: AnonymListItem<ClusterObject>;
+  onPress: (cluster: AnonymListItem<ClusterObject>) => void;
 }
 
-export default function ClusterMarker({ cluster }: Props) {
-  const { positiveCount, showingSymptomsCount } = cluster;
+export default function ClusterMarker({ cluster, onPress }: Props) {
+  const { positiveCount, showingSymptomsCount } = cluster.data;
   const size = positiveCount + showingSymptomsCount;
 
   const perc = Math.min(1, (0.9 * (size - 1)) / size);
@@ -50,7 +50,9 @@ export default function ClusterMarker({ cluster }: Props) {
   const backgroundColor = Colors.CLUSTER_BASE.lighten(-perc * 5);
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => onPress(cluster)}
+      activeOpacity={0.6}
       style={[
         styles.container,
         {
@@ -61,26 +63,6 @@ export default function ClusterMarker({ cluster }: Props) {
         },
       ]}>
       <Text style={styles.number}>{size}</Text>
-      {/* <Callout style={styles.callout}>
-        <CalloutSubview>
-          {size === 1 ? (
-            <Text style={styles.calloutDescription}>
-              {positiveCount === 1
-                ? i18n.t('screens.map.userTestedPositive')
-                : i18n.t('screens.map.userShowingSymptoms')}
-            </Text>
-          ) : (
-            <>
-              <Text style={styles.calloutDescription}>
-                {i18n.t('screens.map.testedPositive')}: {positiveCount}
-              </Text>
-              <Text style={styles.calloutDescription}>
-                {i18n.t('screens.map.showingSymptoms')}: {showingSymptomsCount}
-              </Text>
-            </>
-          )}
-        </CalloutSubview>
-          </Callout> */}
-    </View>
+    </TouchableOpacity>
   );
 }

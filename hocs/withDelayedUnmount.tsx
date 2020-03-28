@@ -1,4 +1,4 @@
-import React, { useEffect, ReactElement, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface WithDelayedUnmountProps {
   isVisible: boolean;
@@ -11,7 +11,7 @@ const withDelayedUnmount = <P extends object>(
   isVisible,
   duration,
   ...rest
-}: WithDelayedUnmountProps): ReactElement => {
+}: WithDelayedUnmountProps) => {
   const [isMounted, setIsMounted] = useState(isVisible);
   useEffect(() => {
     if (isVisible) setIsMounted(true);

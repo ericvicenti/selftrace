@@ -27,8 +27,8 @@ const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   mapContainer: {
     width: '100%',
@@ -135,7 +135,6 @@ function MapPage({ wellbeing }: Props) {
           isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
           style={styles.mapContainer}
-          // ... //
         />
       ) : (
         <>
@@ -145,7 +144,6 @@ function MapPage({ wellbeing }: Props) {
             clusters={[]}
             isLoading={false}
             style={styles.mapContainer}
-            // ... //
           />
           <BlurView
             tint="dark"
