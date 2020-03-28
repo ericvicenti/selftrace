@@ -108,7 +108,8 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
             if (progress.status) clearProgress();
             setPassword2(text);
           }}
-          placeholder="Confirm your new password" // TODO: Localize
+          onSubmitEditing={() => signupUser(email, password1)}
+          placeholder="Confirm your new password" // TODO: Localize          
         />
       </FormContainer>
       <SubmitButton

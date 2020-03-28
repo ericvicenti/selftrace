@@ -76,6 +76,9 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
             setPassword2(text);
           }}
           placeholder={t('inputs.confirmPasswordPlaceholder')}
+          onSubmitEditing={() => {
+            updateUserPassword(password1);
+          }}
         />
       </FormContainer>
       <SubmitButton

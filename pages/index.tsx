@@ -104,6 +104,7 @@ function LoginPage({ authDisabled, signinUser, progress, clearProgress, authStat
             if (progress.status) clearProgress();
             setPassword(text);
           }}
+          onSubmitEditing={() => signinUser(email, password)}
         />
       </FormContainer>
       <SubmitButton
