@@ -1,93 +1,74 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { withGoogleMap, GoogleMap } from 'react-google-maps';
+import { View } from 'react-native';
+import { GoogleMap, GoogleMapProps, OverlayView } from '@react-google-maps/api';
+import { Location, RegionObject } from '../../data-types';
+import GeoUtils from '../../util/GeoUtils';
 
-const GoogleMapContainer = withGoogleMap((props: any) => (
-  <GoogleMap {...props} ref={props.handleMapMounted} />
-));
+const mapContainerBaseStyle = {
+  height: '100%',
+  width: '100%',
+};
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-  },
-});
+const SAN_FRAN_COORDS = {
+  lat: 37.7749,
+  lng: -122.4194,
+};
 
-type Props = any;
+interface Props extends GoogleMapProps {
+  markers: {
+    key: string;
+    coords: Location;
+  }[];
+  style: any;
+  onRegionChangeComplete: (region: RegionObject | undefined) => void;
+}
 
-export default function GoogleMapView({
-  region,
-  initialRegion,
-  onRegionChange,
-  onPress,
-  options,
-  style,
-  onMapReady,
+const GoogleMapView = ({
+  markers,
+  mapContainerStyle,
+  center,
   onRegionChangeComplete,
-  children,
-}: Props) {
-  const [center] = React.useState(null);
-  const mapRef = React.useRef(null);
+  ...rest
+}: Props) => {
+  const googleMapRef = React.useRef(null);
 
-  function handleMapMounted(map: any) {
-    mapRef.current = map;
-    if (onMapReady) {
-      onMapReady();
+  function handleRegionChange() {
+    if (googleMapRef.current) {
+      const regionObj = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
+      onRegionChangeComplete(regionObj);
     }
   }
-
-  function onIdle() {
-    if (mapRef.current && onRegionChangeComplete) {
-      const newCenter = mapRef.current.getCenter();
-      const bounds = mapRef.current.getBounds();
-      let latitudeDelta: number;
-      let longitudeDelta: number;
-
-      if (bounds) {
-        const ne = bounds.getNorthEast();
-        const sw = bounds.getSouthWest();
-        latitudeDelta = ne.lat() - sw.lat();
-        longitudeDelta = ne.lng() - sw.lng();
-      }
-
-      onRegionChangeComplete({
-        latitude: newCenter.lat(),
-        longitude: newCenter.lng(),
-        latitudeDelta,
-        longitudeDelta,
-      });
-    }
-  }
-
-  const centerProps = region
-    ? {
-        center: {
-          lat: region.latitude,
-          lng: region.longitude,
-        },
-      }
-    : center
-    ? { center }
-    : {
-        defaultCenter: {
-          lat: initialRegion.latitude,
-          lng: initialRegion.longitude,
-        },
-      };
 
   return (
-    <View style={style || styles.container}>
-      <GoogleMapContainer
-        handleMapMounted={handleMapMounted}
-        containerElement={<div style={{ height: '100%' }} />}
-        mapElement={<div style={{ height: '100%' }} />}
-        {...centerProps}
-        onDragStart={onRegionChange}
-        onIdle={onIdle}
-        defaultZoom={15}
-        onClick={onPress}
-        options={options}>
-        {children}
-      </GoogleMapContainer>
-    </View>
+    <GoogleMap
+      id="circle-example"
+      zoom={8}
+      center={center || SAN_FRAN_COORDS}
+      onLoad={map => {
+        googleMapRef.current = map;
+        setTimeout(handleRegionChange, 500);
+      }}
+      mapContainerStyle={{ ...mapContainerBaseStyle, ...mapContainerStyle }}
+      onDragEnd={handleRegionChange}
+      onZoomChanged={handleRegionChange}
+      {...rest}>
+      {markers.map(marker => (
+        <OverlayView
+          key={marker.key}
+          position={{ lat: marker.coords.latitude, lng: marker.coords.longitude }}
+          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
+          <View
+            style={{
+              backgroundColor: 'pink',
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+            }}
+          />
+        </OverlayView>
+      ))}
+    </GoogleMap>
   );
-}
+};
+
+export default GoogleMapView;

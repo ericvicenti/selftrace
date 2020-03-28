@@ -4,7 +4,6 @@ import { withScriptjs } from 'react-google-maps';
 import { t } from 'i18n-js';
 // import ClusterMarker from './ClusterMarker';
 import GoogleMapView from '../GoogleMapView';
-import GoogleMapMarker from '../GoogleMapView/Marker';
 import LoadingIndicator from './LoadingIndicator';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { useAnimatedBool } from '../../hooks';
@@ -30,11 +29,17 @@ interface CoronaMapProps {
   rotateEnabled?: boolean;
   scrollEnabled?: boolean;
   zoomEnabled?: boolean;
-  onRegionChangeComplete?: (regionObj: RegionObject) => void;
+  onRegionChangeComplete?: (regionObj: RegionObject | undefined) => void;
   style?: ViewStyle;
 }
 
-function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
+function CoronaMap({
+  clusters,
+  isLoading,
+  onRegionChangeComplete,
+  style,
+  ...rest
+}: CoronaMapProps) {
   const isLoadingAnim = useAnimatedBool(isLoading, 200);
 
   return (
@@ -52,24 +57,14 @@ function CoronaMap({ clusters, isLoading, style, ...rest }: CoronaMapProps) {
         ]}
       />
       <GoogleMapView
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 1.822,
-          longitudeDelta: 1.821,
-        }}
+        markers={clusters.map(cluster => ({
+          key: cluster.key,
+          coords: { latitude: cluster.data.lat, longitude: cluster.data.lng },
+        }))}
         style={styles.mapView}
-        {...rest}>
-        {clusters.map(({ data: cluster, key }) => (
-          <GoogleMapMarker
-            key={key}
-            coordinate={{
-              latitude: cluster.lat,
-              longitude: cluster.lng,
-            }}
-          />
-        ))}
-      </GoogleMapView>
+        onRegionChangeComplete={onRegionChangeComplete}
+        {...rest}
+      />
     </View>
   );
 }
