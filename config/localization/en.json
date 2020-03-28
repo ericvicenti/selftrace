@@ -11,6 +11,9 @@
   "dividers": {
     "or": "or"
   },
+  "dropdowns": {
+    "selectPlaceholder": "Please select"
+  },
   "alerts": {
     "signout": {
       "title": "Sign out?",
