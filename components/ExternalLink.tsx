@@ -29,7 +29,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ExternalLink({ isColored, href, target, children, style }: Props) {
+export default function ExternalLink({
+  isColored = true,
+  href,
+  target = 'blank',
+  children,
+  style,
+}: Props) {
   const linkStyles: [TextStyle] = [isColored ? styles.bright : styles.plain];
 
   return (
@@ -38,8 +44,3 @@ export default function ExternalLink({ isColored, href, target, children, style 
     </A>
   );
 }
-
-ExternalLink.defaultProps = {
-  isColored: true,
-  target: 'blank',
-};
