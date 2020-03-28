@@ -48,7 +48,8 @@ const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
   const containerStyles: StyleProp<ViewStyle> = [styles.container];
 
   containerStyles.push({
-    justifyContent: responsiveWidth < ResponsiveSize.Medium ? 'space-between' : 'center',
+    justifyContent:
+      responsiveWidth && responsiveWidth < ResponsiveSize.Medium ? 'space-between' : 'center',
   });
 
   return (

@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: Margins.MAX_Y,
     paddingHorizontal: Margins.WINDOW,
-    paddingBottom: 3 * Margins.MAX_Y, // TODO: Handle this better
   },
 });
 
@@ -20,7 +19,7 @@ interface PublicProps extends ViewProps {
 }
 
 interface PrivateProps {
-  router?: SingletonRouter;
+  router: SingletonRouter;
 }
 
 interface Props extends PublicProps, PrivateProps {}

@@ -70,7 +70,7 @@ const mapStateToProps = (state: ReduxRoot) => ({
   currentWellbeing: state.auth.userInfo.wellbeing,
   progress: state.auth.userInfo.progress,
   authStatus: state.auth.status,
-  uid: state.auth.userInfo.uid,
+  uid: state.auth.userInfo.uid!,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
@@ -132,7 +132,9 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
     return { value, ...WELLBEING_OPTION_MAP[value] };
   });
 
-  const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = WELLBEING_OPTION_MAP[wellbeing];
+  const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = wellbeing
+    ? WELLBEING_OPTION_MAP[wellbeing]
+    : undefined;
   const submitDisabled = !wellbeing;
 
   return (

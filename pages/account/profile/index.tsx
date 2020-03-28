@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: ReduxRoot) => ({
-  currentEmail: state.auth.userInfo.email,
   progress: state.auth.userInfo.progress,
-  uid: state.auth.userInfo.uid,
+  uid: state.auth.userInfo.uid!,
+  currentEmail: state.auth.userInfo.email!,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) =>

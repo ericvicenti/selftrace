@@ -25,6 +25,9 @@ import GoogleButton from '../components/SocialButton/GoogleButton';
 const logoSource = require('../assets/logo.png');
 
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: Paddings.MAX_Y,
+  },
   logo: {
     height: 160,
     width: 160,
@@ -110,7 +113,7 @@ function LoginPage({
   }
 
   return (
-    <PageContainer showHeader={false}>
+    <PageContainer showHeader={false} style={styles.container}>
       <Image style={styles.logo} source={logoSource} />
       <FormContainer showErrorsOnly progress={progress} style={styles.formContainer}>
         <EmailInput

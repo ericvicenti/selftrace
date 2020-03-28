@@ -43,7 +43,7 @@ function CoronaMap({ center, clusters, isLoading, onRegionChangeComplete, style 
   function handleRegionChange() {
     if (googleMapRef.current) {
       const regionObj = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
-      if (regionObj) {
+      if (regionObj && onRegionChangeComplete) {
         onRegionChangeComplete(regionObj);
       }
     }

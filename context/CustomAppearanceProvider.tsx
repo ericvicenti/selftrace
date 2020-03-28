@@ -8,7 +8,11 @@ const shouldRehydrate = true;
 
 const defaultState = { isDark: false };
 
-export default function CustomAppearanceProvider({ children }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function CustomAppearanceProvider({ children }: Props) {
   const colorScheme = useColorScheme();
   const [isDark, setIsDark] = React.useState(
     Platform.OS === 'web' ? false : colorScheme === 'dark'
@@ -18,9 +22,11 @@ export default function CustomAppearanceProvider({ children }) {
   React.useEffect(() => {
     const rehydrateAsync = async () => {
       try {
-        const { isDark } = await rehydrateAppearanceState();
-        setIsDark(isDark);
-      } catch (ignored) {}
+        const { isDark: isDarkNew } = await rehydrateAppearanceState();
+        setIsDark(isDarkNew);
+      } catch (ignored) {
+        //
+      }
       setLoaded(true);
     };
 
@@ -33,20 +39,19 @@ export default function CustomAppearanceProvider({ children }) {
 
   if (!isLoaded) {
     return <View />;
-  } else {
-    return (
-      <CustomAppearanceContext.Provider
-        value={{
-          isDark,
-          setIsDark: isDark => {
-            setIsDark(isDark);
-            cacheAppearanceState({ isDark });
-          },
-        }}>
-        {children}
-      </CustomAppearanceContext.Provider>
-    );
   }
+  return (
+    <CustomAppearanceContext.Provider
+      value={{
+        isDark,
+        setIsDark: isDarkNew => {
+          setIsDark(isDarkNew);
+          cacheAppearanceState({ isDark: isDarkNew });
+        },
+      }}>
+      {children}
+    </CustomAppearanceContext.Provider>
+  );
 }
 
 async function cacheAppearanceState(appearance) {
@@ -60,8 +65,7 @@ async function rehydrateAppearanceState() {
 
   try {
     const item = await AsyncStorage.getItem(appearanceStorageKey);
-    const data = JSON.parse(item);
-    return data;
+    return item ? JSON.parse(item) : null;
   } catch (ignored) {
     return defaultState;
   }

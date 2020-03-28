@@ -41,8 +41,11 @@ interface Props {
 
 export default function SubmitButton({
   label,
-  labelTextStyle,
-  backgroundColor,
+  labelTextStyle = {
+    color: 'white',
+    fontSize: Buttons.FONT_SIZE,
+  },
+  backgroundColor = Colors.BLUE,
   progress,
   disabled,
   onPress,
@@ -95,11 +98,3 @@ export default function SubmitButton({
     </View>
   );
 }
-
-SubmitButton.defaultProps = {
-  backgroundColor: Colors.BLUE,
-  labelTextStyle: {
-    color: 'white',
-    fontSize: Buttons.FONT_SIZE,
-  },
-};

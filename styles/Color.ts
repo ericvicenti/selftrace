@@ -64,11 +64,16 @@ export default class Color {
     const r = red / 255;
     const g = green / 255;
     const b = blue / 255;
+
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h: number;
-    let s: number;
-    let l = (max + min) / 2;
+
+    const maxMinAvg = (max + min) / 2;
+
+    let h = maxMinAvg;
+    let s = maxMinAvg;
+    let l = maxMinAvg;
+
     if (max === min) {
       // achromatic
       h = 0;
@@ -88,11 +93,14 @@ export default class Color {
           break;
         default:
       }
+
       h /= 6;
     }
+
     h = Math.round(360 * h);
     s = Math.round(100 * s);
     l = Math.round(100 * l);
+
     return [h, s, l];
   }
 
