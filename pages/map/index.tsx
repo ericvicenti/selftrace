@@ -15,7 +15,7 @@ import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
-import { Main, Margins, Colors } from '../../styles';
+import { Main, Margins, Colors, Paddings } from '../../styles';
 
 // Need to do this to prevent `ReferenceError: window is not defined`
 const CoronaMap = dynamic(() => import('../../components/CoronaMap'), {
@@ -27,8 +27,6 @@ const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   mapContainer: {
     width: '100%',
@@ -37,16 +35,17 @@ const styles = StyleSheet.create({
   warningContainer: {
     backgroundColor: Colors.PRIMARY.toString(),
     borderRadius: 10,
-    width: WARNING_CONTAINER_WIDTH,
-    padding: 15,
+    maxWidth: WARNING_CONTAINER_WIDTH,
+    paddingVertical: Paddings.MAX_Y,
+    paddingHorizontal: Paddings.MAX_X,
     marginHorizontal: Margins.WINDOW,
     shadowColor: Colors.PRIMARY.lighten(20),
-    shadowRadius: 20,
-    shadowOpacity: 0.8,
     shadowOffset: {
       height: 0,
       width: 0,
     },
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
   },
   lockIcon: {
     alignSelf: 'center',
