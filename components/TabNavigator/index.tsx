@@ -28,7 +28,6 @@ const TAB_ITEMS = [
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     shadowRadius: 3,
     shadowColor: Colors.SHADOW.toString(),
     shadowOffset: {
@@ -40,7 +39,6 @@ const styles = StyleSheet.create({
   tabsContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   hoverable: {
     width: '100%',
