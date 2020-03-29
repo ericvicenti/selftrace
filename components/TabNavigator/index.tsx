@@ -1,20 +1,13 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  // ViewStyle,
-  // StyleProp,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 import Router from 'next/router';
 import Icon from '../Icon';
-import { Margins, Colors, Paddings } from '../../styles';
+import { Colors, Margins } from '../../styles';
 import TabItemComponent from './TabItemComponent';
 import {
   ResponsiveWidthRenderProps,
   withResponsiveWidth,
-  // ResponsiveSize,
+  ResponsiveSize,
 } from '../../hocs/withResponsiveWidth';
 
 const logoSource = require('../../assets/logo-with-title-small.png');
@@ -34,25 +27,23 @@ const styles = StyleSheet.create({
       height: 0.5,
       width: 0,
     },
-    paddingTop: Paddings.Y,
   },
   tabsContainer: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   hoverable: {
     width: '100%',
-    minWidth: 60,
-    paddingHorizontal: Paddings.MIN_X,
+    flex: 1,
   },
   logoContainer: {
-    marginLeft: Margins.X,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   logo: {
-    height: 50,
-    width: 200,
-    transform: [{ scale: 0.85 }],
+    height: 40,
+    width: 180,
   },
 });
 
@@ -64,24 +55,19 @@ const onPressHandler = (path: string) => () => {
   Router.push(path);
 };
 
-const TabNavigator = ({
-  // responsiveWidth,
-  pathname,
-}: Props) => {
-  // const containerStyles: StyleProp<ViewStyle> = [
-  //   styles.container,
-  //   {
-  //     justifyContent:
-  //       responsiveWidth && responsiveWidth < ResponsiveSize.Medium ? 'space-between' : 'center',
-  //   },
-  // ];
-
+const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
+  const logoContainerStyles: StyleProp<ViewStyle> = [
+    styles.logoContainer,
+    {
+      marginLeft: responsiveWidth && responsiveWidth < ResponsiveSize.Medium ? 0 : Margins.X,
+    },
+  ];
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={onPressHandler('/map')}
         activeOpacity={0.5}
-        style={styles.logoContainer}>
+        style={logoContainerStyles}>
         <Image style={styles.logo} source={logoSource} resizeMode="cover" />
       </TouchableOpacity>
       <View style={styles.tabsContainer}>
@@ -100,6 +86,7 @@ const TabNavigator = ({
               isActive={isActive}
               onPress={onPressHandler(path)}
               hoverableStyle={styles.hoverable}
+              isMobile={responsiveWidth !== undefined && responsiveWidth < ResponsiveSize.Medium}
             />
           );
         })}
