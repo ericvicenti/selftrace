@@ -5,9 +5,9 @@ import { Colors, Margins } from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'flex-end',
     flex: 1,
-    maxWidth: 180,
+    justifyContent: 'flex-end',
+    maxWidth: 150,
     marginHorizontal: Margins.MIN_X,
   },
   activeBorder: {
@@ -22,7 +22,7 @@ interface Props {
   activeColor?: string;
   Icon: JSX.Element;
   onPress: () => void;
-  style: ViewStyle;
+  hoverableStyle: ViewStyle;
 }
 
 export default function TabItemComponent({
@@ -31,11 +31,11 @@ export default function TabItemComponent({
   activeColor = Colors.PRIMARY.toString(),
   Icon,
   onPress,
-  style,
+  hoverableStyle,
 }: Props) {
   return (
     <View style={styles.container}>
-      <Hoverable key={path} onPress={onPress} style={style} disabled={isActive}>
+      <Hoverable key={path} onPress={onPress} style={hoverableStyle} disabled={isActive}>
         {Icon}
       </Hoverable>
       <View
