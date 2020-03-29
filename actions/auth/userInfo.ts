@@ -1,9 +1,13 @@
 import { AsyncStorage } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 import * as API from '../../api';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
-import { ProgressStatus } from '../../data-types';
+import { ProgressStatus, Location as LocationDT } from '../../data-types';
 import PromiseUtils from '../../util/PromiseUtils';
+
+class LocationPermissionError extends Error {}
 
 /*
  * Action creators
@@ -46,30 +50,73 @@ export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => (
 
 const GRACEFUL_EXIT_DURATION = 750;
 
-export const uploadUserInfo = (
-  uid: string,
-  updatedInfo: Partial<API.FirestoreUserDoc>,
-  isSimulated?: boolean
-) => async (dispatch: Dispatch) => {
+export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUserDoc>) => async (
+  dispatch: Dispatch
+) => {
   dispatch(startUpdateUserInfoRequest());
   try {
-    if (isSimulated) {
-      await PromiseUtils.sleep(750);
+    const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
+    if (!lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000) {
+      // Have not updated from this device for at least 30 mins
+      const { latitude, longitude } = await retrieveLastKnownPosition();
+      const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
+        ...updatedInfo,
+        lastLocation: { lat: latitude, lng: longitude },
+      };
+      await API.requestUpdateUserInfo(uid, updatedInfoWithLastLocation);
+      // const updatedAt = Date.now();
+      // await AsyncStorage.setItem('lastUpdatedAt', updatedAt.toString());
     } else {
-      await API.requestUpdateUserInfo(uid, updatedInfo);
+      await PromiseUtils.sleep(750);
     }
+
     dispatch(receiveUpdateUserInfoResponse(updatedInfo));
     setTimeout(() => {
       dispatch(clearUpdateUserInfoProgress());
     }, GRACEFUL_EXIT_DURATION);
   } catch (err) {
-    dispatch(receiveUpdateUserInfoError(err));
+    const error =
+      err instanceof LocationPermissionError
+        ? new Error('Update failed because you did not agree to share your location.') // TODO: Localize
+        : err;
+    dispatch(receiveUpdateUserInfoError(error));
   }
 };
 
 /*
- * Helper functions
+ * Helpers
  */
+
+async function retrieveLastKnownPosition() {
+  try {
+    const { status, canAskAgain } = await Location.getPermissionsAsync();
+    if (status === 'granted') {
+      return getLastKnownPosition();
+    }
+    if (canAskAgain) {
+      const { status: status2 } = await Location.requestPermissionsAsync();
+      if (status2 === 'granted') {
+        return getLastKnownPosition();
+      }
+    }
+
+    throw new LocationPermissionError();
+  } catch (err) {
+    return Promise.reject(err);
+  }
+}
+
+async function getLastKnownPosition(): Promise<LocationDT> {
+  try {
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getLastKnownPositionAsync();
+    return { latitude, longitude };
+  } catch (err) {
+    return Promise.reject(err);
+  }
+}
+
 export async function downloadUserInfoToLocalDB(uid: string) {
   try {
     const userDoc = await API.requestUserInfo(uid);

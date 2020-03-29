@@ -55,6 +55,7 @@ module.exports = {
     indent: 'off',
     'jest/expect-expect': [1, { assertFunctionNames: ['expect*'] }],
     'lines-between-class-members': 0,
+    'max-classes-per-file': 0,
     'no-underscore-dangle': 0,
     'no-console': 1,
     'no-param-reassign': 0,

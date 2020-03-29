@@ -5,7 +5,6 @@ import Head from 'next/head';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
-// import withRedux from 'next-redux-wrapper';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import Layout from '../components/Layout';
@@ -158,4 +157,3 @@ if (typeof navigator == 'object' && 'serviceWorker' in navigator) {
 /* eslint-enable */
 
 export default App;
-// export default withRedux(initStore)(App);
