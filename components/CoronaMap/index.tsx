@@ -60,6 +60,10 @@ interface InfoBoxState {
   cluster: Partial<AnonymListItem<ClusterObject>>;
 }
 
+interface MapState {
+  coords?: { lat: number; lng: number };
+}
+
 export default function CoronaMap({
   center = SAN_FRAN_COORDS,
   clusters,
@@ -71,6 +75,9 @@ export default function CoronaMap({
     isVisible: false,
     cluster: {},
   });
+
+  const [coords, setCoords] = React.useState<{ lat: number; lng: number }>(center);
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.googleMapsAPIKey,
   });
@@ -91,6 +98,12 @@ export default function CoronaMap({
         onRegionChangeComplete(regionObj);
       }
     }
+  }
+
+  function onClick(e: { latLng: { lat: () => number; lng: () => number } }) {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setCoords({ lat, lng });
   }
 
   function onPressCluster(cluster: AnonymListItem<ClusterObject>) {
@@ -151,7 +164,7 @@ export default function CoronaMap({
         />
         <GoogleMap
           zoom={8}
-          center={center}
+          center={coords}
           onLoad={map => {
             googleMapRef.current = map;
             setTimeout(handleRegionChange, 500);
@@ -160,6 +173,7 @@ export default function CoronaMap({
             height: '100%',
             width: '100%',
           }}
+          onClick={onClick}
           onDragEnd={handleRegionChange}
           onZoomChanged={handleRegionChange}>
           {clusters.map(cluster => (
