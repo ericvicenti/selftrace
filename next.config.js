@@ -18,6 +18,9 @@ module.exports = withExpo(
         },
         env: {
           googleMapsAPIKey: process.env.GOOGLE_MAPS_API_KEY,
+          firebaseAppAPIKey: process.env.FIREBASE_APP_API_KEY,
+          firebaseAppID: process.env.FIREBASE_APP_ID,
+          firebaseMeasurementID: process.env.FIREBASE_MEASUREMENT_ID,
         },
       })
     )

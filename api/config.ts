@@ -1,12 +1,12 @@
 const config = {
-  apiKey: 'AIzaSyBt2GzYh_28wwOPLMBpKzuvIe8mY7fVlKc',
+  apiKey: process.env.firebaseAppAPIKey,
   authDomain: 'corona-688fb.firebaseapp.com',
   databaseURL: 'https://corona-688fb.firebaseio.com',
   projectId: 'corona-688fb',
   storageBucket: 'corona-688fb.appspot.com',
   messagingSenderId: '716029004059',
-  appId: '1:716029004059:web:5f97cf12accd06fdf36bbe',
-  measurementId: 'G-HD2REHGWCR',
+  appId: process.env.firebaseAppID,
+  measurementId: process.env.firebaseMeasurementID,
 };
 
 export const BASE_URL = `https://us-central1-${config.projectId}.cloudfunctions.net`;
