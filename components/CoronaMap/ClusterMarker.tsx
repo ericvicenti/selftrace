@@ -41,7 +41,7 @@ interface Props {
   onPress: (cluster: AnonymListItem<ClusterObject>) => void;
 }
 
-const LIVE_ANIM_DELTA = 0.3;
+const LIVE_ANIM_DELTA = 0.25;
 const PRESS_SCALE_DELTA = 0.25;
 
 function ClusterMarker({ cluster, onPress }: Props) {
