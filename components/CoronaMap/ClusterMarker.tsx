@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import Text from '../Text';
 import { AnonymListItem, ClusterObject } from '../../data-types';
 import { Colors } from '../../styles';
@@ -41,7 +41,13 @@ interface Props {
   onPress: (cluster: AnonymListItem<ClusterObject>) => void;
 }
 
+const LIVE_ANIM_DELTA = 0.3;
+const PRESS_SCALE_DELTA = 0.25;
+
 export default function ClusterMarker({ cluster, onPress }: Props) {
+  const pressScaleRef = React.useRef(new Animated.Value(1));
+  const liveScaleRef = React.useRef(new Animated.Value(1));
+
   const { positiveCount, showingSymptomsCount } = cluster.data;
   const size = positiveCount + showingSymptomsCount;
 
@@ -49,20 +55,53 @@ export default function ClusterMarker({ cluster, onPress }: Props) {
   const diameter = BASE_DIAMETER + perc * MAX_DELTA;
   const backgroundColor = Colors.CLUSTER_BASE.lighten(-perc * 5);
 
+  function makeLive() {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(liveScaleRef.current, { toValue: 1 - LIVE_ANIM_DELTA, duration: 500 }),
+        Animated.timing(liveScaleRef.current, { toValue: 1, duration: 500 }),
+      ])
+    ).start();
+  }
+
+  React.useEffect(() => {
+    makeLive();
+  }, []);
+
+  function handlePressIn() {
+    liveScaleRef.current.stopAnimation(() => {
+      Animated.spring(pressScaleRef.current, {
+        toValue: 1 - PRESS_SCALE_DELTA,
+      }).start();
+    });
+  }
+
+  function handlePressOut() {
+    Animated.spring(pressScaleRef.current, {
+      toValue: 1,
+      friction: 8,
+      tension: 40,
+    }).start();
+    makeLive();
+    onPress(cluster);
+  }
+
   return (
-    <TouchableOpacity
-      onPress={() => onPress(cluster)}
-      activeOpacity={0.6}
-      style={[
-        styles.container,
-        {
-          height: diameter,
-          width: diameter,
-          borderRadius: diameter / 2,
-          backgroundColor,
-        },
-      ]}>
-      <Text style={styles.number}>{size}</Text>
+    <TouchableOpacity onPressIn={handlePressIn} onPress={handlePressOut} activeOpacity={1}>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            height: diameter,
+            width: diameter,
+            borderRadius: diameter / 2,
+            backgroundColor,
+            zIndex: 5,
+          },
+          { transform: [{ scale: pressScaleRef.current }, { scale: liveScaleRef.current }] },
+        ]}>
+        <Text style={styles.number}>{size}</Text>
+      </Animated.View>
     </TouchableOpacity>
   );
 }
