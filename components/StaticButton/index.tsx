@@ -22,6 +22,7 @@ interface Props {
   label: string;
   labelTextStyle?: TextStyle;
   backgroundColor?: string;
+  underlayColor?: string;
   disabled?: boolean;
   onPress: () => void;
 }
@@ -33,6 +34,7 @@ export default function StaticButton({
     fontSize: Buttons.FONT_SIZE,
   },
   backgroundColor = Colors.BLUE.toString(),
+  underlayColor = Colors.BLUE.lighten(-20),
   disabled,
   onPress,
 }: Props) {
@@ -41,6 +43,7 @@ export default function StaticButton({
       <TouchableHighlight
         style={[styles.rectButton, { backgroundColor }]}
         activeOpacity={1}
+        underlayColor={underlayColor}
         onPress={onPress}
         disabled={disabled}>
         <View>
