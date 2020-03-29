@@ -58,14 +58,14 @@ export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUs
     const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
     if (!lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000) {
       // Have not updated from this device for at least 30 mins
-      const { latitude, longitude } = await retrieveLastKnownPosition();
+      const { latitude, longitude } = await retrieveLastLocationWithPermission();
       const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
         ...updatedInfo,
         lastLocation: { lat: latitude, lng: longitude },
       };
       await API.requestUpdateUserInfo(uid, updatedInfoWithLastLocation);
-      // const updatedAt = Date.now();
-      // await AsyncStorage.setItem('lastUpdatedAt', updatedAt.toString());
+      const updatedAt = Date.now();
+      await AsyncStorage.setItem('lastUpdatedAt', updatedAt.toString());
     } else {
       await PromiseUtils.sleep(750);
     }
@@ -87,16 +87,18 @@ export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUs
  * Helpers
  */
 
-async function retrieveLastKnownPosition() {
+async function retrieveLastLocationWithPermission(): Promise<LocationDT> {
   try {
-    const { status, canAskAgain } = await Location.getPermissionsAsync();
+    const { status, canAskAgain } = await Permissions.getAsync(Permissions.LOCATION);
     if (status === 'granted') {
-      return getLastKnownPosition();
+      const res = await getCurrentPosition();
+      return res;
     }
     if (canAskAgain) {
-      const { status: status2 } = await Location.requestPermissionsAsync();
+      const { status: status2 } = await Permissions.askAsync(Permissions.LOCATION);
       if (status2 === 'granted') {
-        return getLastKnownPosition();
+        const res = await getCurrentPosition();
+        return res;
       }
     }
 
@@ -106,11 +108,11 @@ async function retrieveLastKnownPosition() {
   }
 }
 
-async function getLastKnownPosition(): Promise<LocationDT> {
+async function getCurrentPosition(): Promise<LocationDT> {
   try {
     const {
       coords: { latitude, longitude },
-    } = await Location.getLastKnownPositionAsync();
+    } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
     return { latitude, longitude };
   } catch (err) {
     return Promise.reject(err);
