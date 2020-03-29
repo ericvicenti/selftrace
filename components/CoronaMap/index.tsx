@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { withScriptjs } from 'react-google-maps';
-import { GoogleMap, OverlayView } from '@react-google-maps/api';
+import { GoogleMap, OverlayView, useLoadScript } from '@react-google-maps/api';
 import { t } from 'i18n-js';
+import Text from '../Text';
 import ClusterMarker from './ClusterMarker';
 import LoadingIndicator from './LoadingIndicator';
 import ClusterDetails from './ClusterDetails';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { useAnimatedBool } from '../../hooks';
 import GeoUtils from '../../util/GeoUtils';
-import { Margins } from '../../styles';
+import { Margins, Paddings } from '../../styles';
 
 const SAN_FRAN_COORDS = {
   lat: 37.7749,
@@ -17,6 +17,16 @@ const SAN_FRAN_COORDS = {
 };
 
 const styles = StyleSheet.create({
+  loadErrorContainer: {
+    backgroundColor: 'pink',
+    flex: 1,
+    paddingTop: Paddings.MAX_Y,
+    paddingBottom: Paddings.MAX_Y,
+  },
+  loadErrorText: {
+    fontWeight: '500',
+    fontSize: 16,
+  },
   container: {},
   mapView: {
     flex: 1,
@@ -50,7 +60,7 @@ interface InfoBoxState {
   cluster: Partial<AnonymListItem<ClusterObject>>;
 }
 
-function CoronaMap({
+export default function CoronaMap({
   center = SAN_FRAN_COORDS,
   clusters,
   isLoading,
@@ -61,6 +71,10 @@ function CoronaMap({
     isVisible: false,
     cluster: {},
   });
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.googleMapsAPIKey,
+  });
+
   const googleMapRef = React.useRef(null);
   const isLoadingAnim = useAnimatedBool(isLoading, IS_LOADING_ANIM_DURATION);
   const clusterDetailsScale = useAnimatedBool(
@@ -90,72 +104,83 @@ function CoronaMap({
     });
   }
 
-  return (
-    <View style={[styles.container, style]}>
-      <LoadingIndicator
-        delayTime={IS_LOADING_ANIM_DURATION}
-        isVisible={isLoading}
-        message={t('screens.map.loadingMessage')}
-        style={[
-          styles.loadingIndicator,
-          {
-            opacity: isLoadingAnim.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1],
-            }),
-          },
-        ]}
-      />
-      <ClusterDetails
-        delayTime={CLUSTER_DETAILS_ANIM_DURATION}
-        isVisible={clusterDetails.isVisible}
-        duration={CLUSTER_DETAILS_ANIM_DURATION}
-        cluster={clusterDetails.cluster}
-        style={[
-          styles.clusterDetails,
-          {
-            opacity: clusterDetailsScale.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1],
-            }),
-            top: clusterDetailsScale.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 50 + Margins.MIN_Y],
-            }),
-          },
-        ]}
-      />
-      <GoogleMap
-        zoom={8}
-        center={center}
-        onLoad={map => {
-          googleMapRef.current = map;
-          setTimeout(handleRegionChange, 500);
-        }}
-        mapContainerStyle={{
-          height: '100%',
-          width: '100%',
-        }}
-        onDragEnd={handleRegionChange}
-        onZoomChanged={handleRegionChange}>
-        {clusters.map(cluster => (
-          <OverlayView
-            key={cluster.key}
-            position={{
-              lat: cluster.data.lat,
-              lng: cluster.data.lng,
-            }}
-            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-            getPixelPositionOffset={(width, height) => ({
-              x: -(width / 2),
-              y: -(height / 2),
-            })}>
-            <ClusterMarker cluster={cluster} onPress={onPressCluster} />
-          </OverlayView>
-        ))}
-      </GoogleMap>
-    </View>
-  );
-}
+  if (loadError) {
+    return (
+      <View style={styles.loadErrorContainer}>
+        {/* TODO: Localize */}
+        <Text style={styles.loadErrorText}>Error: Map cannot be loaded at this time.</Text>
+      </View>
+    );
+  }
 
-export default withScriptjs<CoronaMapProps>(CoronaMap as any);
+  if (isLoaded) {
+    return (
+      <View style={[styles.container, style]}>
+        <LoadingIndicator
+          delayTime={IS_LOADING_ANIM_DURATION}
+          isVisible={isLoading}
+          message={t('screens.map.loadingMessage')}
+          style={[
+            styles.loadingIndicator,
+            {
+              opacity: isLoadingAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+              }),
+            },
+          ]}
+        />
+        <ClusterDetails
+          delayTime={CLUSTER_DETAILS_ANIM_DURATION}
+          isVisible={clusterDetails.isVisible}
+          duration={CLUSTER_DETAILS_ANIM_DURATION}
+          cluster={clusterDetails.cluster}
+          style={[
+            styles.clusterDetails,
+            {
+              opacity: clusterDetailsScale.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+              }),
+              top: clusterDetailsScale.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 50 + Margins.MIN_Y],
+              }),
+            },
+          ]}
+        />
+        <GoogleMap
+          zoom={8}
+          center={center}
+          onLoad={map => {
+            googleMapRef.current = map;
+            setTimeout(handleRegionChange, 500);
+          }}
+          mapContainerStyle={{
+            height: '100%',
+            width: '100%',
+          }}
+          onDragEnd={handleRegionChange}
+          onZoomChanged={handleRegionChange}>
+          {clusters.map(cluster => (
+            <OverlayView
+              key={cluster.key}
+              position={{
+                lat: cluster.data.lat,
+                lng: cluster.data.lng,
+              }}
+              mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+              getPixelPositionOffset={(width, height) => ({
+                x: -(width / 2),
+                y: -(height / 2),
+              })}>
+              <ClusterMarker cluster={cluster} onPress={onPressCluster} />
+            </OverlayView>
+          ))}
+        </GoogleMap>
+      </View>
+    );
+  }
+
+  return <View style={{ flex: 1 }} />;
+}

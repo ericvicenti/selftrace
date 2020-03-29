@@ -123,14 +123,11 @@ function MapPage({ wellbeing }: Props) {
   }
 
   const wellbeingIsDefined = !!wellbeing;
-  const GOOGLE_MAP_URL = `https://maps.googleapis.com/maps/api/js?key=${process.env.googleMapsAPIKey}`;
 
   return (
     <PageContainer isFullScreen>
       {wellbeingIsDefined ? (
         <CoronaMap
-          googleMapURL={GOOGLE_MAP_URL}
-          loadingElement={<div />}
           clusters={state.clusters}
           isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
@@ -138,13 +135,7 @@ function MapPage({ wellbeing }: Props) {
         />
       ) : (
         <>
-          <CoronaMap
-            googleMapURL={GOOGLE_MAP_URL}
-            loadingElement={<div />}
-            clusters={[]}
-            isLoading={false}
-            style={styles.mapContainer}
-          />
+          <CoronaMap clusters={[]} isLoading={false} style={styles.mapContainer} />
           <BlurView
             tint="dark"
             intensity={75}
