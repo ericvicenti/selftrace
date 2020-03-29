@@ -9,13 +9,11 @@ import Router from 'next/router';
 import { AuthStatus } from '../../data-types';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
-
 import Hoverable from '../../components/Hoverable';
-import SubmitButton from '../../components/SubmitButton';
 import * as SignoutActions from '../../actions/auth/signout';
 import { Action, Dispatch } from '../../actions';
 import { ReduxRoot } from '../../reducers';
-import { Colors, Margins, Shadows, Buttons } from '../../styles';
+import { Colors, Margins, Shadows } from '../../styles';
 import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
@@ -29,20 +27,31 @@ const styles = StyleSheet.create({
     marginTop: Margins.Y,
   },
   itemsContainer: {
+    ...Shadows.MAIN_CONTAINER,
+    borderRadius: 10,
+    shadowRadius: 7,
     marginTop: Margins.MAX_Y,
   },
   item: {
-    ...Shadows.MAIN_CONTAINER,
-    shadowRadius: 7,
+    borderRadius: 0,
     alignSelf: 'flex-start',
-    marginBottom: Margins.MIN_Y,
-    minWidth: Buttons.MIN_WIDTH,
+    minWidth: 320,
     minHeight: 50,
+  },
+  topItem: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  bottomItem: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  signoutText: {
+    color: Colors.RED.toString(),
   },
 });
 
 const mapStateToProps = (state: ReduxRoot) => ({
-  progress: state.auth.signout.progress,
   authStatus: state.auth.status,
 });
 
@@ -57,7 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props) {
+function AccountPage({ signoutUser, authStatus, clearProgress }: Props) {
   React.useEffect(
     () => () => {
       clearProgress();
@@ -83,21 +92,20 @@ function AccountPage({ signoutUser, authStatus, progress, clearProgress }: Props
     <PageContainer>
       <Text style={styles.title}>{t('headers.account')}</Text>
       <View style={styles.itemsContainer}>
-        <Hoverable onPress={onLinkPress('/account/profile')} style={styles.item}>
+        <Hoverable
+          onPress={onLinkPress('/account/profile')}
+          style={StyleSheet.flatten([styles.item, styles.topItem])}>
           <Text>{t('screens.account.profile')}</Text>
         </Hoverable>
         <Hoverable onPress={onLinkPress('/account/update-password')} style={styles.item}>
           <Text>{t('screens.account.updatePassword')}</Text>
         </Hoverable>
+        <Hoverable
+          onPress={() => signoutUser()}
+          style={StyleSheet.flatten([styles.item, styles.bottomItem])}>
+          <Text style={styles.signoutText}>{t('buttons.signout')}</Text>
+        </Hoverable>
       </View>
-      <SubmitButton
-        label={t('buttons.signout')}
-        progress={progress}
-        backgroundColor={Colors.RED}
-        onPress={() => {
-          signoutUser();
-        }}
-      />
     </PageContainer>
   );
 }
