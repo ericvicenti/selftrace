@@ -91,14 +91,12 @@ async function retrieveLastLocationWithPermission(): Promise<LocationDT> {
   try {
     const { status, canAskAgain } = await Permissions.getAsync(Permissions.LOCATION);
     if (status === 'granted') {
-      const res = await getCurrentPosition();
-      return res;
+      return getCurrentPosition();
     }
     if (canAskAgain) {
       const { status: status2 } = await Permissions.askAsync(Permissions.LOCATION);
       if (status2 === 'granted') {
-        const res = await getCurrentPosition();
-        return res;
+        return getCurrentPosition();
       }
     }
 

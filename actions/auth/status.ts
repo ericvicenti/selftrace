@@ -25,7 +25,10 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
   return API.requestAuthStateListener((async (user: UserInfo) => {
     if (!user) {
       // Case 1: Signed out
-      await AsyncStorage.removeItem('wellbeing');
+      await Promise.all([
+        AsyncStorage.removeItem('wellbeing'),
+        AsyncStorage.removeItem('lastUpdatedAt'),
+      ]);
 
       return dispatch(setAuthStatusToSignedOut());
     }
