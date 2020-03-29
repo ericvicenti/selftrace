@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle, StyleSheet, StyleProp } from 'react-native';
+import { View, ViewStyle, StyleSheet } from 'react-native';
 import Hoverable from '../Hoverable';
 import { Colors, Margins } from '../../styles';
 
@@ -25,7 +25,6 @@ interface Props {
   Icon: JSX.Element;
   onPress: () => void;
   hoverableStyle: ViewStyle;
-  isMobile?: boolean;
 }
 
 export default function TabItemComponent({
@@ -35,16 +34,9 @@ export default function TabItemComponent({
   Icon,
   onPress,
   hoverableStyle,
-  isMobile,
 }: Props) {
-  const containerStyles: StyleProp<ViewStyle> = [
-    styles.container,
-    {
-      maxWidth: isMobile ? 60 : 100,
-    },
-  ];
   return (
-    <View style={containerStyles}>
+    <View style={styles.container}>
       <Hoverable key={path} onPress={onPress} style={hoverableStyle} disabled={isActive}>
         {Icon}
       </Hoverable>

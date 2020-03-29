@@ -1,14 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import Router from 'next/router';
 import Icon from '../Icon';
 import { Colors, Margins } from '../../styles';
 import TabItemComponent from './TabItemComponent';
-import {
-  ResponsiveWidthRenderProps,
-  withResponsiveWidth,
-  ResponsiveSize,
-} from '../../hocs/withResponsiveWidth';
 
 const logoSource = require('../../assets/logo-with-title-small.png');
 
@@ -39,7 +34,8 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+    marginLeft: Margins.MIN_X,
   },
   logo: {
     height: 40,
@@ -47,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props extends ResponsiveWidthRenderProps {
+interface Props {
   pathname: string;
 }
 
@@ -55,19 +51,13 @@ const onPressHandler = (path: string) => () => {
   Router.push(path);
 };
 
-const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
-  const logoContainerStyles: StyleProp<ViewStyle> = [
-    styles.logoContainer,
-    {
-      marginLeft: responsiveWidth && responsiveWidth < ResponsiveSize.Medium ? 0 : Margins.X,
-    },
-  ];
+export default function TabNavigator({ pathname }: Props) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={onPressHandler('/map')}
         activeOpacity={0.5}
-        style={logoContainerStyles}>
+        style={styles.logoContainer}>
         <Image style={styles.logo} source={logoSource} resizeMode="cover" />
       </TouchableOpacity>
       <View style={styles.tabsContainer}>
@@ -86,13 +76,10 @@ const TabNavigator = ({ responsiveWidth, pathname }: Props) => {
               isActive={isActive}
               onPress={onPressHandler(path)}
               hoverableStyle={styles.hoverable}
-              isMobile={responsiveWidth !== undefined && responsiveWidth < ResponsiveSize.Medium}
             />
           );
         })}
       </View>
     </View>
   );
-};
-
-export default withResponsiveWidth(TabNavigator);
+}
