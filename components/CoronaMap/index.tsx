@@ -60,7 +60,7 @@ interface InfoBoxState {
   cluster: Partial<AnonymListItem<ClusterObject>>;
 }
 
-export default function CoronaMap({
+function CoronaMap({
   center = SAN_FRAN_COORDS,
   clusters,
   isLoading,
@@ -184,3 +184,5 @@ export default function CoronaMap({
 
   return <View style={{ flex: 1 }} />;
 }
+
+export default React.memo(CoronaMap);

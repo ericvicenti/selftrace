@@ -44,7 +44,7 @@ interface Props {
 const LIVE_ANIM_DELTA = 0.3;
 const PRESS_SCALE_DELTA = 0.25;
 
-export default function ClusterMarker({ cluster, onPress }: Props) {
+function ClusterMarker({ cluster, onPress }: Props) {
   const pressScaleRef = React.useRef(new Animated.Value(1));
   const liveScaleRef = React.useRef(new Animated.Value(1));
 
@@ -105,3 +105,5 @@ export default function ClusterMarker({ cluster, onPress }: Props) {
     </TouchableOpacity>
   );
 }
+
+export default React.memo(ClusterMarker);
