@@ -34,6 +34,7 @@ interface Props {
   label: string;
   labelTextStyle?: TextStyle;
   backgroundColor?: Color;
+  activityIndicatorColor?: string;
   progress: Progress;
   disabled?: boolean;
   onPress: () => void;
@@ -46,6 +47,7 @@ export default function SubmitButton({
     fontSize: Buttons.FONT_SIZE,
   },
   backgroundColor = Colors.BLUE,
+  activityIndicatorColor = 'white',
   progress,
   disabled,
   onPress,
@@ -88,7 +90,7 @@ export default function SubmitButton({
         disabled={isSubmitDisabled}
         onPress={onPress}>
         {isLoading ? (
-          <ActivityIndicator size="small" color={Colors.INACTIVE_ICON.toString()} />
+          <ActivityIndicator size="small" color={activityIndicatorColor} />
         ) : (
           <View>
             <Text style={labelTextStyle}>{label}</Text>
