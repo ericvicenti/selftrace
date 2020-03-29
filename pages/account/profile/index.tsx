@@ -75,7 +75,7 @@ function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgres
         // disabled={submitDisabled}
         disabled
         onPress={() => {
-          uploadUserInfo(uid, { email });
+          uploadUserInfo(uid, { email }, false); // TODO: Detach location sharing logic from this
         }}
       />
     </PageContainer>

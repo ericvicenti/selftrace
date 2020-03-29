@@ -178,7 +178,7 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
         progress={progress}
         disabled={submitDisabled}
         onPress={() => {
-          uploadUserInfo(uid, { wellbeing: wellbeing!.valueOf() });
+          uploadUserInfo(uid, { wellbeing: wellbeing!.valueOf() }, currentWellbeing !== wellbeing);
         }}
       />
     </PageContainer>

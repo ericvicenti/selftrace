@@ -58,14 +58,18 @@ export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => (
 
 const GRACEFUL_EXIT_DURATION = 750;
 
-export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUserDoc>) => async (
-  dispatch: Dispatch
-) => {
+export const uploadUserInfo = (
+  uid: string,
+  updatedInfo: Partial<API.FirestoreUserDoc>,
+  haveDetailsChanged: boolean
+) => async (dispatch: Dispatch) => {
   dispatch(startUpdateUserInfoRequest());
   try {
     const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
-    if (!lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000) {
-      // Have not updated from this device for at least 30 mins
+    const hasNotUpdatedFor30Mins =
+      !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000;
+
+    if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
       dispatch(startRetrievingUserLocation());
       const { latitude, longitude } = await retrieveLastLocationWithPermission();
       const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
