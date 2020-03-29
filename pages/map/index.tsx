@@ -97,7 +97,7 @@ function MapPage({ wellbeing }: Props) {
     let newClusters: ClusterObject[] = [];
 
     try {
-      newClusters = await API.requestClusters(regionObj, true);
+      newClusters = await API.requestClusters(regionObj);
       requestEndedAt = Date.now();
     } catch (err) {
       requestEndedAt = Date.now();
