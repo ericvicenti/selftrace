@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 40,
-    width: 170,
+    width: 150,
   },
 });
 
