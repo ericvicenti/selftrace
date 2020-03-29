@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import Router from 'next/router';
 import Icon from '../Icon';
-import { Colors, Paddings } from '../../styles';
+import { Colors, Margins } from '../../styles';
 import TabItemComponent from './TabItemComponent';
+
+const logoSource = require('../../assets/logo-with-title-small.png');
 
 const TAB_ITEMS = [
   { path: '/map', Icon: Icon.MapMarkerMultiple },
@@ -13,6 +15,15 @@ const TAB_ITEMS = [
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    shadowRadius: 3,
+    shadowColor: Colors.SHADOW.toString(),
+    shadowOffset: {
+      height: 0.5,
+      width: 0,
+    },
+  },
+  tabsContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -25,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    paddingLeft: Paddings.MIN_X,
+    marginLeft: Margins.MIN_X,
   },
   logo: {
     height: 40,
@@ -44,24 +55,32 @@ const onPressHandler = (path: string) => () => {
 export default function TabNavigator({ pathname }: Props) {
   return (
     <View style={styles.container}>
-      {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
-        const isActive = pathname === path;
+      <TouchableOpacity
+        onPress={onPressHandler('/map')}
+        activeOpacity={0.5}
+        style={styles.logoContainer}>
+        <Image style={styles.logo} source={logoSource} resizeMode="cover" />
+      </TouchableOpacity>
+      <View style={styles.tabsContainer}>
+        {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
+          const isActive = pathname === path;
 
-        return (
-          <TabItemComponent
-            key={path}
-            path={path}
-            Icon={
-              <TabIcon
-                color={isActive ? Colors.PRIMARY.toString() : Colors.INACTIVE_ICON.toString()}
-              />
-            }
-            isActive={isActive}
-            onPress={onPressHandler(path)}
-            hoverableStyle={styles.hoverable}
-          />
-        );
-      })}
+          return (
+            <TabItemComponent
+              key={path}
+              path={path}
+              Icon={
+                <TabIcon
+                  color={isActive ? Colors.PRIMARY.toString() : Colors.INACTIVE_ICON.toString()}
+                />
+              }
+              isActive={isActive}
+              onPress={onPressHandler(path)}
+              hoverableStyle={styles.hoverable}
+            />
+          );
+        })}
+      </View>
     </View>
   );
 }

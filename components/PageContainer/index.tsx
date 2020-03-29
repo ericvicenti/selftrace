@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { withRouter, SingletonRouter } from 'next/router';
-import { Margins, Colors } from '../../styles';
+import { Margins } from '../../styles';
 import TabNavigator from '../TabNavigator';
-import NavLogo from '../NavLogo';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,15 +10,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: Margins.MAX_Y,
     paddingHorizontal: Margins.WINDOW,
-  },
-  navContainer: {
-    flexDirection: 'row',
-    shadowRadius: 3,
-    shadowColor: Colors.SHADOW.toString(),
-    shadowOffset: {
-      height: 0.5,
-      width: 0,
-    },
   },
 });
 
@@ -52,8 +42,7 @@ const PageContainer = (props: Props) => {
 
   return showHeader ? (
     <>
-      <View style={styles.navContainer}>
-        <NavLogo />
+      <View>
         <TabNavigator pathname={router.pathname} />
       </View>
       {Content}
