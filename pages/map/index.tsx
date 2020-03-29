@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
-import dynamic from 'next/dynamic';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
+import CoronaMap from '../../components/CoronaMap';
 import Icon from '../../components/Icon';
 import * as API from '../../api';
 import { Dispatch, Action } from '../../actions';
@@ -16,11 +16,6 @@ import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
 import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { Main, Margins, Colors, Paddings } from '../../styles';
-
-// Need to do this to prevent `ReferenceError: window is not defined`
-const CoronaMap = dynamic(() => import('../../components/CoronaMap'), {
-  ssr: false,
-});
 
 const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
 
