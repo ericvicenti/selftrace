@@ -21,6 +21,14 @@ export const startUpdateUserInfoRequest: ActionCreator<NetworkAction> = () => ({
   },
 });
 
+export const startRetrievingUserLocation: ActionCreator<NetworkAction> = () => ({
+  type: ActionType.REQUEST_UPDATE_USER_INFO,
+  progress: {
+    message: 'Trying to retrieve your current location...',
+    status: ProgressStatus.REQUEST,
+  },
+});
+
 export const receiveUpdateUserInfoResponse: ActionCreator<NetworkAction> = (
   updatedInfo: Partial<ReduxAuthUserInfo>
 ) => ({
@@ -58,6 +66,7 @@ export const uploadUserInfo = (uid: string, updatedInfo: Partial<API.FirestoreUs
     const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
     if (!lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000) {
       // Have not updated from this device for at least 30 mins
+      dispatch(startRetrievingUserLocation());
       const { latitude, longitude } = await retrieveLastLocationWithPermission();
       const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
         ...updatedInfo,

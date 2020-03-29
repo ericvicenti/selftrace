@@ -2,6 +2,8 @@ import { requestSignout } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
 
+// TODO: Localize
+
 const startSignoutRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNOUT,
   progress: {

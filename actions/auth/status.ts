@@ -44,32 +44,3 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
     return dispatch(setAuthStatusToSignedIn(userInfo));
   }) as any);
 };
-
-// async function handlePermissions() {
-//   const { granted, canAskAgain } = await Permissions.getAsync(Permissions.LOCATION);
-
-//   if (!granted && canAskAgain) {
-//     await Permissions.askAsync(Permissions.LOCATION);
-//   }
-// }
-
-// async function startLocationUpdates() {
-//   const { status } = await Permissions.getAsync(Permissions.LOCATION);
-
-//   if (status === 'granted' && TaskManager.isTaskDefined('sendLastLocationToBackend')) {
-//     return Location.startLocationUpdatesAsync('sendLastLocationToBackend', {
-//       accuracy: Location.Accuracy.High,
-//       timeInterval: 600000, // 10 min
-//       distanceInterval: 50, // in meters
-//       showsBackgroundLocationIndicator: false,
-//       // foregroundService: {
-//       //   notificationTitle: '',
-//       //   notificationBody: '',
-//       //   notificationColor: '',
-//       // },
-//       pausesUpdatesAutomatically: true,
-//     });
-//   }
-
-//   return Promise.resolve();
-// }

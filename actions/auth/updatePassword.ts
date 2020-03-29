@@ -2,6 +2,8 @@ import { requestUpdatePassword } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
 
+// TODO: Localize
+
 const startUpdatePasswordRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_PASSWORD,
   progress: {

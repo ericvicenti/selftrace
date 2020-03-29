@@ -2,6 +2,8 @@ import { requestSignup } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
 
+// TODO: Localize
+
 const startSignupRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: {

@@ -2,6 +2,8 @@ import { requestSignin, loginWithGoogle } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
 import { ProgressStatus } from '../../data-types';
 
+// TODO: Localize
+
 const startSigninRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNIN,
   progress: {
