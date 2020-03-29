@@ -10,7 +10,7 @@ const PROGRESS_SECTION_HEIGHT = 70;
 
 const styles = StyleSheet.create({
   container: {
-    ...Shadows.FORM_CONTAINER,
+    ...Shadows.MAIN_CONTAINER,
     maxWidth: Main.FORM_CONTANER_MAX_WIDTH,
     borderRadius: 10,
     paddingHorizontal: Paddings.MAX_X,

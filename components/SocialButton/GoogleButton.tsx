@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: Buttons.BORDER_RADIUS,
     marginTop: Margins.Y,
     minWidth: Buttons.MIN_WIDTH,
-    ...Shadows.FORM_CONTAINER,
+    ...Shadows.MAIN_CONTAINER,
   },
   button: {
     flexDirection: 'row',

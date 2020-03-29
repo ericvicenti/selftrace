@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginTop: Margins.MAX_Y,
   },
   item: {
-    ...Shadows.FORM_CONTAINER,
+    ...Shadows.MAIN_CONTAINER,
     shadowRadius: 7,
     alignSelf: 'flex-start',
     marginBottom: Margins.MIN_Y,

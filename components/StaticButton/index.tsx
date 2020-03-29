@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   container: {
     borderRadius: Buttons.BORDER_RADIUS,
     minWidth: Buttons.MIN_WIDTH,
-    ...Shadows.FORM_CONTAINER,
+    ...Shadows.MAIN_CONTAINER,
   },
   rectButton: {
     justifyContent: 'center',

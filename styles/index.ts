@@ -31,7 +31,7 @@ export const Paddings = {
 };
 
 export const Shadows: { [key: string]: ViewStyle } = {
-  FORM_CONTAINER: {
+  MAIN_CONTAINER: {
     shadowOffset: {
       height: 0,
       width: 0,

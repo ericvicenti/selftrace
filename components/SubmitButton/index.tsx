@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     borderRadius: Buttons.BORDER_RADIUS,
     marginTop: Margins.MAX_Y,
     minWidth: Buttons.MIN_WIDTH,
-    ...Shadows.FORM_CONTAINER,
+    ...Shadows.MAIN_CONTAINER,
   },
   rectButton: {
     justifyContent: 'center',
