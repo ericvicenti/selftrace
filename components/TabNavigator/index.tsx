@@ -29,10 +29,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   hoverable: {
-    width: '100%',
     flex: 1,
+    width: '100%',
   },
   logoContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginLeft: Margins.MIN_X,
