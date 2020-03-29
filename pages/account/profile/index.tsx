@@ -9,7 +9,7 @@ import FormContainer from '../../../components/FormContainer';
 import PageContainer from '../../../components/PageContainer';
 import EmailInput from '../../../components/TextInput/Email';
 import Text from '../../../components/Text';
-import AuthUtils from '../../../util/AuthUtils';
+// import AuthUtils from '../../../util/AuthUtils';
 import SubmitButton from '../../../components/SubmitButton';
 import { Action, Dispatch } from '../../../actions';
 import * as Actions from '../../../actions/auth/userInfo';
@@ -47,7 +47,7 @@ interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof ma
 
 function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgress }: Props) {
   const [email, setEmail] = React.useState(currentEmail);
-  const submitDisabled = !AuthUtils.isValidEmail(email) || email === currentEmail;
+  // const submitDisabled = !AuthUtils.isValidEmail(email) || email === currentEmail;
 
   React.useEffect(
     () => () => {
@@ -66,12 +66,14 @@ function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgres
             if (progress.status) clearProgress();
             setEmail(text.toLowerCase());
           }}
+          editable={false}
         />
       </FormContainer>
       <SubmitButton
         label={t('buttons.update')}
         progress={progress}
-        disabled={submitDisabled}
+        // disabled={submitDisabled}
+        disabled
         onPress={() => {
           uploadUserInfo(uid, { email });
         }}
