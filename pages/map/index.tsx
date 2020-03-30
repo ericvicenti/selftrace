@@ -19,7 +19,7 @@ import { Main, Margins, Colors, Paddings } from '../../styles';
 
 // Need to do this to prevent `ReferenceError: window is not defined`
 const CoronaMap = dynamic(() => import('../../components/CoronaMap'), {
-  ssr: true,
+  ssr: false,
 });
 
 const WARNING_CONTAINER_WIDTH = Main.W_WIDTH - 4 * Margins.WINDOW;
