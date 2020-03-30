@@ -28,7 +28,9 @@ class App extends React.PureComponent<Props> {
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuthStateChange();
+    if (this.unsubscribeFromAuthStateChange) {
+      this.unsubscribeFromAuthStateChange();
+    }
   }
 
   render() {
