@@ -1,11 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import Router from 'next/router';
+import { StyleSheet, View } from 'react-native';
+import Router, { withRouter, SingletonRouter } from 'next/router';
 import Icon from '../Icon';
-import { Colors, Margins } from '../../styles';
+import { Colors } from '../../styles';
 import TabItemComponent from './TabItemComponent';
-
-const logoSource = require('../../assets/logo-with-title-small.png');
 
 const TAB_ITEMS = [
   { path: '/map', Icon: Icon.MapMarkerMultiple },
@@ -15,15 +13,6 @@ const TAB_ITEMS = [
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    shadowRadius: 3,
-    shadowColor: Colors.SHADOW.toString(),
-    shadowOffset: {
-      height: 0.5,
-      width: 0,
-    },
-  },
-  tabsContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -32,38 +21,22 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  logoContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginLeft: Margins.MIN_X,
-  },
-  logo: {
-    height: 40,
-    width: 150,
-  },
 });
 
 interface Props {
-  pathname: string;
+  router: SingletonRouter;
 }
 
 const onPressHandler = (path: string) => () => {
   Router.push(path);
 };
 
-export default function TabNavigator({ pathname }: Props) {
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={onPressHandler('/map')}
-        activeOpacity={0.5}
-        style={styles.logoContainer}>
-        <Image style={styles.logo} source={logoSource} resizeMode="cover" />
-      </TouchableOpacity>
-      <View style={styles.tabsContainer}>
+const TabNavigator = React.memo(
+  ({ router }: Props) => {
+    return (
+      <View style={styles.container}>
         {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
-          const isActive = pathname === path;
+          const isActive = router.pathname === path;
 
           return (
             <TabItemComponent
@@ -81,6 +54,11 @@ export default function TabNavigator({ pathname }: Props) {
           );
         })}
       </View>
-    </View>
-  );
-}
+    );
+  },
+  (prevProps, nextProps) => prevProps.router.pathname !== nextProps.router.pathname
+);
+
+const RoutedTabNavigator = withRouter(TabNavigator);
+
+export default RoutedTabNavigator;
