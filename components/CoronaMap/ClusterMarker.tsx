@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import Text from '../Text';
 import { AnonymListItem, ClusterObject } from '../../data-types';
 import { Colors } from '../../styles';
+import { useAnimatedBool } from '../../hooks';
 
 const BASE_DIAMETER = 30;
 // BASE_DIAMETER + MAX_DELTA will be maximum marker diameter (size)
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 15,
     shadowOpacity: 0.8,
-    shadowColor: Colors.CLUSTER_BASE.toString(),
+
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -38,15 +39,17 @@ const styles = StyleSheet.create({
 
 interface Props {
   cluster: AnonymListItem<ClusterObject>;
+  isSelected: boolean;
   onPress: (cluster: AnonymListItem<ClusterObject>) => void;
 }
 
 const LIVE_ANIM_DELTA = 0.25;
 const PRESS_SCALE_DELTA = 0.25;
 
-function ClusterMarker({ cluster, onPress }: Props) {
+function ClusterMarker({ isSelected, cluster, onPress }: Props) {
   const pressScaleRef = React.useRef(new Animated.Value(1));
   const liveScaleRef = React.useRef(new Animated.Value(1));
+  const isSelectedAnim = useAnimatedBool(isSelected, 200);
 
   const { positiveCount, showingSymptomsCount } = cluster.data;
   const size = positiveCount + showingSymptomsCount;
@@ -54,6 +57,15 @@ function ClusterMarker({ cluster, onPress }: Props) {
   const perc = Math.min(1, (0.9 * (size - 1)) / size);
   const diameter = BASE_DIAMETER + perc * MAX_DELTA;
   const backgroundColor = Colors.CLUSTER_BASE.lighten(-perc * 5);
+
+  const backgroundColorAnim = isSelectedAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [backgroundColor, Colors.CLUSTER_SELECTED.toString()],
+  });
+
+  React.useEffect(() => {
+    makeLive();
+  }, []);
 
   function makeLive() {
     Animated.loop(
@@ -63,10 +75,6 @@ function ClusterMarker({ cluster, onPress }: Props) {
       ])
     ).start();
   }
-
-  React.useEffect(() => {
-    makeLive();
-  }, []);
 
   function handlePressIn() {
     liveScaleRef.current.stopAnimation(() => {
@@ -95,8 +103,8 @@ function ClusterMarker({ cluster, onPress }: Props) {
             height: diameter,
             width: diameter,
             borderRadius: diameter / 2,
-            backgroundColor,
-            zIndex: 5,
+            backgroundColor: backgroundColorAnim,
+            shadowColor: isSelected ? Colors.CLUSTER_SELECTED.toString() : backgroundColor,
           },
           { transform: [{ scale: pressScaleRef.current }, { scale: liveScaleRef.current }] },
         ]}>

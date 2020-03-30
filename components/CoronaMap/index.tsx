@@ -174,7 +174,11 @@ function CoronaMap({
                 x: -(width / 2),
                 y: -(height / 2),
               })}>
-              <ClusterMarker cluster={cluster} onPress={onPressCluster} />
+              <ClusterMarker
+                isSelected={cluster.key === clusterDetails.cluster.key}
+                cluster={cluster}
+                onPress={onPressCluster}
+              />
             </OverlayView>
           ))}
         </GoogleMap>

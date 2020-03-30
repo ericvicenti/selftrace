@@ -6,7 +6,7 @@ import { Colors, Paddings, Margins } from '../../styles';
 import { ClusterObject, AnonymListItem } from '../../data-types';
 import withDelayedUnmount from '../../hocs/withDelayedUnmount';
 
-const backgroundColor = Colors.PRIMARY.toString();
+const backgroundColor = Colors.CLUSTER_SELECTED.toString();
 
 const styles = StyleSheet.create({
   container: {

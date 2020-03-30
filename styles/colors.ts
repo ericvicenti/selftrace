@@ -4,12 +4,13 @@ import Color from './Color';
 const rgb = (r: number, g: number, b: number): Color => new Color(r, g, b);
 
 const PRIMARY = rgb(252, 10, 116);
+const SECONDARY = rgb(254, 39, 177);
 
 export const Colors = {
   PRIMARY,
-  SECONDARY: rgb(254, 39, 177),
-  // CLUSTER_BASE: rgb(211, 26, 253),
+  SECONDARY,
   CLUSTER_BASE: PRIMARY,
+  CLUSTER_SELECTED: rgb(152, 18, 255),
   BLUE: rgb(26, 141, 249),
   RED: rgb(230, 44, 62),
   WHITE: rgb(255, 255, 255),
