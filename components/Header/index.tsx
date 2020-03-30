@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import { Colors, Margins } from '../../styles';
+import { Colors, Paddings } from '../../styles';
 import TabNavigator from '../TabNavigator';
 
 const logoSource = require('../../assets/logo-with-title-small.png');
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
       height: 0.5,
       width: 0,
     },
-    marginLeft: Margins.MIN_X,
+    paddingLeft: Paddings.MIN_X,
   },
   logoContainer: {
     flex: 1,
