@@ -70,7 +70,7 @@ function App(props: any) {
         <link rel="manifest" href="/manifest.webmanifest" />
         {/* <GoogleAnalytics id="UA-107832480-1" /> */}
         {injectMeta.map((value, index) => {
-          return <meta key={`meta-${index}`} {...value} />;
+          return <meta key={`meta-${index.toString()}`} {...value} />;
         })}
       </Head>
       <SafeAreaProvider>
