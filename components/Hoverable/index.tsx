@@ -4,7 +4,8 @@ import { useHover } from 'react-native-web-hooks';
 import { Colors, Paddings } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
+  container: { width: '100%' },
+  innerContainer: {
     paddingHorizontal: Paddings.X,
     paddingVertical: Paddings.Y,
     borderRadius: 8,
@@ -48,11 +49,15 @@ export default function Hoverable({
   }, [isHovered, disabled]);
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={onPress} disabled={disabled}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={1}
+      onPress={onPress}
+      disabled={disabled}>
       <Animated.View
         ref={hoverRef}
         style={[
-          styles.container,
+          styles.innerContainer,
           style,
           {
             backgroundColor: hoverScaleRef.current.interpolate({

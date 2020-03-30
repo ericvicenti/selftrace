@@ -1,23 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  // ViewStyle,
-  // StyleProp,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import Router from 'next/router';
+import { StyleSheet, View } from 'react-native';
+import Router, { withRouter, SingletonRouter } from 'next/router';
 import Icon from '../Icon';
-import { Margins, Colors, Paddings } from '../../styles';
+import { Colors } from '../../styles';
 import TabItemComponent from './TabItemComponent';
-import {
-  ResponsiveWidthRenderProps,
-  withResponsiveWidth,
-  // ResponsiveSize,
-} from '../../hocs/withResponsiveWidth';
-
-const logoSource = require('../../assets/logo-with-title-small.png');
 
 const TAB_ITEMS = [
   { path: '/map', Icon: Icon.MapMarkerMultiple },
@@ -27,67 +13,30 @@ const TAB_ITEMS = [
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    shadowRadius: 3,
-    shadowColor: Colors.SHADOW.toString(),
-    shadowOffset: {
-      height: 0.5,
-      width: 0,
-    },
-    paddingTop: Paddings.Y,
-  },
-  tabsContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   hoverable: {
+    flex: 1,
     width: '100%',
-    minWidth: 60,
-    paddingHorizontal: Paddings.MIN_X,
-  },
-  logoContainer: {
-    marginLeft: Margins.X,
-    justifyContent: 'flex-end',
-  },
-  logo: {
-    height: 50,
-    width: 200,
-    transform: [{ scale: 0.85 }],
   },
 });
 
-interface Props extends ResponsiveWidthRenderProps {
-  pathname: string;
+interface Props {
+  router: SingletonRouter;
 }
 
 const onPressHandler = (path: string) => () => {
   Router.push(path);
 };
 
-const TabNavigator = ({
-  // responsiveWidth,
-  pathname,
-}: Props) => {
-  // const containerStyles: StyleProp<ViewStyle> = [
-  //   styles.container,
-  //   {
-  //     justifyContent:
-  //       responsiveWidth && responsiveWidth < ResponsiveSize.Medium ? 'space-between' : 'center',
-  //   },
-  // ];
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={onPressHandler('/map')}
-        activeOpacity={0.5}
-        style={styles.logoContainer}>
-        <Image style={styles.logo} source={logoSource} resizeMode="cover" />
-      </TouchableOpacity>
-      <View style={styles.tabsContainer}>
+const TabNavigator = React.memo(
+  ({ router }: Props) => {
+    return (
+      <View style={styles.container}>
         {TAB_ITEMS.map(({ path, Icon: TabIcon }) => {
-          const isActive = pathname === path;
+          const isActive = router.pathname === path;
 
           return (
             <TabItemComponent
@@ -105,8 +54,11 @@ const TabNavigator = ({
           );
         })}
       </View>
-    </View>
-  );
-};
+    );
+  },
+  (prevProps, nextProps) => prevProps.router.pathname !== nextProps.router.pathname
+);
 
-export default withResponsiveWidth(TabNavigator);
+const RoutedTabNavigator = withRouter(TabNavigator);
+
+export default RoutedTabNavigator;

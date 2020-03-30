@@ -7,10 +7,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
-    maxWidth: 150,
+    alignItems: 'center',
+    maxWidth: 100,
     marginHorizontal: Margins.MIN_X,
   },
   activeBorder: {
+    width: '100%',
     height: 2,
     borderRadius: 5,
   },
