@@ -18,5 +18,3 @@ if (__DEV__) {
 }
 
 export default createStore(reducers, {}, applyMiddleware(...middleware));
-
-// export const initStore = () => createStore(reducers, {}, applyMiddleware(...middleware));

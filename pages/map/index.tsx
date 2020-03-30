@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import fetch from 'isomorphic-fetch';
 import { NextPageContext } from 'next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
@@ -75,10 +75,15 @@ interface State {
   isLoading: boolean;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
+  lastMapCenter: { lat: number; lng: number };
+}
 
-function MapPage({ wellbeing }: Props) {
-  const [state, setState] = React.useState<State>({ clusters: [], isLoading: false });
+function MapPage({ wellbeing, lastMapCenter }: Props) {
+  const [state, setState] = React.useState<State>({
+    clusters: [],
+    isLoading: false,
+  });
 
   // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
@@ -90,9 +95,16 @@ function MapPage({ wellbeing }: Props) {
       isLoading: true,
     }));
     let newClusters: ClusterObject[] = [];
+    const center = {
+      lat: regionObj.latitude,
+      lng: regionObj.longitude,
+    };
 
     try {
-      newClusters = await API.requestClusters(regionObj);
+      [, newClusters] = await Promise.all([
+        AsyncStorage.setItem('lastMapCenter', JSON.stringify(center)),
+        API.requestClusters(regionObj),
+      ]);
       requestEndedAt = Date.now();
     } catch (err) {
       requestEndedAt = Date.now();
@@ -122,6 +134,7 @@ function MapPage({ wellbeing }: Props) {
     <PageContainer isFullScreen>
       {wellbeingIsDefined ? (
         <CoronaMap
+          center={lastMapCenter}
           clusters={state.clusters}
           isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
@@ -154,10 +167,14 @@ MapPage.getInitialProps = async (ctx: NextPageContext) => {
   // let response = await fetch(url);
   // let result = await response.json();
 
+  const lastMapCenterRaw = await AsyncStorage.getItem('lastMapCenter');
+  const lastMapCenter = lastMapCenterRaw ? JSON.parse(lastMapCenterRaw) : undefined;
+
   return {
     // data: result,
     // query: ctx.query,
     pathname: ctx.pathname,
+    lastMapCenter,
   };
 };
 
