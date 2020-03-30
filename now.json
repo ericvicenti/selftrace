@@ -1,8 +1,10 @@
 {
-  "env": {
-    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key",
-    "FIREBASE_APP_API_KEY": "@firebase-app-api-key",
-    "FIREBASE_APP_ID": "@firebase-app-id",
-    "FIREBASE_MEASUREMENT_ID": "@firebase-measurement-id"
+  "build": {
+    "env": {
+      "GOOGLE_MAPS_API_KEY": "@google-maps-api-key",
+      "FIREBASE_APP_API_KEY": "@firebase-app-api-key",
+      "FIREBASE_APP_ID": "@firebase-app-id",
+      "FIREBASE_MEASUREMENT_ID": "@firebase-measurement-id"
+    }
   }
 }
