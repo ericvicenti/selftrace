@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     width: '100%',
-    height: '100%',
+    height: Main.W_HEIGHT - 45, // TODO: Map doesn't render on mobile without absolute height. Find the right fix or a workaround.
   },
   warningContainer: {
     backgroundColor: Colors.PRIMARY.toString(),
