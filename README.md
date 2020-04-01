@@ -21,6 +21,9 @@ Volunteers from all backgrounds are welcome as we will be needing help with fron
 
 Make sure to create a `.env` file at the root level with the following environment variables:
 - GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
+- FIREBASE_APP_API_KEY="YOUR_API_KEY"
+- FIREBASE_APP_ID=“YOUR_APP_ID”
+- FIREBASE_MEASUREMENT_ID=“YOUR_MEASUREMENT_ID”
 
 ### Commands
 
