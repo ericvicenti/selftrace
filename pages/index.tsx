@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     marginTop: Margins.MAX_Y,
     textAlign: 'center',
     textDecorationLine: 'underline',
+    marginBottom: 3 * Margins.MAX_Y, // TODO: Handle better
   },
   signupButton: {
     marginTop: Margins.MIN_Y,
