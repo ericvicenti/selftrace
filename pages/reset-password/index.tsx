@@ -57,7 +57,7 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
   const submitDisabled = !AuthUtils.isValidEmail(email);
 
   return (
-    <PageContainer showHeader={false}>
+    <PageContainer showHeader={false} isProtected={false}>
       <Text style={styles.title}>{t('headers.resetPassword')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput

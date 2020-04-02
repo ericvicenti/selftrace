@@ -5,13 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
-import Router from 'next/router';
 import FormContainer from '../../components/FormContainer';
 import PageContainer from '../../components/PageContainer';
 import Picker from '../../components/Picker';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
-import { Wellbeing, AuthStatus } from '../../data-types';
+import { Wellbeing } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: ReduxRoot) => ({
   currentWellbeing: state.auth.userInfo.wellbeing,
   progress: state.auth.userInfo.progress,
-  authStatus: state.auth.status,
   uid: state.auth.userInfo.uid!,
 });
 
@@ -97,14 +95,8 @@ interface WellbeingOptionMap {
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function FormPage({ currentWellbeing, progress, uploadUserInfo, uid, authStatus }: Props) {
+function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedOut) {
-      Router.push('/');
-    }
-  }, [authStatus]);
 
   // TODO: Clean up
   const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
@@ -144,10 +136,8 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid, authStatus 
     : undefined;
   const submitDisabled = !wellbeing;
 
-  if (authStatus !== AuthStatus.SignedIn) return null;
-
   return (
-    <PageContainer>
+    <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.form')}</Text>
       <View style={styles.topTextContainer}>
         <Text style={styles.topText}>{t('form.topNote')}</Text>

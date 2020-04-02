@@ -58,7 +58,7 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
   );
 
   return (
-    <PageContainer>
+    <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.updatePassword')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <PasswordInput

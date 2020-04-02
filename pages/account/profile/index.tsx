@@ -57,7 +57,7 @@ function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgres
   );
 
   return (
-    <PageContainer>
+    <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.profile')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput

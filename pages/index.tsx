@@ -117,7 +117,7 @@ function LoginPage({
   }
 
   return (
-    <PageContainer showHeader={false} style={styles.container}>
+    <PageContainer showHeader={false} isProtected={false} style={styles.container}>
       <Image style={styles.logo} source={logoSource} />
       <FormContainer showErrorsOnly progress={progress} style={styles.formContainer}>
         <EmailInput

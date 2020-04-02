@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
 import dynamic from 'next/dynamic';
-import Router from 'next/router';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
 import Icon from '../../components/Icon';
@@ -15,7 +14,7 @@ import * as API from '../../api';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
-import { ClusterObject, RegionObject, AnonymListItem, AuthStatus } from '../../data-types';
+import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
 import { Main, Margins, Colors, Paddings } from '../../styles';
 
 // Need to do this to prevent `ReferenceError: window is not defined`
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: ReduxRoot) => ({
   wellbeing: state.auth.userInfo.wellbeing,
   progress: state.auth.userInfo.progress,
-  authStatus: state.auth.status,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators({}, dispatch);
@@ -84,7 +82,7 @@ interface State {
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function MapPage({ wellbeing, authStatus }: Props) {
+function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({
     clusters: [],
     isLoading: false,
@@ -99,12 +97,6 @@ function MapPage({ wellbeing, authStatus }: Props) {
       }
     })();
   }, []);
-
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedOut) {
-      Router.push('/');
-    }
-  }, [authStatus]);
 
   // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
@@ -124,7 +116,7 @@ function MapPage({ wellbeing, authStatus }: Props) {
     try {
       [, newClusters] = await Promise.all([
         AsyncStorage.setItem('lastMapCenter', JSON.stringify(center)),
-        API.requestClusters(regionObj, true),
+        API.requestClusters(regionObj),
       ]);
       requestEndedAt = Date.now();
     } catch (err) {
@@ -152,10 +144,8 @@ function MapPage({ wellbeing, authStatus }: Props) {
 
   const wellbeingIsDefined = !!wellbeing;
 
-  if (authStatus !== AuthStatus.SignedIn) return null;
-
   return (
-    <PageContainer isFullScreen>
+    <PageContainer isFullScreen isProtected>
       {wellbeingIsDefined ? (
         <CoronaMap
           center={state.lastMapCenter}

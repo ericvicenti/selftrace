@@ -89,7 +89,7 @@ function AccountPage({ signoutUser, authStatus, clearProgress }: Props) {
   }
 
   return (
-    <PageContainer>
+    <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.account')}</Text>
       <View style={styles.itemsContainer}>
         <Hoverable

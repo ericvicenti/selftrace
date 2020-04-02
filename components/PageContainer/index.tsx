@@ -1,5 +1,9 @@
 import React, { ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
+import { connect } from 'react-redux';
+import Router from 'next/router';
+import { ReduxRoot } from '../../reducers';
+import { AuthStatus } from '../../data-types';
 import { Margins, Colors } from '../../styles';
 import Header from '../Header';
 
@@ -21,15 +25,40 @@ const styles = StyleSheet.create({
   },
 });
 
-interface Props extends ViewProps {
+const mapStateToProps = (state: ReduxRoot) => ({
+  authStatus: state.auth.status,
+});
+
+interface ComponentProps extends ViewProps {
   showHeader?: boolean;
-  children?: ReactNode;
+  isProtected?: boolean;
   isFullScreen?: boolean;
+  children?: ReactNode;
 }
 
-export default function PageContainer(props: Props) {
-  const { showHeader = true, children, isFullScreen, style, ...rest } = props;
+type Props = ComponentProps & ReturnType<typeof mapStateToProps>;
 
+const PageContainer = ({
+  authStatus,
+  showHeader = true,
+  isProtected = true,
+  isFullScreen = false,
+  children,
+  style,
+  ...rest
+}: Props) => {
+  // Handle isProtected case
+  React.useEffect(() => {
+    if (isProtected && authStatus === AuthStatus.SignedOut) {
+      Router.push('/');
+    }
+  }, [isProtected, authStatus]);
+
+  if (isProtected && authStatus !== AuthStatus.SignedIn) {
+    return null;
+  }
+
+  // Handle isFullScreen case
   const containerStyles: StyleProp<ViewStyle> = [styles.container];
 
   if (isFullScreen) {
@@ -50,4 +79,6 @@ export default function PageContainer(props: Props) {
   ) : (
     Content
   );
-}
+};
+
+export default connect<Props>(mapStateToProps, () => ({}))(PageContainer);

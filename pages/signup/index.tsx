@@ -83,7 +83,7 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
   }
 
   return (
-    <PageContainer showHeader={false}>
+    <PageContainer showHeader={false} isProtected={false}>
       <Text style={styles.title}>{t('headers.signup')}</Text>
       <FormContainer progress={progress} style={styles.formContainer}>
         <EmailInput
