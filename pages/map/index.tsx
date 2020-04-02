@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { BlurView } from 'expo-blur';
 import { t } from 'i18n-js';
 import dynamic from 'next/dynamic';
+import Router from 'next/router';
 import Text from '../../components/Text';
 import PageContainer from '../../components/PageContainer';
 import Icon from '../../components/Icon';
@@ -14,7 +15,7 @@ import * as API from '../../api';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
-import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
+import { ClusterObject, RegionObject, AnonymListItem, AuthStatus } from '../../data-types';
 import { Main, Margins, Colors, Paddings } from '../../styles';
 
 // Need to do this to prevent `ReferenceError: window is not defined`
@@ -83,7 +84,7 @@ interface State {
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function MapPage({ wellbeing }: Props) {
+function MapPage({ wellbeing, authStatus }: Props) {
   const [state, setState] = React.useState<State>({
     clusters: [],
     isLoading: false,
@@ -98,6 +99,12 @@ function MapPage({ wellbeing }: Props) {
       }
     })();
   }, []);
+
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedOut) {
+      Router.push('/');
+    }
+  }, [authStatus]);
 
   // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
@@ -117,7 +124,7 @@ function MapPage({ wellbeing }: Props) {
     try {
       [, newClusters] = await Promise.all([
         AsyncStorage.setItem('lastMapCenter', JSON.stringify(center)),
-        API.requestClusters(regionObj),
+        API.requestClusters(regionObj, true),
       ]);
       requestEndedAt = Date.now();
     } catch (err) {
@@ -144,6 +151,8 @@ function MapPage({ wellbeing }: Props) {
   }
 
   const wellbeingIsDefined = !!wellbeing;
+
+  if (authStatus !== AuthStatus.SignedIn) return null;
 
   return (
     <PageContainer isFullScreen>

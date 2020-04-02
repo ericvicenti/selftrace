@@ -5,12 +5,13 @@ import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
+import Router from 'next/router';
 import FormContainer from '../../components/FormContainer';
 import PageContainer from '../../components/PageContainer';
 import Picker from '../../components/Picker';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
-import { Wellbeing } from '../../data-types';
+import { Wellbeing, AuthStatus } from '../../data-types';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
@@ -96,8 +97,14 @@ interface WellbeingOptionMap {
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
+function FormPage({ currentWellbeing, progress, uploadUserInfo, uid, authStatus }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
+
+  React.useEffect(() => {
+    if (authStatus === AuthStatus.SignedOut) {
+      Router.push('/');
+    }
+  }, [authStatus]);
 
   // TODO: Clean up
   const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
@@ -136,6 +143,8 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
     ? WELLBEING_OPTION_MAP[wellbeing]
     : undefined;
   const submitDisabled = !wellbeing;
+
+  if (authStatus !== AuthStatus.SignedIn) return null;
 
   return (
     <PageContainer>
