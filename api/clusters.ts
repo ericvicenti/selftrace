@@ -7,7 +7,7 @@ export async function requestClusters(region: RegionObject, devMode?: boolean) {
     const res = await axios.post(devMode ? CLUSTERS_ENDPOINT_DEV : CLUSTERS_ENDPOINT, {
       region,
     });
-    const clusters = res.data as ClusterObject[]; // TODO: Fix later
+    const clusters = res.data as ClusterObject[];
     return Promise.resolve(clusters);
   } catch (err) {
     return Promise.reject(err);

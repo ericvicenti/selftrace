@@ -78,17 +78,26 @@ const MIN_EXECUTION_TIME = 1000;
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
+  lastMapCenter: { lat: number; lng: number } | undefined;
 }
 
-interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
-  lastMapCenter: { lat: number; lng: number };
-}
+interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function MapPage({ wellbeing, lastMapCenter }: Props) {
+function MapPage({ wellbeing }: Props) {
   const [state, setState] = React.useState<State>({
     clusters: [],
     isLoading: false,
+    lastMapCenter: undefined,
   });
+
+  React.useEffect(() => {
+    (async function loadLastMapCenter() {
+      const lastMapCenterRaw = await AsyncStorage.getItem('lastMapCenter');
+      if (lastMapCenterRaw) {
+        setState(prev => ({ ...prev, lastMapCenter: JSON.parse(lastMapCenterRaw) }));
+      }
+    })();
+  }, []);
 
   // TODO: The "delaying" logic should probably lie outside of the component
   async function handleRegionChange(regionObj: RegionObject) {
@@ -117,13 +126,14 @@ function MapPage({ wellbeing, lastMapCenter }: Props) {
       const executionTime = requestEndedAt - requestStartedAt;
 
       const endRequest = () =>
-        setState({
+        setState(prev => ({
+          ...prev,
           clusters: newClusters.map(cluster => ({
             key: ReactUtils.generateListKey(),
             data: cluster,
           })),
           isLoading: false,
-        });
+        }));
 
       if (executionTime < MIN_EXECUTION_TIME) {
         setTimeout(endRequest, MIN_EXECUTION_TIME - executionTime);
@@ -139,7 +149,7 @@ function MapPage({ wellbeing, lastMapCenter }: Props) {
     <PageContainer isFullScreen>
       {wellbeingIsDefined ? (
         <CoronaMap
-          center={lastMapCenter}
+          center={state.lastMapCenter}
           clusters={state.clusters}
           isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
@@ -172,14 +182,10 @@ MapPage.getInitialProps = async (ctx: NextPageContext) => {
   // let response = await fetch(url);
   // let result = await response.json();
 
-  const lastMapCenterRaw = await AsyncStorage.getItem('lastMapCenter');
-  const lastMapCenter = lastMapCenterRaw ? JSON.parse(lastMapCenterRaw) : undefined;
-
   return {
     // data: result,
     // query: ctx.query,
     pathname: ctx.pathname,
-    lastMapCenter,
   };
 };
 
