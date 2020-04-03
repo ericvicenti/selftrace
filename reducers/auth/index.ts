@@ -6,7 +6,7 @@ import { signup, ReduxAuthSignup } from './signup';
 import { status, ReduxAuthStatus } from './status';
 import { updatePassword, ReduxAuthUpdatePassword } from './updatePassword';
 import { userInfo, ReduxAuthUserInfo } from './userInfo';
-import { AuthStatus, ProgressStatus, nilProgress } from '../../data-types';
+import { AuthStatus, Progress } from '../../data-types';
 
 export interface ReduxAuth {
   signup: ReduxAuthSignup;
@@ -19,15 +19,15 @@ export interface ReduxAuth {
 }
 
 const INITIAL_STATE: ReduxAuth = {
-  signup: { progress: nilProgress() },
-  signin: { progress: nilProgress() },
-  signout: { progress: nilProgress() },
-  updatePassword: { progress: nilProgress() },
-  resetPassword: { progress: nilProgress() },
+  signup: { progress: Progress.createNil() },
+  signin: { progress: Progress.createNil() },
+  signout: { progress: Progress.createNil() },
+  updatePassword: { progress: Progress.createNil() },
+  resetPassword: { progress: Progress.createNil() },
   userInfo: {
     uid: null,
     email: null,
-    progress: nilProgress(),
+    progress: Progress.createNil(),
     wellbeing: undefined,
   },
   status: AuthStatus.Checking,
@@ -83,8 +83,8 @@ export default (state = INITIAL_STATE, action: Action): ReduxAuth => {
  */
 export function isAuthDisabled(state: ReduxAuth) {
   return (
-    state.signin.progress.status === ProgressStatus.REQUEST ||
-    state.signout.progress.status === ProgressStatus.REQUEST ||
+    state.signin.progress.isRequesting() ||
+    state.signout.progress.isRequesting() ||
     state.status === AuthStatus.Checking ||
     state.status === AuthStatus.SignedIn
   );

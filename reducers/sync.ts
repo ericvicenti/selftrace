@@ -1,12 +1,12 @@
 import { Action, NetworkAction, AuthStatusAction, ActionType } from '../actions';
-import { AuthStatus, Progress, nilProgress } from '../data-types';
+import { AuthStatus, Progress } from '../data-types';
 
 export interface ReduxSync {
   progress: Progress;
 }
 
 const INITIAL_STATE: ReduxSync = {
-  progress: nilProgress(),
+  progress: Progress.createNil(),
 };
 
 export default (state = INITIAL_STATE, action: Action): ReduxSync => {
@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action: Action): ReduxSync => {
     case ActionType.SET_AUTH_STATUS: {
       switch ((action as AuthStatusAction).payload.status) {
         case AuthStatus.SignedOut:
-          return { ...state, progress: nilProgress() };
+          return { ...state, progress: Progress.createNil() };
         default:
           return state;
       }

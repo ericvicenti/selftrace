@@ -1,39 +1,26 @@
 import { requestSignout } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
-import { ProgressStatus } from '../../data-types';
+import { Progress } from '../../data-types';
 
 // TODO: Localize
-
 const startSignoutRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNOUT,
-  progress: {
-    message: 'Requesting signout...',
-    status: ProgressStatus.REQUEST,
-  },
+  progress: Progress.createRequesting('Requesting signout...'),
 });
 
 const receiveSignoutResponse: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNOUT,
-  progress: {
-    message: 'Signout success.',
-    status: ProgressStatus.SUCCESS,
-  },
+  progress: Progress.createSuccess('Signout success.'),
 });
 
 const receiveSignoutError: ActionCreator<NetworkAction> = err => ({
   type: ActionType.REQUEST_SIGNOUT,
-  progress: {
-    message: err.message || 'An unknown error has occured.',
-    status: ProgressStatus.ERROR,
-  },
+  progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
 export const clearSignoutProgress: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_SIGNOUT,
-  progress: {
-    message: null,
-    status: ProgressStatus.NIL,
-  },
+  progress: Progress.createNil(),
 });
 
 export const signoutUser = () => async (dispatch: Dispatch) => {

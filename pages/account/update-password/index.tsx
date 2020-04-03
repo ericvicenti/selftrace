@@ -11,7 +11,6 @@ import PasswordInput from '../../../components/TextInput/Password';
 import Text from '../../../components/Text';
 import AuthUtils from '../../../util/AuthUtils';
 import SubmitButton from '../../../components/SubmitButton';
-import { ProgressStatus } from '../../../data-types';
 import { Action, Dispatch } from '../../../actions';
 import * as Actions from '../../../actions/auth/updatePassword';
 import { ReduxRoot } from '../../../reducers';
@@ -64,7 +63,9 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
         <PasswordInput
           value={password1}
           onChangeText={text => {
-            if (progress.status !== ProgressStatus.NIL) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setPassword1(text);
           }}
           placeholder={t('inputs.newPasswordPlaceholder')}
@@ -75,7 +76,9 @@ function UpdatePasswordPage({ progress, updateUserPassword, clearProgress }: Pro
         <PasswordInput
           value={password2}
           onChangeText={text => {
-            if (progress.status !== ProgressStatus.NIL) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setPassword2(text);
           }}
           placeholder={t('inputs.confirmPasswordPlaceholder')}

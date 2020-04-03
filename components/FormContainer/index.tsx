@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet, Animated, ViewStyle } from 'react-native';
 import Text from '../Text';
-import { Progress, ProgressStatus } from '../../data-types';
+import { Progress } from '../../data-types';
 import { SECTION_APPEAR_DURATION } from '../../styles/animations';
 import { Colors, Margins, Paddings, Main, Shadows } from '../../styles';
 
@@ -43,14 +43,16 @@ interface Props {
 }
 
 function FormContainer({ progress, showErrorsOnly = false, children, style }: Props) {
-  const [persistentMessage, setPersistentMessage] = useState(progress.message);
+  const [persistentMessage, setPersistentMessage] = useState(progress.getMessage());
 
   useEffect(() => {
-    if (!progress.message)
+    if (progress.isNil()) {
       setTimeout(() => {
-        setPersistentMessage(progress.message);
+        setPersistentMessage(progress.getMessage());
       }, SECTION_APPEAR_DURATION);
-    else setPersistentMessage(progress.message);
+    } else {
+      setPersistentMessage(progress.getMessage());
+    }
   }, [progress]);
 
   const progressScaleRef = useRef(new Animated.Value(getScaleValue(progress, showErrorsOnly)));
@@ -83,9 +85,9 @@ function FormContainer({ progress, showErrorsOnly = false, children, style }: Pr
 }
 
 function getScaleValue(p: Progress, errorsOnly: boolean): number {
-  let val = p.status ? 1 : 0;
+  let val = p.isNil() ? 0 : 1;
   if (errorsOnly) {
-    if (p.status === ProgressStatus.ERROR) val = 1;
+    if (p.isError()) val = 1;
     else val = 0;
   }
 

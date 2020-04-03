@@ -1,39 +1,26 @@
 import { requestUpdatePassword } from '../../api';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
-import { ProgressStatus } from '../../data-types';
+import { Progress } from '../../data-types';
 
 // TODO: Localize
-
 const startUpdatePasswordRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_PASSWORD,
-  progress: {
-    message: 'Sending password update request...',
-    status: ProgressStatus.REQUEST,
-  },
+  progress: Progress.createRequesting('Sending password update request...'),
 });
 
 const receiveUpdatePasswordResponse: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_PASSWORD,
-  progress: {
-    message: 'Password update successful.',
-    status: ProgressStatus.SUCCESS,
-  },
+  progress: Progress.createSuccess('Password update successful.'),
 });
 
 const receiveUpdatePasswordError: ActionCreator<NetworkAction> = err => ({
   type: ActionType.REQUEST_UPDATE_PASSWORD,
-  progress: {
-    message: err.message || 'An unknown error has occured.',
-    status: ProgressStatus.ERROR,
-  },
+  progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
 export const clearUpdatePasswordProgress: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_PASSWORD,
-  progress: {
-    message: null,
-    status: ProgressStatus.NIL,
-  },
+  progress: Progress.createNil(),
 });
 
 export const updateUserPassword = (newPassword: string) => async (dispatch: Dispatch) => {

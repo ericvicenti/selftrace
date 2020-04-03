@@ -89,7 +89,9 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setEmail(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}
@@ -98,7 +100,9 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
         <PasswordInput
           value={password1}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setPassword1(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}
@@ -107,7 +111,9 @@ function SignupPage({ signupUser, progress, clearProgress, authDisabled, authSta
         <PasswordInput
           value={password2}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setPassword2(text);
           }}
           onSubmitEditing={() => signupUser(email, password1)}

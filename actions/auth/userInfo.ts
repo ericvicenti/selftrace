@@ -4,7 +4,7 @@ import * as ExpoLocation from 'expo-location';
 import * as API from '../../api';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
-import { ProgressStatus } from '../../data-types';
+import { Progress } from '../../data-types';
 import PromiseUtils from '../../util/PromiseUtils';
 
 class LocationPermissionError extends Error {}
@@ -15,18 +15,12 @@ class LocationPermissionError extends Error {}
 
 export const startUpdateUserInfoRequest: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
-  progress: {
-    message: 'Updating...',
-    status: ProgressStatus.REQUEST,
-  },
+  progress: Progress.createRequesting('Updating...'),
 });
 
 export const startRetrievingUserLocation: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
-  progress: {
-    message: 'Trying to retrieve your current location...',
-    status: ProgressStatus.REQUEST,
-  },
+  progress: Progress.createRequesting('Trying to retrieve your current location...'),
 });
 
 export const receiveUpdateUserInfoResponse: ActionCreator<NetworkAction> = (
@@ -34,26 +28,17 @@ export const receiveUpdateUserInfoResponse: ActionCreator<NetworkAction> = (
 ) => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   payload: updatedInfo,
-  progress: {
-    message: 'Update successful.',
-    status: ProgressStatus.SUCCESS,
-  },
+  progress: Progress.createSuccess('Update successful.'),
 });
 
 export const receiveUpdateUserInfoError: ActionCreator<NetworkAction> = err => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
-  progress: {
-    message: err.message || 'An unknown error has occured.',
-    status: ProgressStatus.ERROR,
-  },
+  progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
 export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
-  progress: {
-    message: null,
-    status: ProgressStatus.NIL,
-  },
+  progress: Progress.createNil(),
 });
 
 const GRACEFUL_EXIT_DURATION = 750;

@@ -11,7 +11,6 @@ import EmailInput from '../../components/TextInput/Email';
 import Text from '../../components/Text';
 import AuthUtils from '../../util/AuthUtils';
 import SubmitButton from '../../components/SubmitButton';
-import { ProgressStatus } from '../../data-types';
 import { Action, Dispatch } from '../../actions';
 import * as Actions from '../../actions/auth/resetPassword';
 import { ReduxRoot } from '../../reducers';
@@ -63,7 +62,9 @@ function ResetPasswordPage({ progress, resetUserPassword, clearProgress }: Props
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (progress.status !== ProgressStatus.NIL) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setEmail(text.toLowerCase());
           }}
           onSubmitEditing={() => {

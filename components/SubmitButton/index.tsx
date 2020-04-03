@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Text from '../Text';
-import { Progress, ProgressStatus } from '../../data-types';
+import { Progress } from '../../data-types';
 import Color from '../../styles/Color';
 import { Colors, Buttons, Paddings, Margins, Shadows } from '../../styles';
 
@@ -52,14 +52,10 @@ export default function SubmitButton({
   disabled,
   onPress,
 }: Props) {
-  const isSubmitDisabled =
-    progress.status === ProgressStatus.REQUEST ||
-    progress.status === ProgressStatus.SUCCESS ||
-    progress.status === ProgressStatus.ERROR ||
-    disabled;
+  const isSubmitDisabled = !progress.isNil() || disabled;
 
   const activityScaleRef = React.useRef(new Animated.Value(isSubmitDisabled ? 0 : 1));
-  const isLoading = progress.status === ProgressStatus.REQUEST;
+  const isLoading = progress.isRequesting();
 
   React.useEffect(() => {
     Animated.timing(activityScaleRef.current, {

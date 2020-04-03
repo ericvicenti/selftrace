@@ -17,7 +17,7 @@ import { ReduxRoot, isAuthDisabled } from '../reducers';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
-import { Colors, Margins, Main, Paddings, Typography } from '../styles';
+import { Colors, Margins, Main, Paddings } from '../styles';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 import GoogleButton from '../components/SocialButton/GoogleButton';
@@ -123,7 +123,9 @@ function LoginPage({
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setEmail(text);
           }}
           onSubmitEditing={() => signinUser(email, password)}
@@ -131,7 +133,9 @@ function LoginPage({
         <PasswordInput
           value={password}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setPassword(text);
           }}
           onSubmitEditing={() => signinUser(email, password)}

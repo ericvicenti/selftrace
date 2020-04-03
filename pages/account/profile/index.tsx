@@ -63,7 +63,9 @@ function ProfilePage({ currentEmail, uploadUserInfo, uid, progress, clearProgres
         <EmailInput
           value={email}
           onChangeText={text => {
-            if (progress.status) clearProgress();
+            if (!progress.isNil()) {
+              clearProgress();
+            }
             setEmail(text.toLowerCase());
           }}
           editable={false}
