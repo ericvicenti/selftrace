@@ -14,7 +14,8 @@
     "esModuleInterop": true,
     "module": "esnext",
     "isolatedModules": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["googlemaps"]
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

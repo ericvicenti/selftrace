@@ -49,9 +49,10 @@ const CLUSTER_DETAILS_ANIM_DURATION = 100;
 
 interface CoronaMapProps {
   center?: Geo.LocationShort;
+  zoom?: number;
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
-  onRegionChangeComplete?: (regionObj: Geo.Region) => void;
+  onRegionChangeComplete?: (params: { region: Geo.Region; zoom: number }) => void;
   style?: any;
 }
 
@@ -62,6 +63,7 @@ interface InfoBoxState {
 
 function CoronaMap({
   center = SAN_FRAN_COORDS,
+  zoom = 8,
   clusters,
   isLoading,
   onRegionChangeComplete,
@@ -75,7 +77,7 @@ function CoronaMap({
     googleMapsApiKey: process.env.googleMapsAPIKey,
   });
 
-  const googleMapRef = React.useRef(null);
+  const googleMapRef = React.useRef<google.maps.Map | null>(null);
   const isLoadingAnim = useAnimatedBool(isLoading, IS_LOADING_ANIM_DURATION);
   const clusterDetailsScale = useAnimatedBool(
     clusterDetails.isVisible,
@@ -86,9 +88,11 @@ function CoronaMap({
     setClusterDetails({ isVisible: false, cluster: {} });
 
     if (googleMapRef.current) {
-      const regionObj = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
-      if (regionObj && onRegionChangeComplete) {
-        onRegionChangeComplete(regionObj);
+      const region = GeoUtils.getRegionFromGoogleMap(googleMapRef.current);
+      const newZoom = GeoUtils.getZoomFromGoogleMap(googleMapRef.current);
+
+      if (region && onRegionChangeComplete) {
+        onRegionChangeComplete({ region, zoom: newZoom });
       }
     }
   }
@@ -150,8 +154,8 @@ function CoronaMap({
           ]}
         />
         <GoogleMap
-          zoom={8}
           center={center}
+          zoom={zoom}
           onLoad={map => {
             googleMapRef.current = map;
             setTimeout(handleRegionChange, 500);

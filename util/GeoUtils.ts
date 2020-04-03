@@ -1,6 +1,5 @@
 export default class GeoUtils {
-  // TODO: Replace with correct map type
-  static getRegionFromGoogleMap(map: any): Geo.Region | undefined {
+  static getRegionFromGoogleMap(map: google.maps.Map): Geo.Region | undefined {
     const center = map.getCenter();
     const bounds = map.getBounds();
 
@@ -18,5 +17,9 @@ export default class GeoUtils {
     const longitudeDelta = ne.lng() - sw.lng();
 
     return { latitude, longitude, latitudeDelta, longitudeDelta };
+  }
+
+  static getZoomFromGoogleMap(map: google.maps.Map): number {
+    return map.getZoom();
   }
 }

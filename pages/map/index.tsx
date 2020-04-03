@@ -78,6 +78,7 @@ interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
   lastMapCenter: Geo.LocationShort | undefined;
+  lastMapZoom: number | undefined;
 }
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
@@ -87,19 +88,34 @@ function MapPage({ wellbeing }: Props) {
     clusters: [],
     isLoading: false,
     lastMapCenter: undefined,
+    lastMapZoom: undefined,
   });
 
   React.useEffect(() => {
-    (async function loadLastMapCenter() {
-      const lastMapCenterRaw = await AsyncStorage.getItem('lastMapCenter');
-      if (lastMapCenterRaw) {
-        setState(prev => ({ ...prev, lastMapCenter: JSON.parse(lastMapCenterRaw) }));
+    (async function loadLastMapConfig() {
+      const [lastMapCenterRaw, lastMapZoomRaw] = await Promise.all([
+        AsyncStorage.getItem('lastMapCenter'),
+        AsyncStorage.getItem('lastMapZoom'),
+      ]);
+
+      if (lastMapCenterRaw || lastMapZoomRaw) {
+        setState(prev => {
+          const newState: State = { ...prev };
+          if (lastMapCenterRaw !== null) {
+            newState.lastMapCenter = JSON.parse(lastMapCenterRaw);
+          }
+          if (lastMapZoomRaw !== null) {
+            newState.lastMapZoom = Number(lastMapZoomRaw);
+          }
+
+          return newState;
+        });
       }
     })();
   }, []);
 
   // TODO: The "delaying" logic should probably lie outside of the component
-  async function handleRegionChange(regionObj: Geo.Region) {
+  async function handleRegionChange({ region, zoom }: { region: Geo.Region; zoom: number }) {
     const requestStartedAt = Date.now();
     let requestEndedAt = requestStartedAt;
     setState(prevState => ({
@@ -109,14 +125,15 @@ function MapPage({ wellbeing }: Props) {
     }));
     let newClusters: ClusterObject[] = [];
     const center: Geo.LocationShort = {
-      lat: regionObj.latitude,
-      lng: regionObj.longitude,
+      lat: region.latitude,
+      lng: region.longitude,
     };
 
     try {
-      [, newClusters] = await Promise.all([
+      [, , newClusters] = await Promise.all([
         AsyncStorage.setItem('lastMapCenter', JSON.stringify(center)),
-        API.requestClusters(regionObj),
+        AsyncStorage.setItem('lastMapZoom', zoom.toString()),
+        API.requestClusters(region),
       ]);
       requestEndedAt = Date.now();
     } catch (err) {
@@ -149,6 +166,7 @@ function MapPage({ wellbeing }: Props) {
       {wellbeingIsDefined ? (
         <CoronaMap
           center={state.lastMapCenter}
+          zoom={state.lastMapZoom}
           clusters={state.clusters}
           isLoading={state.isLoading}
           onRegionChangeComplete={handleRegionChange}
