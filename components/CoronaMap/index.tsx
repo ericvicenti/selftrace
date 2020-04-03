@@ -11,7 +11,7 @@ import { useAnimatedBool } from '../../hooks';
 import GeoUtils from '../../util/GeoUtils';
 import { Margins, Paddings } from '../../styles';
 
-const SAN_FRAN_COORDS = {
+const SAN_FRAN_COORDS: Geo.LocationShort = {
   lat: 37.7749,
   lng: -122.4194,
 };
@@ -48,7 +48,7 @@ const IS_LOADING_ANIM_DURATION = 200;
 const CLUSTER_DETAILS_ANIM_DURATION = 100;
 
 interface CoronaMapProps {
-  center?: { lat: number; lng: number };
+  center?: Geo.LocationShort;
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
   onRegionChangeComplete?: (regionObj: Geo.Region) => void;

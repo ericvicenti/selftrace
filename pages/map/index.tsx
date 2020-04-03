@@ -77,7 +77,7 @@ const MIN_EXECUTION_TIME = 1000;
 interface State {
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
-  lastMapCenter: { lat: number; lng: number } | undefined;
+  lastMapCenter: Geo.LocationShort | undefined;
 }
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
@@ -108,7 +108,7 @@ function MapPage({ wellbeing }: Props) {
       isLoading: true,
     }));
     let newClusters: ClusterObject[] = [];
-    const center = {
+    const center: Geo.LocationShort = {
       lat: regionObj.latitude,
       lng: regionObj.longitude,
     };

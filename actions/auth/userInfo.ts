@@ -130,7 +130,7 @@ async function getCurrentPosition(): Promise<Geo.Location> {
   }
 }
 
-export async function downloadUserInfoToLocalDB(uid: string) {
+export async function downloadUserInfoToLocalDB(uid: string): Promise<void> {
   try {
     const userDoc = await API.requestUserInfo(uid);
 
