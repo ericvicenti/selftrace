@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Colors, Paddings } from '../../styles';
 import TabNavigator from '../TabNavigator';
 
-const logoSource = require('../../assets/logo-with-title-small.png');
+const logoSource = require('../../../assets/logo-with-title-small.png');
 
 const styles = StyleSheet.create({
   container: {

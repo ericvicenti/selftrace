@@ -22,7 +22,7 @@ import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 import GoogleButton from '../components/SocialButton/GoogleButton';
 
-const logoSource = require('../assets/logo-with-title.png');
+const logoSource = require('../../assets/logo-with-title.png');
 
 const styles = StyleSheet.create({
   container: {

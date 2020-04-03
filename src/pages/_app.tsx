@@ -55,14 +55,14 @@ function App(props: any) {
 
             @font-face {
               font-family: 'office-code';
-              src: url(${require('../assets/fonts/OfficeCodePro-Regular.eot')});
-              src: url(${require('../assets/fonts/OfficeCodePro-Regular.ttf')}) format('truetype');
+              src: url(${require('../../assets/fonts/OfficeCodePro-Regular.eot')});
+              src: url(${require('../../assets/fonts/OfficeCodePro-Regular.ttf')}) format('truetype');
             }
 
             @font-face {
               font-family: 'office-code-medium';
-              src: url(${require('../assets/fonts/OfficeCodePro-Medium.eot')});
-              src: url(${require('../assets/fonts/OfficeCodePro-Medium.ttf')}) format('truetype');
+              src: url(${require('../../assets/fonts/OfficeCodePro-Medium.eot')});
+              src: url(${require('../../assets/fonts/OfficeCodePro-Medium.ttf')}) format('truetype');
             }
           `,
           }}
