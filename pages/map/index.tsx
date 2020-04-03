@@ -14,7 +14,7 @@ import * as API from '../../api';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import ReactUtils from '../../util/ReactUtils';
-import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
+import { ClusterObject, AnonymListItem } from '../../data-types';
 import { Main, Margins, Colors, Paddings } from '../../styles';
 
 // Need to do this to prevent `ReferenceError: window is not defined`
@@ -99,7 +99,7 @@ function MapPage({ wellbeing }: Props) {
   }, []);
 
   // TODO: The "delaying" logic should probably lie outside of the component
-  async function handleRegionChange(regionObj: RegionObject) {
+  async function handleRegionChange(regionObj: Geo.Region) {
     const requestStartedAt = Date.now();
     let requestEndedAt = requestStartedAt;
     setState(prevState => ({

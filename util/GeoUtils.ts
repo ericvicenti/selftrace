@@ -1,8 +1,6 @@
-import { RegionObject } from '../data-types';
-
 export default class GeoUtils {
   // TODO: Replace with correct map type
-  static getRegionFromGoogleMap(map: any): RegionObject | undefined {
+  static getRegionFromGoogleMap(map: any): Geo.Region | undefined {
     const center = map.getCenter();
     const bounds = map.getBounds();
 

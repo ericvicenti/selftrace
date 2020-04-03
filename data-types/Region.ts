@@ -1,11 +1,9 @@
-import { RegionObject } from '.';
-
 /*
  * lat: [-90, 90] (parallel)
  * lng: [-180, 180] (meridian)
  */
 
-interface Region extends RegionObject {}
+interface Region extends Geo.Region {}
 
 class Region {
   constructor(centerLat: number, centerLng: number, latDelta: number, lngDelta: number) {

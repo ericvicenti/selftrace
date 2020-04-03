@@ -1,16 +1,4 @@
-export interface Location {
-  latitude: number;
-  longitude: number;
-}
-
-export interface RegionObject extends Location {
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
-
-export interface ClusterObject {
-  lat: number;
-  lng: number;
+export interface ClusterObject extends Geo.LocationShort {
   positiveCount: number;
   showingSymptomsCount: number;
 }

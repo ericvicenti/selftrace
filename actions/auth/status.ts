@@ -1,5 +1,3 @@
-// import * as Location from 'expo-location';
-// import * as Permissions from 'expo-permissions';
 import { UserInfo } from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as API from '../../api';

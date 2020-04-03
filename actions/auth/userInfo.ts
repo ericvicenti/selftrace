@@ -1,10 +1,10 @@
 import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import * as Location from 'expo-location';
+import * as ExpoLocation from 'expo-location';
 import * as API from '../../api';
 import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
 import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
-import { ProgressStatus, Location as LocationDT } from '../../data-types';
+import { ProgressStatus } from '../../data-types';
 import PromiseUtils from '../../util/PromiseUtils';
 
 class LocationPermissionError extends Error {}
@@ -100,7 +100,7 @@ export const uploadUserInfo = (
  * Helpers
  */
 
-async function retrieveLastLocationWithPermission(): Promise<LocationDT> {
+async function retrieveLastLocationWithPermission(): Promise<Geo.Location> {
   try {
     const { status, canAskAgain } = await Permissions.getAsync(Permissions.LOCATION);
     if (status === 'granted') {
@@ -119,11 +119,11 @@ async function retrieveLastLocationWithPermission(): Promise<LocationDT> {
   }
 }
 
-async function getCurrentPosition(): Promise<LocationDT> {
+async function getCurrentPosition(): Promise<Geo.Location> {
   try {
     const {
       coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+    } = await ExpoLocation.getCurrentPositionAsync({ accuracy: ExpoLocation.Accuracy.High });
     return { latitude, longitude };
   } catch (err) {
     return Promise.reject(err);

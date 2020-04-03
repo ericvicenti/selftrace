@@ -6,7 +6,7 @@ import Text from '../Text';
 import ClusterMarker from './ClusterMarker';
 import LoadingIndicator from './LoadingIndicator';
 import ClusterDetails from './ClusterDetails';
-import { ClusterObject, RegionObject, AnonymListItem } from '../../data-types';
+import { ClusterObject, AnonymListItem } from '../../data-types';
 import { useAnimatedBool } from '../../hooks';
 import GeoUtils from '../../util/GeoUtils';
 import { Margins, Paddings } from '../../styles';
@@ -51,7 +51,7 @@ interface CoronaMapProps {
   center?: { lat: number; lng: number };
   clusters: AnonymListItem<ClusterObject>[];
   isLoading: boolean;
-  onRegionChangeComplete?: (regionObj: RegionObject) => void;
+  onRegionChangeComplete?: (regionObj: Geo.Region) => void;
   style?: any;
 }
 
