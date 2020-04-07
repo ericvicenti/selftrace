@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import Layout from '../components/Layout';
-// import { initStore } from '../store';
 import store from '../store';
 import '../config/localization';
 

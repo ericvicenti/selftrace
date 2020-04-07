@@ -1,14 +1,13 @@
 import * as firebase from 'firebase';
-import config from './config';
+import { firebaseConfig } from './constants';
 
 export function initialize() {
   if (firebase.apps.length === 0) {
-    return firebase.initializeApp(config);
+    return firebase.initializeApp(firebaseConfig);
   }
   return undefined;
 }
 
 export * from './auth';
 export * from './clusters';
-export * from './config';
 export * from './database';
