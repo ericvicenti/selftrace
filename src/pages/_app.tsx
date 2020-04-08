@@ -33,7 +33,7 @@ function App(props: any) {
   return (
     <Provider store={store}>
       <Head>
-        <title>CoronaMap</title>
+        <title>Selftrace</title>
         <style
           dangerouslySetInnerHTML={{
             __html: `
