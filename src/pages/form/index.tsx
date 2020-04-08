@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   currentWellbeing: state.auth.userInfo.wellbeing,
+  currentSymptoms: state.auth.userInfo,
   progress: state.auth.userInfo.progress,
   uid: state.auth.userInfo.uid!,
 });
@@ -93,38 +94,32 @@ interface WellbeingOptionMap {
   [key: number]: Omit<WellbeingObject, 'value'>;
 }
 
+interface SymptomObject {
+  value: Wellbeing;
+  label: string;
+}
+
+interface CovidSymptomMap {
+  [key: number]: SymptomObject;
+}
+
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
 function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
   const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
+  const wbOptsAddress = 'screens.form.wellbeingOptions';
+  const WELLBEING_OPTION_MAP: WellbeingOptionMap = {};
 
-  // TODO: Clean up
-  const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
-    [Wellbeing.FeelingWell]: {
-      label: t('form.options.well.label'),
-      description: t('form.options.well.description'),
-      important: t('form.options.well.important'),
-      note: t('form.options.well.note'),
-    },
-    [Wellbeing.ShowingSymptoms]: {
-      label: t('form.options.symptoms.label'),
-      description: t('form.options.symptoms.description'),
-      important: t('form.options.symptoms.important'),
-      note: t('form.options.symptoms.note'),
-    },
-    [Wellbeing.TestedNegative]: {
-      label: t('form.options.negative.label'),
-      description: t('form.options.negative.description'),
-      important: t('form.options.negative.important'),
-      note: t('form.options.negative.note'),
-    },
-    [Wellbeing.TestedPositive]: {
-      label: t('form.options.positive.label'),
-      description: t('form.options.positive.description'),
-      important: t('form.options.positive.important'),
-      note: t('form.options.positive.note'),
-    },
-  };
+  for (const wb in Wellbeing) {
+    if (!isNaN(Number(wb))) {
+      WELLBEING_OPTION_MAP[wb] = {
+        label: t(`${wbOptsAddress}.${wb}.label`),
+        description: t(`${wbOptsAddress}.${wb}.description`),
+        important: t(`${wbOptsAddress}.${wb}.important`),
+        note: t(`${wbOptsAddress}.${wb}.note`),
+      };
+    }
+  }
 
   const WELLBEING_OPTIONS = Object.keys(WELLBEING_OPTION_MAP).map(rawVal => {
     const value: Wellbeing = Number(rawVal);
@@ -140,11 +135,11 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
     <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.form')}</Text>
       <View style={styles.topTextContainer}>
-        <Text style={styles.topText}>{t('form.topNote')}</Text>
+        <Text style={styles.topText}>{t('screens.form.topNote')}</Text>
       </View>
       <FormContainer progress={progress} style={styles.formContainer}>
         <Picker
-          label={t('form.wellbeing')}
+          label={t('screens.form.wellbeing')}
           selectedValue={wellbeing}
           onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
           items={WELLBEING_OPTIONS}
@@ -156,7 +151,7 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
             {!!wellbeingObj.important && (
               <View style={styles.noteSection}>
                 <Text>
-                  <Text style={styles.noteTitle}>{t('form.important')}: </Text>
+                  <Text style={styles.noteTitle}>{t('screens.form.important')}: </Text>
                   <Text style={styles.noteText}>{wellbeingObj.important}</Text>
                 </Text>
               </View>
@@ -164,7 +159,7 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
             {!!wellbeingObj.note && (
               <View style={styles.noteSection}>
                 <Text>
-                  <Text style={styles.noteTitle}>{t('form.note')}: </Text>
+                  <Text style={styles.noteTitle}>{t('screens.form.note')}: </Text>
                   <Text style={styles.noteText}>{wellbeingObj.note}</Text>
                 </Text>
               </View>

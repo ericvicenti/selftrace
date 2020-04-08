@@ -1,31 +1,35 @@
-import { Action, NetworkAction, AuthStatusAction, ActionType } from '../../actions';
+import { Action, ProgressAction, AuthStatusAction, ActionType } from '../../actions';
 import { Progress, AuthStatus, Wellbeing } from '../../data-types';
 
-export interface ReduxAuthUserInfo {
+type State = Readonly<{
   uid: string | null;
   email: string | null;
   wellbeing: Wellbeing | undefined;
+  symptomMap: {
+    [symptomID: string]: boolean;
+  };
   progress: Progress;
-}
+}>;
 
-const INITIAL_STATE: Readonly<ReduxAuthUserInfo> = {
+export const INITIAL_STATE: State = {
   uid: null,
   email: null,
   wellbeing: undefined,
+  symptomMap: {},
   progress: Progress.createNil(),
 };
 
-export const userInfo = (state: ReduxAuthUserInfo, action: Action): ReduxAuthUserInfo => {
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.REQUEST_UPDATE_USER_INFO: {
-      const updatedUserInfo = (action as NetworkAction).progress.isSuccess()
+      const updatedUserInfo = (action as ProgressAction).progress.isSuccess()
         ? (action.payload as object)
         : {};
 
       return {
         ...state,
         ...updatedUserInfo,
-        progress: (action as NetworkAction).progress,
+        progress: (action as ProgressAction).progress,
       };
     }
     case ActionType.SET_AUTH_STATUS: {
@@ -40,7 +44,7 @@ export const userInfo = (state: ReduxAuthUserInfo, action: Action): ReduxAuthUse
     }
     // This is probably not needed but let's try for extra safety.
     case ActionType.REQUEST_SIGNOUT: {
-      if ((action as NetworkAction).progress.isSuccess()) {
+      if ((action as ProgressAction).progress.isSuccess()) {
         return INITIAL_STATE;
       }
       return state;

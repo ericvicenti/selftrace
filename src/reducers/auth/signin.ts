@@ -1,14 +1,16 @@
-import { Action, NetworkAction, ActionType } from '../../actions';
+import { Action, ProgressAction, ActionType } from '../../actions';
 import { Progress } from '../../data-types';
 
-export interface ReduxAuthSignin {
-  progress: Progress;
-}
+type State = Readonly<{ progress: Progress }>;
 
-export const signin = (state: ReduxAuthSignin, action: Action): ReduxAuthSignin => {
+export const INITIAL_STATE: State = {
+  progress: Progress.createNil(),
+};
+
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.REQUEST_SIGNIN:
-      return { ...state, progress: (action as NetworkAction).progress };
+      return { ...state, progress: (action as ProgressAction).progress };
     case ActionType.REQUEST_SIGNUP:
       return { ...state, progress: Progress.createNil() };
     default:

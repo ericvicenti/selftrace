@@ -1,5 +1,6 @@
 import { Dimensions, ViewStyle } from 'react-native';
-import { Colors } from '../styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { Colors } from './colors';
 
 const { width: W_WIDTH, height: W_HEIGHT } = Dimensions.get('window');
 
@@ -48,6 +49,18 @@ export const Buttons = {
   HEIGHT: 48,
   MIN_WIDTH: 230,
 };
+
+// Material UI
+export const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: Colors.PRIMARY.toString(),
+    },
+    secondary: {
+      main: Colors.SECONDARY.toString(),
+    },
+  },
+});
 
 export * from './colors';
 export * from './typography';

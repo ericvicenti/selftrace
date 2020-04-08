@@ -40,10 +40,6 @@
     "confirmPasswordPlaceholder": "Confirm new password"
   },
   "screens": {
-    "account": {
-      "profile": "Profile",
-      "updatePassword": "Update password"
-    },
     "map": {
       "loadingMessage": "Loading live data",
       "clusterDetailsTitle": "Details",
@@ -53,38 +49,74 @@
       "showingSymptoms": "Showing symptoms",
       "chooseWellbeingTitle": "Must update well-being first",
       "chooseWellbeingMessage": "To see the map you need to inform us of your well-being. Please update it in the form."
-    }
-  },
-  "form": {
-    "topNote": "Please keep your well-being status up to date. You can choose one of the following options.",
-    "wellbeing": "Well-being",
-    "important": "Important",
-    "note": "Note",
-    "options": {
-      "well": {
-        "label": "Feeling Well",
-        "description": "I have not been tested but don't show any of the coronavirus (COVID-19) symptoms. All is well!",
-        "important": "",
-        "note": ""
+    },
+    "form": {
+      "topNote": "Please keep your well-being status up to date. You can choose one of the following options.",
+      "wellbeing": "Well-being",
+      "important": "Important",
+      "note": "Note",
+      "wellbeingOptions": {
+        "1": {
+          "label": "Feeling Well",
+          "description": "I have not been tested but don't show any of the coronavirus (COVID-19) symptoms. All is well!",
+          "important": "",
+          "note": ""
+        },
+        "2": {
+          "label": "Showing Symptoms",
+          "description": "I have not been tested and I am feeling unwell. I think I am showing some of the coronavirus (COVID-19) symptoms.",
+          "important": "Please note that if you choose this option, we will display your approximate location and your well-being status on the map in order to encourage other users to self-distance. We will never share information that may reveal your identity.",
+          "note": "It may prove helpful to choose this option even if your symptoms are mild."
+        },
+        "3": {
+          "label": "Tested Negative",
+          "description": "I have been tested. According to the results, I don't have coronavirus (COVID-19).",
+          "important": "",
+          "note": ""
+        },
+        "4": {
+          "label": "Tested Positive",
+          "description": "I have been tested. According to the results, I have coronavirus (COVID-19).",
+          "important": "Please note that if you choose this option, we will display your approximate location on the map in order to encourage other users to self-distance. We will never share your identity.",
+          "note": ""
+        }
       },
-      "symptoms": {
-        "label": "Showing Symptoms",
-        "description": "I have not been tested and I am feeling unwell. I think I am showing some of the coronavirus (COVID-19) symptoms.",
-        "important": "Please note that if you choose this option, we will display your approximate location and your well-being status on the map in order to encourage other users to self-distance. We will never share information that may reveal your identity.",
-        "note": "It may prove helpful to choose this option even if your symptoms are mild."
-      },
-      "negative": {
-        "label": "Tested Negative",
-        "description": "I have been tested. According to the results, I don't have coronavirus (COVID-19).",
-        "important": "",
-        "note": ""
-      },
-      "positive": {
-        "label": "Tested Positive",
-        "description": "I have been tested. According to the results, I have coronavirus (COVID-19).",
-        "important": "Please note that if you choose this option, we will display your approximate location on the map in order to encourage other users to self-distance. We will never share your identity.",
-        "note": ""
+      "symptomOptions": {
+        "1": {
+          "label": "Fever"
+        },
+        "2": {
+          "label": "Cough"
+        },
+        "3": {
+          "label": "Sore throat"
+        },
+        "4": {
+          "label": "Breathing difficulty"
+        },
+        "5": {
+          "label": "Chest pain"
+        },
+        "6": {
+          "label": "Tiredness"
+        },
+        "7": {
+          "label": "Nasal congestion"
+        },
+        "8": {
+          "label": "Runny nose"
+        },
+        "9": {
+          "label": "Diarrhea"
+        },
+        "61": {
+          "label": "Other"
+        }
       }
+    },
+    "account": {
+      "profile": "Profile",
+      "updatePassword": "Update password"
     }
   }
 }

@@ -1,17 +1,16 @@
-import { Action, NetworkAction, ActionType } from '../../actions';
+import { Action, ProgressAction, ActionType } from '../../actions';
 import { Progress } from '../../data-types';
 
-export interface ReduxAuthUpdatePassword {
-  progress: Progress;
-}
+type State = Readonly<{ progress: Progress }>;
 
-export const updatePassword = (
-  state: ReduxAuthUpdatePassword,
-  action: Action
-): ReduxAuthUpdatePassword => {
+export const INITIAL_STATE: State = {
+  progress: Progress.createNil(),
+};
+
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.REQUEST_UPDATE_PASSWORD:
-      return { ...state, progress: (action as NetworkAction).progress };
+      return { ...state, progress: (action as ProgressAction).progress };
     default:
       return state;
   }

@@ -1,17 +1,16 @@
-import { Action, NetworkAction, ActionType } from '../../actions';
+import { Action, ProgressAction, ActionType } from '../../actions';
 import { Progress } from '../../data-types';
 
-export interface ReduxAuthResetPassword {
-  progress: Progress;
-}
+type State = Readonly<{ progress: Progress }>;
 
-export const resetPassword = (
-  state: ReduxAuthResetPassword,
-  action: Action
-): ReduxAuthResetPassword => {
+export const INITIAL_STATE: State = {
+  progress: Progress.createNil(),
+};
+
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case ActionType.REQUEST_RESET_PASSWORD:
-      return { ...state, progress: (action as NetworkAction).progress };
+      return { ...state, progress: (action as ProgressAction).progress };
     default:
       return state;
   }

@@ -12,15 +12,16 @@ import EmailInput from '../components/TextInput/Email';
 import PasswordInput from '../components/TextInput/Password';
 import SubmitButton from '../components/SubmitButton';
 import StaticButton from '../components/StaticButton';
+import FlexLoader from '../components/FlexLoader';
+import DividerText from '../components/DividerText';
+import GoogleButton from '../components/SocialButton/GoogleButton';
 import { AuthStatus } from '../data-types';
-import { ReduxRoot, isAuthDisabled } from '../reducers';
+import { ReduxRoot } from '../reducers';
+import * as Selectors from '../selectors';
 import { Dispatch, Action } from '../actions';
 import * as SigninActions from '../actions/auth/signin';
 import AuthUtils from '../util/AuthUtils';
 import { Colors, Margins, Main, Paddings } from '../styles';
-import FlexLoader from '../components/FlexLoader';
-import DividerText from '../components/DividerText';
-import GoogleButton from '../components/SocialButton/GoogleButton';
 
 const logoSource = require('../../assets/logo-with-title.png');
 
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: ReduxRoot) => ({
-  authDisabled: isAuthDisabled(state.auth),
+  authDisabled: Selectors.isAuthDisabled(state),
   progress: state.auth.signin.progress,
   authStatus: state.auth.status,
 });

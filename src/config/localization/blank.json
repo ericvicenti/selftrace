@@ -9,7 +9,7 @@
   },
   "dropdowns": {
     "selectPlaceholder": ""
-  },  
+  },
   "alerts": {
     "signout": {
       "title": "",
@@ -40,6 +40,38 @@
       "profile": "",
       "updatePassword": ""
     },
+    "form": {
+      "topNote": "",
+      "wellbeing": "",
+      "important": "",
+      "note": "",
+      "options": {
+        "well": {
+          "label": "",
+          "description": "",
+          "important": "",
+          "note": ""
+        },
+        "symptoms": {
+          "label": "",
+          "description": "",
+          "important": "",
+          "note": ""
+        },
+        "negative": {
+          "label": "",
+          "description": "",
+          "important": "",
+          "note": ""
+        },
+        "positive": {
+          "label": "",
+          "description": "",
+          "important": "",
+          "note": ""
+        }
+      }
+    },
     "map": {
       "loadingMessage": "",
       "clusterDetailsTitle": "",
@@ -49,38 +81,6 @@
       "showingSymptoms": "",
       "chooseWellbeingTitle": "",
       "chooseWellbeingMessage": ""
-    }
-  },
-  "form": {
-    "topNote": "",
-    "wellbeing": "",
-    "important": "",
-    "note": "",
-    "options": {
-      "well": {
-        "label": "",
-        "description": "",
-        "important": "",
-        "note": ""
-      },
-      "symptoms": {
-        "label": "",
-        "description": "",
-        "important": "",
-        "note": ""
-      },
-      "negative": {
-        "label": "",
-        "description": "",
-        "important": "",
-        "note": ""
-      },
-      "positive": {
-        "label": "",
-        "description": "",
-        "important": "",
-        "note": ""
-      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 // import * as Sentry from '@sentry/node';
+import { ThemeProvider } from '@material-ui/core/styles';
 import Head from 'next/head';
 import { AppearanceProvider } from 'react-native-appearance';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,6 +10,7 @@ import CustomAppearanceProvider from '../context/CustomAppearanceProvider';
 import Favicon from '../components/Favicon';
 import Layout from '../components/Layout';
 import store from '../store';
+import { muiTheme } from '../styles';
 import '../config/localization';
 
 // Sentry.init({
@@ -24,19 +26,19 @@ const site = {
 const themeColor = '#fff';
 
 function App(props: any) {
-  const {
-    pageProps,
-    Component,
-    //  store
-  } = props;
+  const { pageProps, Component } = props;
+
+  /* eslint-disable react/no-danger */
+  /* eslint-disable global-require */
 
   return (
     <Provider store={store}>
-      <Head>
-        <title>CoronaMap</title>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
+      <ThemeProvider theme={muiTheme}>
+        <Head>
+          <title>CoronaMap</title>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
             html,
             body {
               position: relative;
@@ -64,28 +66,32 @@ function App(props: any) {
               src: url(${require('../../assets/fonts/OfficeCodePro-Medium.ttf')}) format('truetype');
             }
           `,
-          }}
-        />
-        <link rel="manifest" href="/manifest.webmanifest" />
-        {/* <GoogleAnalytics id="UA-107832480-1" /> */}
-        {injectMeta.map((value, index) => {
-          return <meta key={`meta-${index.toString()}`} {...value} />;
-        })}
-      </Head>
-      <SafeAreaProvider>
-        <AppearanceProvider>
-          <CustomAppearanceProvider>
-            <View style={{ flexGrow: 1 }}>
-              <Favicon />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </View>
-          </CustomAppearanceProvider>
-        </AppearanceProvider>
-      </SafeAreaProvider>
+            }}
+          />
+          <link rel="manifest" href="/manifest.webmanifest" />
+          {/* <GoogleAnalytics id="UA-107832480-1" /> */}
+          {injectMeta.map((value, index) => {
+            return <meta key={`meta-${index.toString()}`} {...value} />;
+          })}
+        </Head>
+        <SafeAreaProvider>
+          <AppearanceProvider>
+            <CustomAppearanceProvider>
+              <View style={{ flexGrow: 1 }}>
+                <Favicon />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </View>
+            </CustomAppearanceProvider>
+          </AppearanceProvider>
+        </SafeAreaProvider>
+      </ThemeProvider>
     </Provider>
   );
+
+  /* eslint-enable react/no-danger */
+  /* eslint-enable global-require */
 }
 
 const injectMeta = [

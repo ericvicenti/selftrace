@@ -7,9 +7,6 @@ export interface ReduxRoot {
   sync: ReduxSync;
 }
 
-export * from './auth';
-export * from './sync';
-
 export default combineReducers({
   auth,
   sync,
