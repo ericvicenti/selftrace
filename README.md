@@ -1,17 +1,22 @@
-# CoronaMap
+# Selftrace
 
  |                 Form                 |                 Map                  |               Cluster                |
  | :----------------------------------: | :----------------------------------: | :----------------------------------: |
  | ![](https://i.imgur.com/ToSa9q8.png) | ![](https://i.imgur.com/ADvAbav.png) | ![](https://i.imgur.com/PpXVGYx.png) |
 
-CoronaMap is an open-source effort to create a live map that anonymously shows all users who self-reportedly have coronavirus (COVID-19) or show some of its symptoms. We are aiming to build a tool that
-1. will help people track the spread in real-time and self-distance accordingly
-2. give us an idea on how fast the virus is spreading according to unofficial user data.
+[Selftrace](https://selftrace.org) is an open-source effort to map self-reported COVID-19 cases in real-time. We require that users self-report and, as a reward, show them a live map with anonymous clusters of users who are symptomatic or have tested positive.
 
-We have already built the IOS/Android apps but the App Store is blocking our submission due to their recent decision to crack down on all COVID-19 related apps from non-governmental organisations. We are now building the web app and connecting it to the backend. This repo contains the work for the web-app.
+Our aim is to build a tool that will
+1. allow people to track the spread in real-time and take pre-emptive measures to avoid contact with high risk individuals
+2. show people how fast the virus is spreading according to unofficial user data
+3. allow us to collect meaningful data on a daily basis which we may share with scientists to further their research.
 
 ## Contributing
-Volunteers from all backgrounds are welcome as we will be needing help with frontend, backend, translations, content, etc. Our current stack is TypeScript, React Native, Expo, Next.js for the frontend and Firebase + Cloud Functions (TypeScript/Node.js) for the backend. You can also check our [listing](https://helpwithcovid.com/projects/81) on the new Help With COVID site and sign up to voluteer.
+This repo contains the code for the web-app. Our current stack is TypeScript, React Native Web, Expo, Next.js for the frontend and Firebase + Cloud Functions (TypeScript/Node.js) for the backend. We have 2 other repos that you may want check:
+- [React Native/Expo app](https://github.com/kafkas/selftrace)
+- [Firebase Cloud Functions](https://github.com/kafkas/selftrace-cloud)
+
+To contribute, please have a look at the issues, pick one that you want to work on and ask to be assigned. Also, there are many TODOs and FIXMEs throughout the codebase, so feel free to work on them as well. Please PR into the `dev` branch. If you want to join our Slack workspace please visit our [listing](https://helpwithcovid.com/projects/81) on Help With COVID and sign up to volunteer. You will receive an invite afterwards.
 
 ## Instructions
 

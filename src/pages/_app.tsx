@@ -17,8 +17,8 @@ import '../config/localization';
 // });
 
 const site = {
-  title: 'Corona Map',
-  description: 'Track COVID-19',
+  title: 'Selftrace',
+  description: 'Track self-reported COVID-19 cases in real-time', // TODO: Localize
 };
 
 const themeColor = '#fff';
