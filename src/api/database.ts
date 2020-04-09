@@ -10,8 +10,12 @@ export const userDoc = (uid: string) => usersCollection().doc(uid);
 /** The shape of each user document stored in Firestore */
 export interface FirestoreUserDoc {
   email: string;
-  lastLocation: Geo.LocationShort;
-  wellbeing: number;
+  lastLocation?: Geo.LocationShort;
+  geohash?: string;
+  wellbeing?: number;
+  symptomMap?: {
+    [symptomID: string]: boolean;
+  };
 }
 
 /** Get user details. */

@@ -120,9 +120,20 @@ export async function downloadUserInfoToLocalDB(uid: string): Promise<void> {
       // The user has just signed up. The server is creating the user document in Firestore.
       return undefined;
     }
-    const { wellbeing } = userDoc;
+    const { wellbeing, symptomMap } = userDoc;
+
+    const storageTasks: Promise<void>[] = [];
+
     if (wellbeing) {
-      await AsyncStorage.setItem('wellbeing', wellbeing.toString());
+      storageTasks.push(AsyncStorage.setItem('wellbeing', wellbeing.toString()));
+    }
+
+    if (symptomMap) {
+      storageTasks.push(AsyncStorage.setItem('symptomMap', JSON.stringify(symptomMap)));
+    }
+
+    if (storageTasks.length > 0) {
+      await Promise.all(storageTasks);
     }
 
     return Promise.resolve();
