@@ -2,8 +2,7 @@ import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import * as ExpoLocation from 'expo-location';
 import * as API from '../../api';
-import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
-import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
+import { ProgressActionCreator, ErrorActionCreator, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 import PromiseUtils from '../../util/PromiseUtils';
 
@@ -13,30 +12,28 @@ class LocationPermissionError extends Error {}
  * Action creators
  */
 
-export const startUpdateUserInfoRequest: ActionCreator<NetworkAction> = () => ({
+export const startUpdateUserInfoRequest: ProgressActionCreator = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   progress: Progress.createRequesting('Updating...'),
 });
 
-export const startRetrievingUserLocation: ActionCreator<NetworkAction> = () => ({
+export const startRetrievingUserLocation: ProgressActionCreator = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   progress: Progress.createRequesting('Trying to retrieve your current location...'),
 });
 
-export const receiveUpdateUserInfoResponse: ActionCreator<NetworkAction> = (
-  updatedInfo: Partial<ReduxAuthUserInfo>
-) => ({
+export const receiveUpdateUserInfoResponse: ProgressActionCreator = (updatedInfo: object) => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   payload: updatedInfo,
   progress: Progress.createSuccess('Update successful.'),
 });
 
-export const receiveUpdateUserInfoError: ActionCreator<NetworkAction> = err => ({
+export const receiveUpdateUserInfoError: ErrorActionCreator = err => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
-export const clearUpdateUserInfoProgress: ActionCreator<NetworkAction> = () => ({
+export const clearUpdateUserInfoProgress: ProgressActionCreator = () => ({
   type: ActionType.REQUEST_UPDATE_USER_INFO,
   progress: Progress.createNil(),
 });
@@ -55,15 +52,18 @@ export const uploadUserInfo = (
       !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000;
 
     if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
-      dispatch(startRetrievingUserLocation());
-      const { latitude, longitude } = await retrieveLastLocationWithPermission();
-      const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
+      const updatedInfoFinal: Partial<API.FirestoreUserDoc> = {
         ...updatedInfo,
-        lastLocation: { lat: latitude, lng: longitude },
       };
-      await API.requestUpdateUserInfo(uid, updatedInfoWithLastLocation);
-      const updatedAt = Date.now();
-      await AsyncStorage.setItem('lastUpdatedAt', updatedAt.toString());
+
+      if (hasNotUpdatedFor30Mins) {
+        dispatch(startRetrievingUserLocation());
+        const { latitude, longitude } = await retrieveLastLocationWithPermission();
+        updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
+      }
+
+      await API.requestUpdateUserInfo(uid, updatedInfoFinal);
+      await AsyncStorage.setItem('lastUpdatedAt', Date.now().toString());
     } else {
       await PromiseUtils.sleep(750);
     }
@@ -123,9 +123,20 @@ export async function downloadUserInfoToLocalDB(uid: string): Promise<void> {
       // The user has just signed up. The server is creating the user document in Firestore.
       return undefined;
     }
-    const { wellbeing } = userDoc;
+    const { wellbeing, symptomMap } = userDoc;
+
+    const storageTasks: Promise<void>[] = [];
+
     if (wellbeing) {
-      await AsyncStorage.setItem('wellbeing', wellbeing.toString());
+      storageTasks.push(AsyncStorage.setItem('wellbeing', wellbeing.toString()));
+    }
+
+    if (symptomMap) {
+      storageTasks.push(AsyncStorage.setItem('symptomMap', JSON.stringify(symptomMap)));
+    }
+
+    if (storageTasks.length > 0) {
+      await Promise.all(storageTasks);
     }
 
     return Promise.resolve();

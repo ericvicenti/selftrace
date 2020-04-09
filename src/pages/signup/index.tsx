@@ -13,7 +13,8 @@ import PasswordInput from '../../components/TextInput/Password';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
 import { AuthStatus } from '../../data-types';
-import { ReduxRoot, isAuthDisabled } from '../../reducers';
+import { ReduxRoot } from '../../reducers';
+import * as Selectors from '../../selectors';
 import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
 import AuthUtils from '../../util/AuthUtils';
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: ReduxRoot) => ({
-  authDisabled: isAuthDisabled(state.auth),
+  authDisabled: Selectors.isAuthDisabled(state),
   progress: state.auth.signup.progress,
   authStatus: state.auth.status,
 });

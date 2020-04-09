@@ -1,24 +1,24 @@
 import { requestSignin, loginWithGoogle } from '../../api';
-import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
+import { ActionCreator, ProgressAction, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 
 // TODO: Localize
-const startSigninRequest: ActionCreator<NetworkAction> = () => ({
+const startSigninRequest: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNIN,
   progress: Progress.createRequesting('Requesting signin...'),
 });
 
-const receiveSigninResponse: ActionCreator<NetworkAction> = () => ({
+const receiveSigninResponse: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNIN,
   progress: Progress.createSuccess('Signin successful.'),
 });
 
-const receiveSigninError: ActionCreator<NetworkAction> = err => ({
+const receiveSigninError: ActionCreator<ProgressAction> = err => ({
   type: ActionType.REQUEST_SIGNIN,
   progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
-export const clearSigninProgress: ActionCreator<NetworkAction> = () => ({
+export const clearSigninProgress: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNIN,
   progress: Progress.createNil(),
 });

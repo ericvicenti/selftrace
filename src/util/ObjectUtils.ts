@@ -1,4 +1,25 @@
 export default class ObjectUtils {
+  /** @returns false if one of the values is truthy, true otherwise */
+  static isEmpty(obj: object) {
+    for (const key in obj) {
+      if (obj[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static areShallowEqual(obj1: object, obj2: object): boolean {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    return keys1.every(key => obj1[key] === obj2[key]);
+  }
+
   /**
    * Changes the value of a key at a specified address of a specified object.
    * Creates a key for any undefined key in `address`. Mutates `obj`.

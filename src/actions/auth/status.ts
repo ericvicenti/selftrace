@@ -1,18 +1,17 @@
 import { UserInfo } from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as API from '../../api';
-import { ActionCreator, AuthStatusAction, Dispatch, ActionType } from '..';
-import { ReduxAuthUserInfo } from '../../reducers/auth/userInfo';
+import { AuthStatusActionCreator, Dispatch, ActionType } from '..';
 import { AuthStatus } from '../../data-types';
 import { pullUserInfoFromLocalDBToRedux } from '../helpers';
 import { downloadUserInfoToLocalDB } from './userInfo';
 
-const setAuthStatusToSignedIn: ActionCreator<AuthStatusAction> = (userInfo: ReduxAuthUserInfo) => ({
+const setAuthStatusToSignedIn: AuthStatusActionCreator = userInfo => ({
   type: ActionType.SET_AUTH_STATUS,
   payload: { status: AuthStatus.SignedIn, userInfo },
 });
 
-const setAuthStatusToSignedOut: ActionCreator<AuthStatusAction> = () => ({
+const setAuthStatusToSignedOut: AuthStatusActionCreator = () => ({
   type: ActionType.SET_AUTH_STATUS,
   payload: { status: AuthStatus.SignedOut },
 });
@@ -33,7 +32,7 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
     }
 
     // Case 2: Signed in
-    const userInfo: Partial<ReduxAuthUserInfo> = {
+    const userInfo = {
       email: user.email,
       uid: user.uid,
     };

@@ -5,29 +5,33 @@ import { StyleSheet, View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import FormContainer from '../../components/FormContainer';
 import PageContainer from '../../components/PageContainer';
 import Picker from '../../components/Picker';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
-import { Wellbeing } from '../../data-types';
+import { Wellbeing, CovidSymptom } from '../../data-types';
+import ObjectUtils from '../../util/ObjectUtils';
 import * as Actions from '../../actions/auth/userInfo';
 import { Dispatch, Action } from '../../actions';
 import { ReduxRoot } from '../../reducers';
 import { Colors, Margins, Typography, Paddings } from '../../styles';
 
-const CONTENT_MAX_WIDTH = 600;
+const CONTENT_MAX_WIDTH = 640;
 
 const styles = StyleSheet.create({
-  topTextContainer: {
-    marginTop: Margins.MAX_Y,
-    paddingHorizontal: Paddings.MAX_X,
-    paddingVertical: Paddings.Y,
+  formQuestionContainer: {
+    alignSelf: 'flex-start',
+    marginBottom: Margins.MIN_Y,
+    paddingVertical: Paddings.MAX_Y,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.BORDER.toString(),
-    maxWidth: CONTENT_MAX_WIDTH,
   },
-  topText: {
+  formQuestion: {
     ...Typography.INACTIVE_TEXT_STYLES,
   },
   descriptionText: {
@@ -37,16 +41,14 @@ const styles = StyleSheet.create({
     marginTop: Margins.MIN_Y,
   },
   noteTitle: {
-    fontSize: 12,
     fontWeight: '700',
   },
-  noteText: {
-    fontSize: 12,
-  },
+  noteText: {},
   formContainer: {
     width: '100%',
     marginTop: Margins.Y,
-    paddingHorizontal: Paddings.MAX_X,
+    paddingHorizontal: Paddings.MAX_X + Paddings.MIN_X,
+    paddingVertical: Paddings.MAX_Y,
     maxWidth: CONTENT_MAX_WIDTH,
   },
   textContainer: {
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   currentWellbeing: state.auth.userInfo.wellbeing,
+  currentSymptomMap: state.auth.userInfo.symptomMap,
   progress: state.auth.userInfo.progress,
   uid: state.auth.userInfo.uid!,
 });
@@ -89,64 +92,112 @@ interface WellbeingObject {
   note: string;
 }
 
-interface WellbeingOptionMap {
-  [key: number]: Omit<WellbeingObject, 'value'>;
+const WELLBEING_OPTION_MAP: { [key: string]: Omit<WellbeingObject, 'value'> } = {};
+
+for (const wb in Wellbeing) {
+  if (!isNaN(Number(wb))) {
+    WELLBEING_OPTION_MAP[wb] = {
+      label: t(`screens.form.sections.wellbeing.options.${wb}.label`),
+      description: t(`screens.form.sections.wellbeing.options.${wb}.description`),
+      important: t(`screens.form.sections.wellbeing.options.${wb}.important`),
+      note: t(`screens.form.sections.wellbeing.options.${wb}.note`),
+    };
+  }
+}
+
+interface SymptomObject {
+  value: Wellbeing;
+  label: string;
+}
+
+const SYMPTOM_OPTION_MAP: { [key: string]: Omit<SymptomObject, 'value'> } = {};
+
+for (const smp in CovidSymptom) {
+  if (!isNaN(Number(smp))) {
+    SYMPTOM_OPTION_MAP[smp] = {
+      label: t(`screens.form.sections.symptoms.options.${smp}.label`),
+    };
+  }
 }
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
-  const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
+function FormPage({ currentWellbeing, currentSymptomMap, progress, uploadUserInfo, uid }: Props) {
+  const [state, setState] = React.useState({
+    wellbeing: currentWellbeing,
+    symptomMap: currentSymptomMap,
+  });
 
-  // TODO: Clean up
-  const WELLBEING_OPTION_MAP: WellbeingOptionMap = {
-    [Wellbeing.FeelingWell]: {
-      label: t('form.options.well.label'),
-      description: t('form.options.well.description'),
-      important: t('form.options.well.important'),
-      note: t('form.options.well.note'),
-    },
-    [Wellbeing.ShowingSymptoms]: {
-      label: t('form.options.symptoms.label'),
-      description: t('form.options.symptoms.description'),
-      important: t('form.options.symptoms.important'),
-      note: t('form.options.symptoms.note'),
-    },
-    [Wellbeing.TestedNegative]: {
-      label: t('form.options.negative.label'),
-      description: t('form.options.negative.description'),
-      important: t('form.options.negative.important'),
-      note: t('form.options.negative.note'),
-    },
-    [Wellbeing.TestedPositive]: {
-      label: t('form.options.positive.label'),
-      description: t('form.options.positive.description'),
-      important: t('form.options.positive.important'),
-      note: t('form.options.positive.note'),
-    },
-  };
+  const { wellbeing, symptomMap } = state;
 
   const WELLBEING_OPTIONS = Object.keys(WELLBEING_OPTION_MAP).map(rawVal => {
     const value: Wellbeing = Number(rawVal);
     return { value, ...WELLBEING_OPTION_MAP[value] };
   });
 
+  const SYMPTOM_OPTIONS = Object.keys(SYMPTOM_OPTION_MAP).map(rawVal => {
+    const value: CovidSymptom = Number(rawVal);
+    return { value, ...SYMPTOM_OPTION_MAP[value] };
+  });
+
   const wellbeingObj: Omit<WellbeingObject, 'value'> | undefined = wellbeing
     ? WELLBEING_OPTION_MAP[wellbeing]
     : undefined;
-  const submitDisabled = !wellbeing;
+  const submitDisabled =
+    !wellbeing || (wellbeing === Wellbeing.ShowingSymptoms && ObjectUtils.isEmpty(symptomMap));
+
+  function handleWellbeingChange(newVal: string | undefined) {
+    setState(prev => ({
+      ...prev,
+      wellbeing: newVal ? Number(newVal) : undefined,
+      symptomMap: {
+        ...currentSymptomMap,
+      },
+    }));
+  }
+
+  function handleSymptomMapChange({ target }: React.ChangeEvent<HTMLInputElement>) {
+    const { name: symptomKey, checked: newVal } = target;
+    setState(prev => {
+      const newState = { ...prev };
+      const newSymptomMap = { ...prev.symptomMap };
+      if (newVal) {
+        newSymptomMap[symptomKey] = true;
+      } else {
+        delete newSymptomMap[symptomKey];
+      }
+      newState.symptomMap = newSymptomMap;
+
+      return newState;
+    });
+  }
+
+  function handleSubmit() {
+    const hasSymptomMapChanged = !ObjectUtils.areShallowEqual(currentSymptomMap, symptomMap);
+    const haveDetailsChanged =
+      currentWellbeing !== wellbeing ||
+      (wellbeing === Wellbeing.ShowingSymptoms && hasSymptomMapChanged);
+    uploadUserInfo(
+      uid,
+      {
+        wellbeing: wellbeing!.valueOf(),
+        symptomMap: wellbeing === Wellbeing.ShowingSymptoms ? symptomMap : {},
+      },
+      haveDetailsChanged
+    );
+  }
 
   return (
     <PageContainer isProtected>
       <Text style={styles.title}>{t('headers.form')}</Text>
-      <View style={styles.topTextContainer}>
-        <Text style={styles.topText}>{t('form.topNote')}</Text>
-      </View>
       <FormContainer progress={progress} style={styles.formContainer}>
+        <View style={styles.formQuestionContainer}>
+          <Text style={styles.formQuestion}>{t('screens.form.sections.wellbeing.question')}</Text>
+        </View>
         <Picker
-          label={t('form.wellbeing')}
+          label={t('screens.form.wellbeing')}
           selectedValue={wellbeing}
-          onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
+          onValueChange={handleWellbeingChange}
           items={WELLBEING_OPTIONS}
           style={styles.picker}
         />
@@ -156,7 +207,7 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
             {!!wellbeingObj.important && (
               <View style={styles.noteSection}>
                 <Text>
-                  <Text style={styles.noteTitle}>{t('form.important')}: </Text>
+                  <Text style={styles.noteTitle}>{t('screens.form.important')}: </Text>
                   <Text style={styles.noteText}>{wellbeingObj.important}</Text>
                 </Text>
               </View>
@@ -164,21 +215,49 @@ function FormPage({ currentWellbeing, progress, uploadUserInfo, uid }: Props) {
             {!!wellbeingObj.note && (
               <View style={styles.noteSection}>
                 <Text>
-                  <Text style={styles.noteTitle}>{t('form.note')}: </Text>
+                  <Text style={styles.noteTitle}>{t('screens.form.note')}: </Text>
                   <Text style={styles.noteText}>{wellbeingObj.note}</Text>
                 </Text>
               </View>
             )}
           </View>
         )}
+        {wellbeing === Wellbeing.ShowingSymptoms && (
+          <>
+            <View style={styles.formQuestionContainer}>
+              <Text style={styles.formQuestion}>
+                {t('screens.form.sections.symptoms.question')}
+              </Text>
+            </View>
+            <FormControl color="primary">
+              <FormGroup
+                style={{
+                  flexDirection: 'row',
+                }}>
+                {SYMPTOM_OPTIONS.map(item => (
+                  <FormControlLabel
+                    key={item.value.toString()}
+                    control={
+                      <Checkbox
+                        checked={symptomMap[item.value]}
+                        onChange={handleSymptomMapChange}
+                        name={item.value.toString()}
+                        color="primary"
+                      />
+                    }
+                    label={item.label}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+          </>
+        )}
       </FormContainer>
       <SubmitButton
         label={t('buttons.update')}
         progress={progress}
         disabled={submitDisabled}
-        onPress={() => {
-          uploadUserInfo(uid, { wellbeing: wellbeing!.valueOf() }, currentWellbeing !== wellbeing);
-        }}
+        onPress={handleSubmit}
       />
     </PageContainer>
   );

@@ -1,25 +1,25 @@
 import { requestResetPassword } from '../../api';
-import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
+import { ActionCreator, ProgressAction, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 
-const startResetPasswordRequest: ActionCreator<NetworkAction> = () => ({
+const startResetPasswordRequest: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_RESET_PASSWORD,
   progress: Progress.createRequesting('Sending password reset request...'),
 });
 
-const receiveResetPasswordResponse: ActionCreator<NetworkAction> = () => ({
+const receiveResetPasswordResponse: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_RESET_PASSWORD,
   progress: Progress.createSuccess(
     'Password reset request successful. Please check your email to proceed.'
   ),
 });
 
-const receiveResetPasswordError: ActionCreator<NetworkAction> = err => ({
+const receiveResetPasswordError: ActionCreator<ProgressAction> = err => ({
   type: ActionType.REQUEST_RESET_PASSWORD,
   progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
-export const clearResetPasswordProgress: ActionCreator<NetworkAction> = () => ({
+export const clearResetPasswordProgress: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_RESET_PASSWORD,
   progress: Progress.createNil(),
 });

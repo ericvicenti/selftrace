@@ -1,25 +1,25 @@
 import { requestSignup } from '../../api';
-import { ActionCreator, NetworkAction, Dispatch, ActionType } from '..';
+import { ActionCreator, ProgressAction, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 
 // TODO: Localize
 
-const startSignupRequest: ActionCreator<NetworkAction> = () => ({
+const startSignupRequest: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: Progress.createRequesting('Requesting signup...'),
 });
 
-const receiveSignupResponse: ActionCreator<NetworkAction> = () => ({
+const receiveSignupResponse: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: Progress.createSuccess('Signup successful.'),
 });
 
-const receiveSignupError: ActionCreator<NetworkAction> = err => ({
+const receiveSignupError: ActionCreator<ProgressAction> = err => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: Progress.createError(err.message || 'An unknown error has occured.'),
 });
 
-export const clearSignupProgress: ActionCreator<NetworkAction> = () => ({
+export const clearSignupProgress: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: Progress.createNil(),
 });

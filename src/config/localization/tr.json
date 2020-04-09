@@ -35,6 +35,38 @@
       "profile": "Profil",
       "updatePassword": "Parolayı güncelle"
     },
+    "form": {
+      "topNote": "Lütfen sağlık durumunuzu güncel tutun. Aşağıdaki seçeneklerden herhangi birini seçebilirsiniz.",
+      "wellbeing": "Sağlık Durumu",
+      "important": "Önemli",
+      "note": "Not",
+      "options": {
+        "well": {
+          "label": "Her Şey Yolunda",
+          "description": "Test edilmedim ancak koronavirüs (COVID-19) belirtilerinin hiçbirini göstermiyorum. Her şey yolunda!",
+          "important": "",
+          "note": ""
+        },
+        "symptoms": {
+          "label": "Belirtiler Gösteriyorum",
+          "description": "Test edilmedim ve kendimi iyi hissetmiyorum. Sanırım bazı koronavirüs (COVID-19) belirtilerini gösteriyorum.",
+          "important": "Bu seçeneği seçtiğiniz takdirde diğer kullanıcıların sizinle aranıza mesafe koymalarını teşvik etmek için yaklaşık konumunuzu ve sağlık durumunuzu harita üzerinde göstereceğimizi lütfen dikkate alın. Bunu yaparken kimliğinizi ortaya çıkarabilecek bilgileri asla paylaşmayacağız.",
+          "note": "Belirtileriniz hafif olsa bile bu seçeneği seçmeniz yararlı olabilir."
+        },
+        "negative": {
+          "label": "Test Sonucum Negatif",
+          "description": "Test edildim. Sonuçlara göre koronavirüsüm (COVID-19) yok.",
+          "important": "",
+          "note": ""
+        },
+        "positive": {
+          "label": "Test Sonucum Pozitif",
+          "description": "Test edildim. Sonuçlara göre koronavirüsüm (COVID-19) var.",
+          "important": "Bu seçeneği seçtiğiniz takdirde diğer kullanıcıların sizinle aranıza mesafe koymalarını teşvik etmek için yaklaşık konumunuzu ve sağlık durumunuzu harita üzerinde göstereceğimizi lütfen dikkate alın. Bunu yaparken kimliğinizi ortaya çıkarabilecek bilgileri asla paylaşmayacağız.",
+          "note": ""
+        }
+      }
+    },
     "map": {
       "userTestedPositive": "Kullanıcının test sonucu pozitif",
       "userShowingSymptoms": "Kullanıcı belirti gösteriyor",
@@ -42,38 +74,6 @@
       "showingSymptoms": "Belirti gösteriyor",
       "chooseWellbeingTitle": "Sağlık durumunuzu güncellemelisiniz",
       "chooseWellbeingMessage": "Haritayı görmek için bize ilk önce sağlık durumunuzu bildirmelisiniz. Lütfen formda sağlık durumunuzu güncelleyin."
-    }
-  },
-  "form": {
-    "topNote": "Lütfen sağlık durumunuzu güncel tutun. Aşağıdaki seçeneklerden herhangi birini seçebilirsiniz.",
-    "wellbeing": "Sağlık Durumu",
-    "important": "Önemli",
-    "note": "Not",
-    "options": {
-      "well": {
-        "label": "Her Şey Yolunda",
-        "description": "Test edilmedim ancak koronavirüs (COVID-19) belirtilerinin hiçbirini göstermiyorum. Her şey yolunda!",
-        "important": "",
-        "note": ""
-      },
-      "symptoms": {
-        "label": "Belirtiler Gösteriyorum",
-        "description": "Test edilmedim ve kendimi iyi hissetmiyorum. Sanırım bazı koronavirüs (COVID-19) belirtilerini gösteriyorum.",
-        "important": "Bu seçeneği seçtiğiniz takdirde diğer kullanıcıların sizinle aranıza mesafe koymalarını teşvik etmek için yaklaşık konumunuzu ve sağlık durumunuzu harita üzerinde göstereceğimizi lütfen dikkate alın. Bunu yaparken kimliğinizi ortaya çıkarabilecek bilgileri asla paylaşmayacağız.",
-        "note": "Belirtileriniz hafif olsa bile bu seçeneği seçmeniz yararlı olabilir."
-      },
-      "negative": {
-        "label": "Test Sonucum Negatif",
-        "description": "Test edildim. Sonuçlara göre koronavirüsüm (COVID-19) yok.",
-        "important": "",
-        "note": ""
-      },
-      "positive": {
-        "label": "Test Sonucum Pozitif",
-        "description": "Test edildim. Sonuçlara göre koronavirüsüm (COVID-19) var.",
-        "important": "Bu seçeneği seçtiğiniz takdirde diğer kullanıcıların sizinle aranıza mesafe koymalarını teşvik etmek için yaklaşık konumunuzu ve sağlık durumunuzu harita üzerinde göstereceğimizi lütfen dikkate alın. Bunu yaparken kimliğinizi ortaya çıkarabilecek bilgileri asla paylaşmayacağız.",
-        "note": ""
-      }
     }
   }
 }

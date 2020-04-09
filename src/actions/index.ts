@@ -1,12 +1,12 @@
-import { Action as ReduxAction } from 'redux';
-import { ReduxAuthStatus, ReduxAuthUserInfo } from '../reducers';
-import { Progress } from '../data-types';
+import { Action as ReduxAction, ActionCreator as ReduxActionCreator } from 'redux';
+import { Progress, AuthStatus } from '../data-types';
 
 // export { ActionCreator, Dispatch } from 'redux';
 // export { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
+export type ActionCreator<A> = ReduxActionCreator<A>;
+
 // FIXME
-export type ActionCreator<T> = any;
 export type Dispatch<T = any> = any;
 export type ThunkAction = any;
 export type ThunkDispatch = any;
@@ -32,13 +32,23 @@ export interface Action extends ReduxAction<ActionType> {
   payload?: object | string | boolean | number;
 }
 
-export interface NetworkAction extends Action {
+export interface ProgressAction extends Action {
   progress: Progress;
 }
 
 export interface AuthStatusAction extends Action {
   payload: {
-    status: ReduxAuthStatus;
-    userInfo?: ReduxAuthUserInfo;
+    status: AuthStatus;
+    userInfo?: object;
   };
 }
+
+/*
+ * Commonly used action creators
+ */
+
+export type AuthStatusActionCreator = (userInfo?: object) => AuthStatusAction;
+
+export type ProgressActionCreator = (...params: any[]) => ProgressAction;
+
+export type ErrorActionCreator = (err: Error) => ProgressAction;

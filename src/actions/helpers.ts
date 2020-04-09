@@ -4,10 +4,15 @@ import { receiveUpdateUserInfoResponse, clearUpdateUserInfoProgress } from './au
 
 export async function pullUserInfoFromLocalDBToRedux(dispatch: Dispatch) {
   try {
-    const wellbeing = await AsyncStorage.getItem('wellbeing');
+    const [wellbeingRaw, symptomMapRaw] = await Promise.all([
+      AsyncStorage.getItem('wellbeing'),
+      AsyncStorage.getItem('symptomMap'),
+    ]);
+
     dispatch(
       receiveUpdateUserInfoResponse({
-        wellbeing: wellbeing === null ? undefined : Number(wellbeing),
+        wellbeing: wellbeingRaw === null ? undefined : Number(wellbeingRaw),
+        symptomMap: symptomMapRaw === null ? {} : JSON.parse(symptomMapRaw),
       })
     );
     dispatch(clearUpdateUserInfoProgress());

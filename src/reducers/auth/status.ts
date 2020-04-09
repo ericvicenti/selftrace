@@ -1,6 +1,8 @@
 import { AuthStatusAction } from '../../actions';
 import { AuthStatus } from '../../data-types';
 
-export type ReduxAuthStatus = AuthStatus;
+type State = AuthStatus;
 
-export const status = (action: AuthStatusAction): ReduxAuthStatus => action.payload.status;
+export const INITIAL_STATE = AuthStatus.Checking;
+
+export const reducer = (action: AuthStatusAction): State => action.payload.status;
