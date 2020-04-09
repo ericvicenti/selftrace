@@ -10,12 +10,14 @@ export default class ObjectUtils {
   }
 
   static areShallowEqual(obj1: object, obj2: object): boolean {
-    for (const key in obj1) {
-      if (obj1[key] !== obj2[key]) {
-        return false;
-      }
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
     }
-    return true;
+
+    return keys1.every(key => obj1[key] === obj2[key]);
   }
 
   /**

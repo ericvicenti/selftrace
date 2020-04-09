@@ -120,15 +120,15 @@ for (const smp in CovidSymptom) {
   }
 }
 
-interface BoolMap {
-  [key: string]: boolean;
-}
-
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
 function FormPage({ currentWellbeing, currentSymptomMap, progress, uploadUserInfo, uid }: Props) {
-  const [wellbeing, setWellbeing] = React.useState(currentWellbeing);
-  const [symptomMap, setSymptomMap] = React.useState(currentSymptomMap);
+  const [state, setState] = React.useState({
+    wellbeing: currentWellbeing,
+    symptomMap: currentSymptomMap,
+  });
+
+  const { wellbeing, symptomMap } = state;
 
   const WELLBEING_OPTIONS = Object.keys(WELLBEING_OPTION_MAP).map(rawVal => {
     const value: Wellbeing = Number(rawVal);
@@ -146,22 +146,34 @@ function FormPage({ currentWellbeing, currentSymptomMap, progress, uploadUserInf
   const submitDisabled =
     !wellbeing || (wellbeing === Wellbeing.ShowingSymptoms && ObjectUtils.isEmpty(symptomMap));
 
-  function handleSymptomMapChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSymptomMap(prev => {
-      const { name: symptomKey, checked: newVal } = event.target;
-      const newSymptoms = { ...prev };
-      if (newVal) {
-        newSymptoms[symptomKey] = true;
-      } else {
-        delete newSymptoms[symptomKey];
-      }
+  function handleWellbeingChange(newVal: string | undefined) {
+    setState(prev => ({
+      ...prev,
+      wellbeing: newVal ? Number(newVal) : undefined,
+      symptomMap: {
+        ...currentSymptomMap,
+      },
+    }));
+  }
 
-      return newSymptoms;
+  function handleSymptomMapChange({ target }: React.ChangeEvent<HTMLInputElement>) {
+    const { name: symptomKey, checked: newVal } = target;
+    setState(prev => {
+      const newState = { ...prev };
+      const newSymptomMap = { ...prev.symptomMap };
+      if (newVal) {
+        newSymptomMap[symptomKey] = true;
+      } else {
+        delete newSymptomMap[symptomKey];
+      }
+      newState.symptomMap = newSymptomMap;
+
+      return newState;
     });
   }
 
   function handleSubmit() {
-    const hasSymptomMapChanged = ObjectUtils.areShallowEqual(currentSymptomMap, symptomMap);
+    const hasSymptomMapChanged = !ObjectUtils.areShallowEqual(currentSymptomMap, symptomMap);
     const haveDetailsChanged =
       currentWellbeing !== wellbeing ||
       (wellbeing === Wellbeing.ShowingSymptoms && hasSymptomMapChanged);
@@ -185,7 +197,7 @@ function FormPage({ currentWellbeing, currentSymptomMap, progress, uploadUserInf
         <Picker
           label={t('screens.form.wellbeing')}
           selectedValue={wellbeing}
-          onValueChange={val => setWellbeing(val ? Number(val) : undefined)}
+          onValueChange={handleWellbeingChange}
           items={WELLBEING_OPTIONS}
           style={styles.picker}
         />
