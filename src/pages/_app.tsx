@@ -33,11 +33,12 @@ function App(props: any) {
 
   return (
     <Provider store={store}>
-      <Head>
-        <title>Selftrace</title>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
+      <ThemeProvider theme={muiTheme}>
+        <Head>
+          <title>Selftrace</title>
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `
             html,
             body {
               position: relative;
