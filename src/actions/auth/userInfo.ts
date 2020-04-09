@@ -52,15 +52,18 @@ export const uploadUserInfo = (
       !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000;
 
     if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
-      dispatch(startRetrievingUserLocation());
-      const { latitude, longitude } = await retrieveLastLocationWithPermission();
-      const updatedInfoWithLastLocation: Partial<API.FirestoreUserDoc> = {
+      const updatedInfoFinal: Partial<API.FirestoreUserDoc> = {
         ...updatedInfo,
-        lastLocation: { lat: latitude, lng: longitude },
       };
-      await API.requestUpdateUserInfo(uid, updatedInfoWithLastLocation);
-      const updatedAt = Date.now();
-      await AsyncStorage.setItem('lastUpdatedAt', updatedAt.toString());
+
+      if (hasNotUpdatedFor30Mins) {
+        dispatch(startRetrievingUserLocation());
+        const { latitude, longitude } = await retrieveLastLocationWithPermission();
+        updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
+      }
+
+      await API.requestUpdateUserInfo(uid, updatedInfoFinal);
+      await AsyncStorage.setItem('lastUpdatedAt', Date.now().toString());
     } else {
       await PromiseUtils.sleep(750);
     }
