@@ -49,7 +49,7 @@ export const uploadUserInfo = (
   try {
     const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
     const hasNotUpdatedFor30Mins =
-      !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1800000;
+      !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1000 * 60 * 30;
 
     if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
       const updatedInfoFinal: Partial<API.FirestoreUserDoc> = {
