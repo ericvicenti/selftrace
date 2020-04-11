@@ -2,6 +2,7 @@ import { requestResetPassword } from '../../api';
 import { ActionCreator, ProgressAction, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 
+// TODO: Localize
 const startResetPasswordRequest: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_RESET_PASSWORD,
   progress: Progress.createRequesting('Sending password reset request...'),

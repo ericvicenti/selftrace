@@ -3,7 +3,6 @@ import { ActionCreator, ProgressAction, Dispatch, ActionType } from '..';
 import { Progress } from '../../data-types';
 
 // TODO: Localize
-
 const startSignupRequest: ActionCreator<ProgressAction> = () => ({
   type: ActionType.REQUEST_SIGNUP,
   progress: Progress.createRequesting('Requesting signup...'),

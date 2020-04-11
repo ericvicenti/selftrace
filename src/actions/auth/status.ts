@@ -24,7 +24,7 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
       // Case 1: Signed out
       await Promise.all([
         AsyncStorage.removeItem('wellbeing'),
-        AsyncStorage.removeItem('lastUpdatedAt'),
+        AsyncStorage.removeItem('locationLastUpdatedAt'),
         AsyncStorage.removeItem('lastMapCenter'),
       ]);
 

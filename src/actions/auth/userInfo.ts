@@ -47,32 +47,31 @@ export const uploadUserInfo = (
 ) => async (dispatch: Dispatch) => {
   dispatch(startUpdateUserInfoRequest());
   try {
-    const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
-    const hasNotUpdatedFor30Mins =
-      !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1000 * 60 * 30;
+    const locationLastUpdatedAtRaw = await AsyncStorage.getItem('locationLastUpdatedAt');
+    const hasNotUpdatedLocationFor30Mins =
+      !locationLastUpdatedAtRaw || Date.now() - Number(locationLastUpdatedAtRaw) > 1000 * 60 * 30;
     const isUserUnwell =
       updatedInfo.wellbeing === Wellbeing.ShowingSymptoms ||
       updatedInfo.wellbeing === Wellbeing.TestedPositive;
+    const updatedInfoFinal: Partial<API.FirestoreUserDoc> = { ...updatedInfo };
 
-    if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
-      const updatedInfoFinal: Partial<API.FirestoreUserDoc> = {
-        ...updatedInfo,
-      };
-
-      if (hasNotUpdatedFor30Mins) {
-        if (isUserUnwell) {
-          dispatch(startRetrievingUserLocation());
-          const { latitude, longitude } = await retrieveLastLocationWithPermission();
-          updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
-        } else {
-          updatedInfoFinal.lastLocation = API.deletionSentinel() as any;
-        }
-      }
-
+    if (!isUserUnwell) {
+      // Case 1: User is well
+      updatedInfoFinal.lastLocation = API.deletionSentinel() as any;
       await API.requestUpdateUserInfo(uid, updatedInfoFinal);
-      await AsyncStorage.setItem('lastUpdatedAt', Date.now().toString());
+      await AsyncStorage.removeItem('locationLastUpdatedAt');
+    } else if (haveDetailsChanged || hasNotUpdatedLocationFor30Mins) {
+      // Case 2: User is unwell and their details are not up to date
+      if (hasNotUpdatedLocationFor30Mins) {
+        dispatch(startRetrievingUserLocation());
+        const { latitude, longitude } = await retrieveLastLocationWithPermission();
+        updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
+      }
+      await API.requestUpdateUserInfo(uid, updatedInfoFinal);
+      await AsyncStorage.setItem('locationLastUpdatedAt', Date.now().toString());
     } else {
-      await PromiseUtils.sleep(750);
+      // Case 3: User is unwell but their details are up-to-date
+      await PromiseUtils.sleep(750); // Simulate update request
     }
 
     dispatch(receiveUpdateUserInfoResponse(updatedInfo));
