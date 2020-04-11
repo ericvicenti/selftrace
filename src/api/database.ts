@@ -7,6 +7,8 @@ const usersCollection = () => database().collection('users');
 
 export const userDoc = (uid: string) => usersCollection().doc(uid);
 
+export const deletionSentinel = () => firebase.firestore.FieldValue.delete();
+
 /** The shape of each user document stored in Firestore */
 export interface FirestoreUserDoc {
   email: string;

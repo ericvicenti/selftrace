@@ -3,7 +3,7 @@ import * as Permissions from 'expo-permissions';
 import * as ExpoLocation from 'expo-location';
 import * as API from '../../api';
 import { ProgressActionCreator, ErrorActionCreator, Dispatch, ActionType } from '..';
-import { Progress } from '../../data-types';
+import { Progress, Wellbeing } from '../../data-types';
 import PromiseUtils from '../../util/PromiseUtils';
 
 class LocationPermissionError extends Error {}
@@ -50,6 +50,9 @@ export const uploadUserInfo = (
     const lastUpdatedAtRaw = await AsyncStorage.getItem('lastUpdatedAt');
     const hasNotUpdatedFor30Mins =
       !lastUpdatedAtRaw || Date.now() - Number(lastUpdatedAtRaw) > 1000 * 60 * 30;
+    const isUserUnwell =
+      updatedInfo.wellbeing === Wellbeing.ShowingSymptoms ||
+      updatedInfo.wellbeing === Wellbeing.TestedPositive;
 
     if (haveDetailsChanged || hasNotUpdatedFor30Mins) {
       const updatedInfoFinal: Partial<API.FirestoreUserDoc> = {
@@ -57,9 +60,13 @@ export const uploadUserInfo = (
       };
 
       if (hasNotUpdatedFor30Mins) {
-        dispatch(startRetrievingUserLocation());
-        const { latitude, longitude } = await retrieveLastLocationWithPermission();
-        updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
+        if (isUserUnwell) {
+          dispatch(startRetrievingUserLocation());
+          const { latitude, longitude } = await retrieveLastLocationWithPermission();
+          updatedInfoFinal.lastLocation = { lat: latitude, lng: longitude };
+        } else {
+          updatedInfoFinal.lastLocation = API.deletionSentinel() as any;
+        }
       }
 
       await API.requestUpdateUserInfo(uid, updatedInfoFinal);
