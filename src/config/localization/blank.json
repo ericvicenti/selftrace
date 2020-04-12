@@ -1,86 +1,75 @@
 {
   "buttons": {
-    "update": "",
-    "forgotPassword": "",
-    "reset": "",
-    "signin": "",
-    "signup": "",
-    "signout": ""
+    "update": null,
+    "forgotPassword": null,
+    "reset": null,
+    "signin": null,
+    "signInGoogle": null,
+    "signup": null,
+    "signout": null
   },
-  "dropdowns": {
-    "selectPlaceholder": ""
-  },
-  "alerts": {
-    "signout": {
-      "title": "",
-      "description": "",
-      "option1": "",
-      "cancel": ""
-    }
-  },
+  "dividers": { "or": null },
+  "dropdowns": { "selectPlaceholder": null },
+  "alerts": { "signout": { "title": null, "description": null, "option1": null, "cancel": null } },
   "headers": {
-    "signin": "",
-    "signup": "",
-    "form": "",
-    "resetPassword": "",
-    "account": "",
-    "profile": "",
-    "updatePassword": ""
+    "signin": null,
+    "signup": null,
+    "form": null,
+    "resetPassword": null,
+    "account": null,
+    "profile": null,
+    "updatePassword": null
   },
   "inputs": {
-    "email": "",
-    "enterEmailPlaceholder": "",
-    "password": "",
-    "enterPasswordPlaceholder": "",
-    "newPasswordPlaceholder": "",
-    "confirmPasswordPlaceholder": ""
+    "email": null,
+    "enterEmailPlaceholder": null,
+    "password": null,
+    "enterPasswordPlaceholder": null,
+    "newPasswordPlaceholder": null,
+    "confirmPasswordPlaceholder": null
   },
   "screens": {
-    "account": {
-      "profile": "",
-      "updatePassword": ""
+    "map": {
+      "loadingMessage": null,
+      "clusterDetailsTitle": null,
+      "userTestedPositive": null,
+      "userShowingSymptoms": null,
+      "testedPositive": null,
+      "showingSymptoms": null,
+      "chooseWellbeingTitle": null,
+      "chooseWellbeingMessage": null
     },
     "form": {
-      "topNote": "",
-      "wellbeing": "",
-      "important": "",
-      "note": "",
-      "options": {
-        "well": {
-          "label": "",
-          "description": "",
-          "important": "",
-          "note": ""
+      "wellbeing": null,
+      "important": null,
+      "note": null,
+      "sections": {
+        "wellbeing": {
+          "question": null,
+          "options": {
+            "1": { "label": null, "description": null, "important": null, "note": null },
+            "2": { "label": null, "description": null, "important": null, "note": null },
+            "3": { "label": null, "description": null, "important": null, "note": null },
+            "4": { "label": null, "description": null, "important": null, "note": null }
+          }
         },
         "symptoms": {
-          "label": "",
-          "description": "",
-          "important": "",
-          "note": ""
-        },
-        "negative": {
-          "label": "",
-          "description": "",
-          "important": "",
-          "note": ""
-        },
-        "positive": {
-          "label": "",
-          "description": "",
-          "important": "",
-          "note": ""
+          "question": null,
+          "options": {
+            "1": { "label": null },
+            "2": { "label": null },
+            "3": { "label": null },
+            "4": { "label": null },
+            "5": { "label": null },
+            "6": { "label": null },
+            "7": { "label": null },
+            "8": { "label": null },
+            "9": { "label": null },
+            "61": { "label": null }
+          }
         }
       }
     },
-    "map": {
-      "loadingMessage": "",
-      "clusterDetailsTitle": "",
-      "userTestedPositive": "",
-      "userShowingSymptoms": "",
-      "testedPositive": "",
-      "showingSymptoms": "",
-      "chooseWellbeingTitle": "",
-      "chooseWellbeingMessage": ""
-    }
+    "account": { "profile": null, "updatePassword": null }
   }
 }
