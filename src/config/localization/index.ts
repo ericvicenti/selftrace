@@ -1,16 +1,7 @@
-// import * as Localization from 'expo-localization';
 import i18n from 'i18n-js';
-import en from './en.json';
-import tr from './tr.json';
-import ru from './ru.json';
-import gr from './gr.json';
+import { translations } from './translations';
 
-i18n.translations = {
-  en,
-  tr,
-  ru,
-  gr,
-};
+i18n.translations = translations;
 
 // FIXME: ReferenceError: navigator is not defined
 // i18n.locale = Localization.locale;

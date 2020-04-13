@@ -1,3 +1,4 @@
 const Scripts = require('./scripts');
 
-Scripts.generateBlankJSON();
+const result = Scripts.findMissingTranslations();
+console.log(result);
