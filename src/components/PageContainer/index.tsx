@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   authStatus: state.auth.status,
+  isEmailVerified: state.auth.userInfo.isEmailVerified,
 });
 
 interface ComponentProps extends ViewProps {
@@ -40,6 +41,7 @@ type Props = ComponentProps & ReturnType<typeof mapStateToProps>;
 
 const PageContainer = ({
   authStatus,
+  isEmailVerified,
   showHeader = true,
   isProtected = true,
   isFullScreen = false,
@@ -47,7 +49,14 @@ const PageContainer = ({
   style,
   ...rest
 }: Props) => {
-  // Handle isProtected case
+  const containerStyles: StyleProp<ViewStyle> = [styles.container];
+
+  React.useEffect(() => {
+    if (isProtected && authStatus === AuthStatus.SignedIn && !isEmailVerified) {
+      Router.push('/verify-email');
+    }
+  }, [isProtected, authStatus, isEmailVerified]);
+
   React.useEffect(() => {
     if (isProtected && authStatus === AuthStatus.SignedOut) {
       Router.push('/');
@@ -58,8 +67,9 @@ const PageContainer = ({
     return null;
   }
 
-  // Handle isFullScreen case
-  const containerStyles: StyleProp<ViewStyle> = [styles.container];
+  if (isProtected && authStatus === AuthStatus.SignedIn && !isEmailVerified) {
+    return null;
+  }
 
   if (isFullScreen) {
     containerStyles.push({ padding: 0 });

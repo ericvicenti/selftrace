@@ -4,6 +4,7 @@ import { Progress, AuthStatus, Wellbeing } from '../../data-types';
 type State = Readonly<{
   uid: string | null;
   email: string | null;
+  isEmailVerified: boolean;
   wellbeing: Wellbeing | undefined;
   symptomMap: {
     [symptomID: string]: boolean;
@@ -14,6 +15,7 @@ type State = Readonly<{
 export const INITIAL_STATE: State = {
   uid: null,
   email: null,
+  isEmailVerified: false,
   wellbeing: undefined,
   symptomMap: {},
   progress: Progress.createNil(),

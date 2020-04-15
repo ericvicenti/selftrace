@@ -25,6 +25,7 @@
   "headers": {
     "signin": "Sign in",
     "signup": "Sign Up",
+    "verifyEmail": "Verify email",
     "form": "Form",
     "resetPassword": "Reset password",
     "account": "Account",

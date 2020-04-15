@@ -1,4 +1,4 @@
-import { UserInfo } from 'firebase';
+import { User } from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as API from '../../api';
 import { AuthStatusActionCreator, Dispatch, ActionType } from '..';
@@ -19,7 +19,7 @@ const setAuthStatusToSignedOut: AuthStatusActionCreator = () => ({
 export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
   API.initialize();
 
-  return API.requestAuthStateListener((async (user: UserInfo) => {
+  return API.requestAuthStateListener((async (user: User) => {
     if (!user) {
       // Case 1: Signed out
       await Promise.all([
@@ -35,10 +35,11 @@ export const subscribeToAuthStateChange = () => (dispatch: Dispatch) => {
     const userInfo = {
       email: user.email,
       uid: user.uid,
+      isEmailVerified: user.emailVerified,
     };
 
     await downloadUserInfoToLocalDB(user.uid);
     await pullUserInfoFromLocalDBToRedux(dispatch);
     return dispatch(setAuthStatusToSignedIn(userInfo));
-  }) as any);
+  }) as any); // FIXME
 };

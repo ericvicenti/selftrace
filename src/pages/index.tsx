@@ -68,6 +68,7 @@ const mapStateToProps = (state: ReduxRoot) => ({
   authDisabled: Selectors.isAuthDisabled(state),
   progress: state.auth.signin.progress,
   authStatus: state.auth.status,
+  isEmailVerified: state.auth.userInfo.isEmailVerified,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
@@ -88,6 +89,7 @@ function LoginPage({
   progress,
   clearProgress,
   authStatus,
+  isEmailVerified,
   googleOAuthUser,
 }: Props) {
   const [email, setEmail] = React.useState('');
@@ -102,9 +104,9 @@ function LoginPage({
 
   React.useEffect(() => {
     if (authStatus === AuthStatus.SignedIn) {
-      Router.push('/map');
+      Router.push(isEmailVerified ? '/map' : '/verify-email');
     }
-  }, [authStatus]);
+  }, [authStatus, isEmailVerified]);
 
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);
