@@ -15,6 +15,7 @@ import StaticButton from '../components/StaticButton';
 import FlexLoader from '../components/FlexLoader';
 import DividerText from '../components/DividerText';
 import GoogleButton from '../components/SocialButton/GoogleButton';
+import { useAuthRedirect } from '../hooks';
 import { AuthStatus } from '../data-types';
 import { ReduxRoot } from '../reducers';
 import * as Selectors from '../selectors';
@@ -102,11 +103,7 @@ function LoginPage({
     [clearProgress]
   );
 
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedIn) {
-      Router.push(isEmailVerified ? '/map' : '/verify-email');
-    }
-  }, [authStatus, isEmailVerified]);
+  useAuthRedirect(authStatus, isEmailVerified);
 
   const submitDisabled =
     authDisabled || !AuthUtils.isValidEmail(email) || !AuthUtils.isValidPassword(password);

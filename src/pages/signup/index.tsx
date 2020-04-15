@@ -5,21 +5,21 @@ import { StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { t } from 'i18n-js';
-import Router from 'next/router';
 import FormContainer from '../../components/FormContainer';
+import FlexLoader from '../../components/FlexLoader';
 import PageContainer from '../../components/PageContainer';
 import EmailInput from '../../components/TextInput/Email';
 import PasswordInput from '../../components/TextInput/Password';
 import Text from '../../components/Text';
 import SubmitButton from '../../components/SubmitButton';
+import { useAuthRedirect } from '../../hooks';
 import { AuthStatus } from '../../data-types';
+import AuthUtils from '../../util/AuthUtils';
 import { ReduxRoot } from '../../reducers';
 import * as Selectors from '../../selectors';
 import { Dispatch, Action } from '../../actions';
 import * as SignupActions from '../../actions/auth/signup';
-import AuthUtils from '../../util/AuthUtils';
 import { Colors, Margins } from '../../styles';
-import FlexLoader from '../../components/FlexLoader';
 
 const styles = StyleSheet.create({
   container: {
@@ -75,11 +75,7 @@ function SignupPage({
     [clearProgress]
   );
 
-  React.useEffect(() => {
-    if (authStatus === AuthStatus.SignedIn) {
-      Router.push(isEmailVerified ? '/map' : '/verify-email');
-    }
-  }, [authStatus, isEmailVerified]);
+  useAuthRedirect(authStatus, isEmailVerified);
 
   const submitDisabled =
     authDisabled ||

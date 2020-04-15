@@ -7,8 +7,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PageContainer from '../../components/PageContainer';
 import Text from '../../components/Text';
+import { useAuthRedirect } from '../../hooks';
 import { Action, Dispatch } from '../../actions';
-import * as Actions from '../../actions/auth/resetPassword';
 import { ReduxRoot } from '../../reducers';
 import { Colors } from '../../styles';
 
@@ -22,25 +22,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: ReduxRoot) => ({
   authStatus: state.auth.status,
+  isEmailVerified: state.auth.userInfo.isEmailVerified,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) =>
-  bindActionCreators(
-    {
-      clearProgress: () => (d: Dispatch) => d(Actions.clearResetPasswordProgress()),
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch: Dispatch<Action>) => bindActionCreators({}, dispatch);
 
 interface Props extends ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {}
 
-function ConfirmEmailPage({ clearProgress }: Props) {
-  React.useEffect(
-    () => () => {
-      clearProgress();
-    },
-    [clearProgress]
-  );
+function ConfirmEmailPage({ authStatus, isEmailVerified }: Props) {
+  useAuthRedirect(authStatus, isEmailVerified);
 
   return (
     <PageContainer showHeader={false} isProtected={false}>
