@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, View, StyleSheet } from 'react-native';
+import { Animated, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { t } from 'i18n-js';
 import Text from '../Text';
 import { Colors, Paddings, Margins } from '../../styles';
@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     backgroundColor,
     borderRadius: 5,
   },
+  titleLineContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   lineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -47,10 +51,11 @@ const styles = StyleSheet.create({
 interface Props {
   cluster: Partial<AnonymListItem<ClusterObject>>;
   duration: number;
+  onClose: () => void;
   style?: any;
 }
 
-function InfoBox({ cluster, duration, style }: Props) {
+function InfoBox({ cluster, duration, onClose, style }: Props) {
   const [persistentCluster, setPersistentCluster] = React.useState(cluster);
 
   React.useEffect(() => {
@@ -75,7 +80,12 @@ function InfoBox({ cluster, duration, style }: Props) {
 
   return (
     <Animated.View style={[styles.container, style]}>
-      <Text style={styles.title}>{t('screens.map.clusterDetailsTitle')}</Text>
+      <View style={styles.titleLineContainer}>
+        <Text style={styles.title}>{t('screens.map.clusterDetailsTitle')}</Text>
+        <TouchableOpacity onPress={onClose}>
+          <Text style={styles.description}>X</Text>
+        </TouchableOpacity>
+      </View>
       {size === 1 ? (
         <Text style={styles.description}>
           {positiveCount === 1

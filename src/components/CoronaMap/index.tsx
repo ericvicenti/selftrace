@@ -108,6 +108,10 @@ function CoronaMap({
     });
   }
 
+  function onClusterDetailsClose() {
+    setClusterDetails({ isVisible: false, cluster: {} });
+  }
+
   if (loadError) {
     return (
       <View style={styles.loadErrorContainer}>
@@ -139,6 +143,7 @@ function CoronaMap({
           isVisible={clusterDetails.isVisible}
           duration={CLUSTER_DETAILS_ANIM_DURATION}
           cluster={clusterDetails.cluster}
+          onClose={onClusterDetailsClose}
           style={[
             styles.clusterDetails,
             {
