@@ -109,9 +109,7 @@ function CoronaMap({
   }
 
   function onClusterDetailsClose() {
-    setClusterDetails(prev => {
-      return { isVisible: false, cluster: {} };
-    })
+    setClusterDetails({ isVisible: false, cluster: {} });
   }
 
   if (loadError) {
